@@ -7,22 +7,18 @@
 
 import UIKit
 
-
 class ViewController: UIViewController {
 
     @IBOutlet weak private var table: UITableView!
     
     override func viewDidLoad() {
-        
         super.viewDidLoad()
         view.backgroundColor = .white
         
         table.register(UINib(nibName: "TableViewCell", bundle: nil), forCellReuseIdentifier: "TableViewCell")
-        
     }
 
 }
-
 
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
@@ -35,11 +31,9 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         let cell = tableView.dequeueReusableCell(withIdentifier: "TableViewCell") as! TableViewCell
-        cell.centerLabel.text = "\(indexPath)"
+        cell.updateContents(centerLabelText: "\(indexPath)")
         return cell
-        
     }
     
 }

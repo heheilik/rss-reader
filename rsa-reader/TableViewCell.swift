@@ -9,6 +9,10 @@ import UIKit
 
 class TableViewCell: UITableViewCell {
     
-    @IBOutlet weak var centerLabel: UILabel!
+    @IBOutlet weak private var centerLabel: UILabel!
+
+    func updateContents(centerLabelText: String) {
+        centerLabel.text = centerLabelText
+    }
     
 }
