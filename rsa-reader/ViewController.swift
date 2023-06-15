@@ -32,7 +32,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TableViewCell") as! TableViewCell
-        cell.updateContents(centerLabelText: "\(indexPath)")
+        cell.update(with: "\(indexPath)")
         return cell
     }
     

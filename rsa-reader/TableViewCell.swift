@@ -11,8 +11,8 @@ class TableViewCell: UITableViewCell {
     
     @IBOutlet weak private var centerLabel: UILabel!
 
-    func updateContents(centerLabelText: String) {
-        centerLabel.text = centerLabelText
+    func update(with text: String) {
+        centerLabel.text = text
     }
     
 }
