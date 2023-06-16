@@ -7,14 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5D8DB0062A38FD91004B2A23 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8DB0052A38FD91004B2A23 /* TableViewCell.swift */; };
+		5D8DB0082A38FEC5004B2A23 /* TableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D8DB0072A38FEC5004B2A23 /* TableViewCell.xib */; };
 		5DDDA91B2A388C7E004C8D4E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DDDA91A2A388C7E004C8D4E /* AppDelegate.swift */; };
 		5DDDA91D2A388C7E004C8D4E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DDDA91C2A388C7E004C8D4E /* SceneDelegate.swift */; };
 		5DDDA91F2A388C7E004C8D4E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DDDA91E2A388C7E004C8D4E /* ViewController.swift */; };
 		5DDDA9242A388C7F004C8D4E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5DDDA9232A388C7F004C8D4E /* Assets.xcassets */; };
 		5DDDA9272A388C7F004C8D4E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5DDDA9252A388C7F004C8D4E /* LaunchScreen.storyboard */; };
+		5DDDA92F2A388E31004C8D4E /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5DDDA92E2A388E31004C8D4E /* ViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5D8DB0052A38FD91004B2A23 /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
+		5D8DB0072A38FEC5004B2A23 /* TableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TableViewCell.xib; sourceTree = "<group>"; };
 		5DDDA9172A388C7E004C8D4E /* rsa-reader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "rsa-reader.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5DDDA91A2A388C7E004C8D4E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5DDDA91C2A388C7E004C8D4E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -22,6 +27,7 @@
 		5DDDA9232A388C7F004C8D4E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5DDDA9262A388C7F004C8D4E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5DDDA9282A388C7F004C8D4E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5DDDA92E2A388E31004C8D4E /* ViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +63,9 @@
 				5DDDA91A2A388C7E004C8D4E /* AppDelegate.swift */,
 				5DDDA91C2A388C7E004C8D4E /* SceneDelegate.swift */,
 				5DDDA91E2A388C7E004C8D4E /* ViewController.swift */,
+				5DDDA92E2A388E31004C8D4E /* ViewController.xib */,
+				5D8DB0052A38FD91004B2A23 /* TableViewCell.swift */,
+				5D8DB0072A38FEC5004B2A23 /* TableViewCell.xib */,
 				5DDDA9232A388C7F004C8D4E /* Assets.xcassets */,
 				5DDDA9252A388C7F004C8D4E /* LaunchScreen.storyboard */,
 				5DDDA9282A388C7F004C8D4E /* Info.plist */,
@@ -123,6 +132,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				5DDDA9272A388C7F004C8D4E /* LaunchScreen.storyboard in Resources */,
+				5D8DB0082A38FEC5004B2A23 /* TableViewCell.xib in Resources */,
+				5DDDA92F2A388E31004C8D4E /* ViewController.xib in Resources */,
 				5DDDA9242A388C7F004C8D4E /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -135,6 +146,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5DDDA91F2A388C7E004C8D4E /* ViewController.swift in Sources */,
+				5D8DB0062A38FD91004B2A23 /* TableViewCell.swift in Sources */,
 				5DDDA91B2A388C7E004C8D4E /* AppDelegate.swift in Sources */,
 				5DDDA91D2A388C7E004C8D4E /* SceneDelegate.swift in Sources */,
 			);

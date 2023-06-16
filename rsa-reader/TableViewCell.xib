@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22113.1" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22089"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="TableViewCell" rowHeight="91" id="ZQQ-qX-cdZ" customClass="TableViewCell" customModule="rsa_reader" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="393" height="91"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ZQQ-qX-cdZ" id="8It-GN-lGe">
+                <rect key="frame" x="0.0" y="0.0" width="393" height="91"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="msd-jV-QN1">
+                        <rect key="frame" x="175.66666666666666" y="35" width="42" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="msd-jV-QN1" firstAttribute="centerY" secondItem="8It-GN-lGe" secondAttribute="centerY" id="0GE-yV-hBp"/>
+                    <constraint firstItem="msd-jV-QN1" firstAttribute="centerX" secondItem="8It-GN-lGe" secondAttribute="centerX" id="amk-LO-kDV"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="centerLabel" destination="msd-jV-QN1" id="maa-uR-ym6"/>
+            </connections>
+            <point key="canvasLocation" x="72.51908396946564" y="36.267605633802816"/>
+        </tableViewCell>
+    </objects>
+</document>
