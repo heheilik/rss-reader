@@ -7,31 +7,31 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5D8DB0062A38FD91004B2A23 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8DB0052A38FD91004B2A23 /* TableViewCell.swift */; };
-		5D8DB0082A38FEC5004B2A23 /* TableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D8DB0072A38FEC5004B2A23 /* TableViewCell.xib */; };
-		5DDDA91B2A388C7E004C8D4E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DDDA91A2A388C7E004C8D4E /* AppDelegate.swift */; };
-		5DDDA91D2A388C7E004C8D4E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DDDA91C2A388C7E004C8D4E /* SceneDelegate.swift */; };
-		5DDDA91F2A388C7E004C8D4E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DDDA91E2A388C7E004C8D4E /* ViewController.swift */; };
-		5DDDA9242A388C7F004C8D4E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5DDDA9232A388C7F004C8D4E /* Assets.xcassets */; };
-		5DDDA9272A388C7F004C8D4E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5DDDA9252A388C7F004C8D4E /* LaunchScreen.storyboard */; };
-		5DDDA92F2A388E31004C8D4E /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5DDDA92E2A388E31004C8D4E /* ViewController.xib */; };
+		5D2C5EA52A3D3B7D00033940 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D2C5EA42A3D3B7D00033940 /* TableViewCell.swift */; };
+		5D2C5EA92A3D3BB800033940 /* TableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D2C5EA82A3D3BB800033940 /* TableViewCell.xib */; };
+		5D992EC12A3D39250007EC2C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D992EC02A3D39250007EC2C /* AppDelegate.swift */; };
+		5D992EC32A3D39250007EC2C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D992EC22A3D39250007EC2C /* SceneDelegate.swift */; };
+		5D992EC52A3D39250007EC2C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D992EC42A3D39250007EC2C /* ViewController.swift */; };
+		5D992ECA2A3D39260007EC2C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5D992EC92A3D39260007EC2C /* Assets.xcassets */; };
+		5D992ECD2A3D39260007EC2C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5D992ECB2A3D39260007EC2C /* LaunchScreen.storyboard */; };
+		5D992ED52A3D398D0007EC2C /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D992ED42A3D398D0007EC2C /* ViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		5D8DB0052A38FD91004B2A23 /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
-		5D8DB0072A38FEC5004B2A23 /* TableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TableViewCell.xib; sourceTree = "<group>"; };
-		5DDDA9172A388C7E004C8D4E /* rsa-reader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "rsa-reader.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		5DDDA91A2A388C7E004C8D4E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		5DDDA91C2A388C7E004C8D4E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		5DDDA91E2A388C7E004C8D4E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		5DDDA9232A388C7F004C8D4E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		5DDDA9262A388C7F004C8D4E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		5DDDA9282A388C7F004C8D4E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5DDDA92E2A388E31004C8D4E /* ViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ViewController.xib; sourceTree = "<group>"; };
+		5D2C5EA42A3D3B7D00033940 /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
+		5D2C5EA82A3D3BB800033940 /* TableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TableViewCell.xib; sourceTree = "<group>"; };
+		5D992EBD2A3D39250007EC2C /* rss-reader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "rss-reader.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5D992EC02A3D39250007EC2C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		5D992EC22A3D39250007EC2C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		5D992EC42A3D39250007EC2C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		5D992EC92A3D39260007EC2C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		5D992ECC2A3D39260007EC2C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		5D992ECE2A3D39260007EC2C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5D992ED42A3D398D0007EC2C /* ViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		5DDDA9142A388C7E004C8D4E /* Frameworks */ = {
+		5D992EBA2A3D39250007EC2C /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -41,74 +41,74 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		5DDDA90E2A388C7E004C8D4E = {
+		5D992EB42A3D39250007EC2C = {
 			isa = PBXGroup;
 			children = (
-				5DDDA9192A388C7E004C8D4E /* rsa-reader */,
-				5DDDA9182A388C7E004C8D4E /* Products */,
+				5D992EBF2A3D39250007EC2C /* rss-reader */,
+				5D992EBE2A3D39250007EC2C /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		5DDDA9182A388C7E004C8D4E /* Products */ = {
+		5D992EBE2A3D39250007EC2C /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				5DDDA9172A388C7E004C8D4E /* rsa-reader.app */,
+				5D992EBD2A3D39250007EC2C /* rss-reader.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		5DDDA9192A388C7E004C8D4E /* rsa-reader */ = {
+		5D992EBF2A3D39250007EC2C /* rss-reader */ = {
 			isa = PBXGroup;
 			children = (
-				5DDDA91A2A388C7E004C8D4E /* AppDelegate.swift */,
-				5DDDA91C2A388C7E004C8D4E /* SceneDelegate.swift */,
-				5DDDA91E2A388C7E004C8D4E /* ViewController.swift */,
-				5DDDA92E2A388E31004C8D4E /* ViewController.xib */,
-				5D8DB0052A38FD91004B2A23 /* TableViewCell.swift */,
-				5D8DB0072A38FEC5004B2A23 /* TableViewCell.xib */,
-				5DDDA9232A388C7F004C8D4E /* Assets.xcassets */,
-				5DDDA9252A388C7F004C8D4E /* LaunchScreen.storyboard */,
-				5DDDA9282A388C7F004C8D4E /* Info.plist */,
+				5D992EC02A3D39250007EC2C /* AppDelegate.swift */,
+				5D992EC22A3D39250007EC2C /* SceneDelegate.swift */,
+				5D992EC42A3D39250007EC2C /* ViewController.swift */,
+				5D992ED42A3D398D0007EC2C /* ViewController.xib */,
+				5D2C5EA42A3D3B7D00033940 /* TableViewCell.swift */,
+				5D2C5EA82A3D3BB800033940 /* TableViewCell.xib */,
+				5D992EC92A3D39260007EC2C /* Assets.xcassets */,
+				5D992ECB2A3D39260007EC2C /* LaunchScreen.storyboard */,
+				5D992ECE2A3D39260007EC2C /* Info.plist */,
 			);
-			path = "rsa-reader";
+			path = "rss-reader";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		5DDDA9162A388C7E004C8D4E /* rsa-reader */ = {
+		5D992EBC2A3D39250007EC2C /* rss-reader */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 5DDDA92B2A388C7F004C8D4E /* Build configuration list for PBXNativeTarget "rsa-reader" */;
+			buildConfigurationList = 5D992ED12A3D39260007EC2C /* Build configuration list for PBXNativeTarget "rss-reader" */;
 			buildPhases = (
-				5DDDA9132A388C7E004C8D4E /* Sources */,
-				5DDDA9142A388C7E004C8D4E /* Frameworks */,
-				5DDDA9152A388C7E004C8D4E /* Resources */,
+				5D992EB92A3D39250007EC2C /* Sources */,
+				5D992EBA2A3D39250007EC2C /* Frameworks */,
+				5D992EBB2A3D39250007EC2C /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = "rsa-reader";
-			productName = "rsa-reader";
-			productReference = 5DDDA9172A388C7E004C8D4E /* rsa-reader.app */;
+			name = "rss-reader";
+			productName = "rss-reader";
+			productReference = 5D992EBD2A3D39250007EC2C /* rss-reader.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		5DDDA90F2A388C7E004C8D4E /* Project object */ = {
+		5D992EB52A3D39250007EC2C /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1500;
 				LastUpgradeCheck = 1500;
 				TargetAttributes = {
-					5DDDA9162A388C7E004C8D4E = {
+					5D992EBC2A3D39250007EC2C = {
 						CreatedOnToolsVersion = 15.0;
 					};
 				};
 			};
-			buildConfigurationList = 5DDDA9122A388C7E004C8D4E /* Build configuration list for PBXProject "rsa-reader" */;
+			buildConfigurationList = 5D992EB82A3D39250007EC2C /* Build configuration list for PBXProject "rss-reader" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -116,49 +116,49 @@
 				en,
 				Base,
 			);
-			mainGroup = 5DDDA90E2A388C7E004C8D4E;
-			productRefGroup = 5DDDA9182A388C7E004C8D4E /* Products */;
+			mainGroup = 5D992EB42A3D39250007EC2C;
+			productRefGroup = 5D992EBE2A3D39250007EC2C /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				5DDDA9162A388C7E004C8D4E /* rsa-reader */,
+				5D992EBC2A3D39250007EC2C /* rss-reader */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		5DDDA9152A388C7E004C8D4E /* Resources */ = {
+		5D992EBB2A3D39250007EC2C /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5DDDA9272A388C7F004C8D4E /* LaunchScreen.storyboard in Resources */,
-				5D8DB0082A38FEC5004B2A23 /* TableViewCell.xib in Resources */,
-				5DDDA92F2A388E31004C8D4E /* ViewController.xib in Resources */,
-				5DDDA9242A388C7F004C8D4E /* Assets.xcassets in Resources */,
+				5D992ECD2A3D39260007EC2C /* LaunchScreen.storyboard in Resources */,
+				5D2C5EA92A3D3BB800033940 /* TableViewCell.xib in Resources */,
+				5D992ED52A3D398D0007EC2C /* ViewController.xib in Resources */,
+				5D992ECA2A3D39260007EC2C /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		5DDDA9132A388C7E004C8D4E /* Sources */ = {
+		5D992EB92A3D39250007EC2C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5DDDA91F2A388C7E004C8D4E /* ViewController.swift in Sources */,
-				5D8DB0062A38FD91004B2A23 /* TableViewCell.swift in Sources */,
-				5DDDA91B2A388C7E004C8D4E /* AppDelegate.swift in Sources */,
-				5DDDA91D2A388C7E004C8D4E /* SceneDelegate.swift in Sources */,
+				5D992EC52A3D39250007EC2C /* ViewController.swift in Sources */,
+				5D2C5EA52A3D3B7D00033940 /* TableViewCell.swift in Sources */,
+				5D992EC12A3D39250007EC2C /* AppDelegate.swift in Sources */,
+				5D992EC32A3D39250007EC2C /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		5DDDA9252A388C7F004C8D4E /* LaunchScreen.storyboard */ = {
+		5D992ECB2A3D39260007EC2C /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				5DDDA9262A388C7F004C8D4E /* Base */,
+				5D992ECC2A3D39260007EC2C /* Base */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -166,7 +166,7 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		5DDDA9292A388C7F004C8D4E /* Debug */ = {
+		5D992ECF2A3D39260007EC2C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -229,7 +229,7 @@
 			};
 			name = Debug;
 		};
-		5DDDA92A2A388C7F004C8D4E /* Release */ = {
+		5D992ED02A3D39260007EC2C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -285,7 +285,7 @@
 			};
 			name = Release;
 		};
-		5DDDA92C2A388C7F004C8D4E /* Debug */ = {
+		5D992ED22A3D39260007EC2C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -294,7 +294,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = B74GGX94X2;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "rsa-reader/Info.plist";
+				INFOPLIST_FILE = "rss-reader/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -304,7 +304,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.heheilik.rsa-reader";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.heheilik.rss-reader";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -312,7 +312,7 @@
 			};
 			name = Debug;
 		};
-		5DDDA92D2A388C7F004C8D4E /* Release */ = {
+		5D992ED32A3D39260007EC2C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -321,7 +321,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = B74GGX94X2;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "rsa-reader/Info.plist";
+				INFOPLIST_FILE = "rss-reader/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -331,7 +331,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.heheilik.rsa-reader";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.heheilik.rss-reader";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -342,25 +342,25 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		5DDDA9122A388C7E004C8D4E /* Build configuration list for PBXProject "rsa-reader" */ = {
+		5D992EB82A3D39250007EC2C /* Build configuration list for PBXProject "rss-reader" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				5DDDA9292A388C7F004C8D4E /* Debug */,
-				5DDDA92A2A388C7F004C8D4E /* Release */,
+				5D992ECF2A3D39260007EC2C /* Debug */,
+				5D992ED02A3D39260007EC2C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		5DDDA92B2A388C7F004C8D4E /* Build configuration list for PBXNativeTarget "rsa-reader" */ = {
+		5D992ED12A3D39260007EC2C /* Build configuration list for PBXNativeTarget "rss-reader" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				5DDDA92C2A388C7F004C8D4E /* Debug */,
-				5DDDA92D2A388C7F004C8D4E /* Release */,
+				5D992ED22A3D39260007EC2C /* Debug */,
+				5D992ED32A3D39260007EC2C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 5DDDA90F2A388C7E004C8D4E /* Project object */;
+	rootObject = 5D992EB52A3D39250007EC2C /* Project object */;
 }
