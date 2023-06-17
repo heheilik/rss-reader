@@ -1,15 +1,15 @@
 //
 //  ViewController.swift
-//  rsa-reader
+//  rss-reader
 //
-//  Created by Heorhi Heilik on 13.06.23.
+//  Created by Heorhi Heilik on 17.06.23.
 //
 
 import UIKit
 
 class ViewController: UIViewController {
-
-    @IBOutlet weak private var table: UITableView!
+    
+    @IBOutlet weak var table: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,7 +22,7 @@ class ViewController: UIViewController {
 
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
-    func numberOfSections(in tableView: UITableView) -> Int { 
+    func numberOfSections(in tableView: UITableView) -> Int {
         1
     }
     
@@ -37,4 +37,3 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
 }
-

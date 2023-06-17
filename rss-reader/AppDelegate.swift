@@ -1,8 +1,8 @@
 //
 //  AppDelegate.swift
-//  rsa-reader
+//  rss-reader
 //
-//  Created by Heorhi Heilik on 13.06.23.
+//  Created by Heorhi Heilik on 17.06.23.
 //
 
 import UIKit

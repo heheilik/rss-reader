@@ -8,34 +8,35 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ViewController" customModule="rsa_reader" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ViewController" customModule="rss_reader" customModuleProvider="target">
             <connections>
-                <outlet property="table" destination="K5A-Sq-sQr" id="PNo-4Q-N1m"/>
-                <outlet property="view" destination="VWV-SC-4Bc" id="w2x-pY-Bfm"/>
+                <outlet property="table" destination="9QI-oP-04s" id="Ih5-vD-Bbe"/>
+                <outlet property="view" destination="Wfw-Hg-WLh" id="35f-NT-NBV"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VWV-SC-4Bc">
+        <view contentMode="scaleToFill" id="Wfw-Hg-WLh">
             <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" springLoaded="YES" translatesAutoresizingMaskIntoConstraints="NO" id="K5A-Sq-sQr">
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="9QI-oP-04s">
                     <rect key="frame" x="0.0" y="59" width="393" height="793"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <connections>
-                        <outlet property="dataSource" destination="-1" id="a7f-85-yh2"/>
-                        <outlet property="delegate" destination="-1" id="ND4-kP-ijE"/>
+                        <outlet property="dataSource" destination="-1" id="NpS-YK-BB8"/>
+                        <outlet property="delegate" destination="-1" id="Pyr-mm-0HW"/>
                     </connections>
                 </tableView>
             </subviews>
-            <viewLayoutGuide key="safeArea" id="mLr-8T-sDZ"/>
+            <viewLayoutGuide key="safeArea" id="qQ8-tV-GY6"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
-                <constraint firstItem="K5A-Sq-sQr" firstAttribute="leading" secondItem="mLr-8T-sDZ" secondAttribute="leading" id="3R9-XL-dL6"/>
-                <constraint firstItem="K5A-Sq-sQr" firstAttribute="top" secondItem="mLr-8T-sDZ" secondAttribute="top" id="MTr-SO-Dms"/>
-                <constraint firstAttribute="bottom" secondItem="K5A-Sq-sQr" secondAttribute="bottom" id="alU-lZ-naY"/>
-                <constraint firstItem="K5A-Sq-sQr" firstAttribute="trailing" secondItem="mLr-8T-sDZ" secondAttribute="trailing" id="gYz-w6-mMy"/>
+                <constraint firstItem="qQ8-tV-GY6" firstAttribute="trailing" secondItem="9QI-oP-04s" secondAttribute="trailing" id="HCb-HP-H7e"/>
+                <constraint firstItem="9QI-oP-04s" firstAttribute="leading" secondItem="qQ8-tV-GY6" secondAttribute="leading" id="bPA-Q8-KJM"/>
+                <constraint firstItem="9QI-oP-04s" firstAttribute="top" secondItem="qQ8-tV-GY6" secondAttribute="top" id="dJU-zn-MIY"/>
+                <constraint firstAttribute="bottom" secondItem="9QI-oP-04s" secondAttribute="bottom" id="p7n-Ca-GAb"/>
             </constraints>
-            <point key="canvasLocation" x="35.877862595419849" y="19.718309859154932"/>
+            <point key="canvasLocation" x="53" y="30"/>
         </view>
     </objects>
     <resources>
