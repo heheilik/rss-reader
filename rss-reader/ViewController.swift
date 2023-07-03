@@ -6,8 +6,26 @@
 //
 
 import UIKit
+import XMLCoder
+
+struct feed: Codable {
+    @Attribute var xmlns: String
+    @Element var title:   String
+    @Element var updated: String
+    @Element var id:      String
+}
+
+//struct entry: Codable {
+//    @Element var title: String
+//    @Element var author: String
+//    @Element var updated: String
+//    @Element var id: String
+//    @Element var content: String
+//}
 
 class ViewController: UIViewController {
+    
+    let rssFeedUrl = "https://www.swift.org/atom.xml"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -15,7 +33,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func downloadFeedTouchUpInside() {
-        let downloadTask = URLSession.shared.dataTask(with: URL(string: "https://www.swift.org/atom.xml")!) { data, response, error in
+        let downloadTask = URLSession.shared.dataTask(with: URL(string: rssFeedUrl)!) { data, response, error in
             guard error == nil else {
                 print(error ?? "Unknown error.")
                 return
@@ -25,7 +43,12 @@ class ViewController: UIViewController {
                 print("No data downloaded.")
                 return
             }
-            print(String(data: data!, encoding: .utf8) ?? "Data can't be parsed to string.")
+            
+            let decoded = try! XMLDecoder().decode(feed.self, from: data!)
+            print(decoded.xmlns, decoded.title, decoded.updated, decoded.id, separator: "\n")
+            
+            
+            
         }
         downloadTask.resume()
     }
