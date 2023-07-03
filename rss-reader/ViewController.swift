@@ -9,31 +9,20 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    @IBOutlet weak var table: UITableView!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        
-        table.register(UINib(nibName: "TableViewCell", bundle: nil), forCellReuseIdentifier: "TableViewCell")
+    }
+    
+    @IBAction func downloadFeedTouchUpInside() {
+        let downloadTask = URLSession.shared.dataTask(with: URL(string: "https://www.swift.org/atom.xml")!) { data, response, error in
+            guard error == nil else {
+                print(error ?? "Unknown error.")
+                return
+            }
+            print(data ?? "Data can't be cast to string.")
+        }
+        downloadTask.resume()
     }
 
-}
-
-extension ViewController: UITableViewDelegate, UITableViewDataSource {
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        1
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        100
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "TableViewCell") as! TableViewCell
-        cell.update(with: "\(indexPath)")
-        return cell
-    }
-    
 }

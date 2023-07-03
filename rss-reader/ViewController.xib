@@ -10,7 +10,6 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ViewController" customModule="rss_reader" customModuleProvider="target">
             <connections>
-                <outlet property="table" destination="9QI-oP-04s" id="Ih5-vD-Bbe"/>
                 <outlet property="view" destination="Wfw-Hg-WLh" id="35f-NT-NBV"/>
             </connections>
         </placeholder>
@@ -19,22 +18,20 @@
             <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="9QI-oP-04s">
-                    <rect key="frame" x="0.0" y="59" width="393" height="793"/>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eer-T5-Ix0">
+                    <rect key="frame" x="125" y="783" width="143" height="35"/>
+                    <state key="normal" title="Button"/>
+                    <buttonConfiguration key="configuration" style="filled" title="Download Feed"/>
                     <connections>
-                        <outlet property="dataSource" destination="-1" id="NpS-YK-BB8"/>
-                        <outlet property="delegate" destination="-1" id="Pyr-mm-0HW"/>
+                        <action selector="downloadFeedTouchUpInside" destination="-1" eventType="touchUpInside" id="ep8-uc-hho"/>
                     </connections>
-                </tableView>
+                </button>
             </subviews>
             <viewLayoutGuide key="safeArea" id="qQ8-tV-GY6"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
-                <constraint firstItem="qQ8-tV-GY6" firstAttribute="trailing" secondItem="9QI-oP-04s" secondAttribute="trailing" id="HCb-HP-H7e"/>
-                <constraint firstItem="9QI-oP-04s" firstAttribute="leading" secondItem="qQ8-tV-GY6" secondAttribute="leading" id="bPA-Q8-KJM"/>
-                <constraint firstItem="9QI-oP-04s" firstAttribute="top" secondItem="qQ8-tV-GY6" secondAttribute="top" id="dJU-zn-MIY"/>
-                <constraint firstAttribute="bottom" secondItem="9QI-oP-04s" secondAttribute="bottom" id="p7n-Ca-GAb"/>
+                <constraint firstItem="eer-T5-Ix0" firstAttribute="centerX" secondItem="qQ8-tV-GY6" secondAttribute="centerX" id="Thw-47-PMu"/>
+                <constraint firstItem="qQ8-tV-GY6" firstAttribute="bottom" secondItem="eer-T5-Ix0" secondAttribute="bottom" id="vzc-j9-WiN"/>
             </constraints>
             <point key="canvasLocation" x="53" y="30"/>
         </view>
