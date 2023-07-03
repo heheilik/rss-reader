@@ -6,34 +6,52 @@
 //
 
 import UIKit
+import XMLCoder
+
+struct Feed: Codable {
+    @Attribute var xmlns: String
+    @Element var title: String
+    @Element var updated: String
+    @Element var id: String
+    var entry: [Entry]
+}
+
+struct Entry: Codable {
+    @Element var title: String
+    @Element var author: String
+    @Element var updated: String
+    @Element var id: String
+    @Element var content: String
+}
 
 class ViewController: UIViewController {
     
-    @IBOutlet weak var table: UITableView!
+    let rssFeedUrl = "https://www.swift.org/atom.xml"
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        
-        table.register(UINib(nibName: "TableViewCell", bundle: nil), forCellReuseIdentifier: "TableViewCell")
+    }
+    
+    @IBAction func downloadFeedTouchUpInside() {
+        let downloadTask = URLSession.shared.dataTask(with: URL(string: rssFeedUrl)!) { data, response, error in
+            guard error == nil else {
+                print(error ?? "Unknown error.")
+                return
+            }
+            
+            guard let data else {
+                print("No data downloaded.")
+                return
+            }
+            
+            let decoded = try! XMLDecoder().decode(Feed.self, from: data)
+            print(decoded.xmlns, decoded.title, decoded.updated, decoded.id, separator: "\n")
+            for i in 0..<decoded.entry.count {
+                print("\(i + 1) - \(decoded.entry[i].title)")
+            }
+        }
+        downloadTask.resume()
     }
 
-}
-
-extension ViewController: UITableViewDelegate, UITableViewDataSource {
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        1
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        100
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "TableViewCell") as! TableViewCell
-        cell.update(with: "\(indexPath)")
-        return cell
-    }
-    
 }

@@ -7,8 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5D2C5EA52A3D3B7D00033940 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D2C5EA42A3D3B7D00033940 /* TableViewCell.swift */; };
-		5D2C5EA92A3D3BB800033940 /* TableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D2C5EA82A3D3BB800033940 /* TableViewCell.xib */; };
+		5D58DE4B2A5339B200D9E38C /* XMLCoder in Frameworks */ = {isa = PBXBuildFile; productRef = 5D58DE4A2A5339B200D9E38C /* XMLCoder */; };
 		5D992EC12A3D39250007EC2C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D992EC02A3D39250007EC2C /* AppDelegate.swift */; };
 		5D992EC32A3D39250007EC2C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D992EC22A3D39250007EC2C /* SceneDelegate.swift */; };
 		5D992EC52A3D39250007EC2C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D992EC42A3D39250007EC2C /* ViewController.swift */; };
@@ -18,8 +17,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		5D2C5EA42A3D3B7D00033940 /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
-		5D2C5EA82A3D3BB800033940 /* TableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TableViewCell.xib; sourceTree = "<group>"; };
 		5D992EBD2A3D39250007EC2C /* rss-reader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "rss-reader.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D992EC02A3D39250007EC2C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5D992EC22A3D39250007EC2C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -35,6 +32,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5D58DE4B2A5339B200D9E38C /* XMLCoder in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -64,8 +62,6 @@
 				5D992EC22A3D39250007EC2C /* SceneDelegate.swift */,
 				5D992EC42A3D39250007EC2C /* ViewController.swift */,
 				5D992ED42A3D398D0007EC2C /* ViewController.xib */,
-				5D2C5EA42A3D3B7D00033940 /* TableViewCell.swift */,
-				5D2C5EA82A3D3BB800033940 /* TableViewCell.xib */,
 				5D992EC92A3D39260007EC2C /* Assets.xcassets */,
 				5D992ECB2A3D39260007EC2C /* LaunchScreen.storyboard */,
 				5D992ECE2A3D39260007EC2C /* Info.plist */,
@@ -89,6 +85,9 @@
 			dependencies = (
 			);
 			name = "rss-reader";
+			packageProductDependencies = (
+				5D58DE4A2A5339B200D9E38C /* XMLCoder */,
+			);
 			productName = "rss-reader";
 			productReference = 5D992EBD2A3D39250007EC2C /* rss-reader.app */;
 			productType = "com.apple.product-type.application";
@@ -117,6 +116,9 @@
 				Base,
 			);
 			mainGroup = 5D992EB42A3D39250007EC2C;
+			packageReferences = (
+				5D58DE492A5339B200D9E38C /* XCRemoteSwiftPackageReference "XMLCoder" */,
+			);
 			productRefGroup = 5D992EBE2A3D39250007EC2C /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -132,7 +134,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5D992ECD2A3D39260007EC2C /* LaunchScreen.storyboard in Resources */,
-				5D2C5EA92A3D3BB800033940 /* TableViewCell.xib in Resources */,
 				5D992ED52A3D398D0007EC2C /* ViewController.xib in Resources */,
 				5D992ECA2A3D39260007EC2C /* Assets.xcassets in Resources */,
 			);
@@ -146,7 +147,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5D992EC52A3D39250007EC2C /* ViewController.swift in Sources */,
-				5D2C5EA52A3D3B7D00033940 /* TableViewCell.swift in Sources */,
 				5D992EC12A3D39250007EC2C /* AppDelegate.swift in Sources */,
 				5D992EC32A3D39250007EC2C /* SceneDelegate.swift in Sources */,
 			);
@@ -361,6 +361,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		5D58DE492A5339B200D9E38C /* XCRemoteSwiftPackageReference "XMLCoder" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/CoreOffice/XMLCoder";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.17.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		5D58DE4A2A5339B200D9E38C /* XMLCoder */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5D58DE492A5339B200D9E38C /* XCRemoteSwiftPackageReference "XMLCoder" */;
+			productName = XMLCoder;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 5D992EB52A3D39250007EC2C /* Project object */;
 }
