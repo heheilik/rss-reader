@@ -20,7 +20,12 @@ class ViewController: UIViewController {
                 print(error ?? "Unknown error.")
                 return
             }
-            print(data ?? "Data can't be cast to string.")
+            
+            guard data != nil else {
+                print("No data downloaded.")
+                return
+            }
+            print(String(data: data!, encoding: .utf8) ?? "Data can't be parsed to string.")
         }
         downloadTask.resume()
     }
