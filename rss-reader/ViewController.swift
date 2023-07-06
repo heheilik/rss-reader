@@ -7,42 +7,30 @@
 
 import UIKit
 
-//struct Feed: Codable {
-//    @Attribute var xmlns: String
-//    @Element var title: String
-//    @Element var updated: String
-//    @Element var id: String
-//    var entry: [Entry]
-//}
-//
-//struct Entry: Codable {
-//    @Element var title: String
-//    @Element var author: String
-//    @Element var updated: String
-//    @Element var id: String
-//    @Element var content: String
-//}
-
 class ViewController: UIViewController {
     
-    let rssFeedUrl = "https://www.swift.org/atom.xml"
+    let rssFeedUrl = URL(string: "https://www.swift.org/atom.xml")!
+    
+    let parserDelegate = ParserDelegate()
+    
+    
+    // MARK: - lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
     }
     
+    
+    // MARK: - IBActions
+    
     @IBAction func downloadFeedTouchUpInside() {
-        let downloadTask = URLSession.shared.dataTask(with: URL(string: rssFeedUrl)!) { data, response, error in
+        let downloadTask = URLSession.shared.dataTask(with: rssFeedUrl) { data, response, error in
             guard error == nil else {
                 print(error ?? "Unknown error.")
                 return
             }
-            
-            guard let data else {
-                print("No data downloaded.")
-                return
-            }
+            self.parserDelegate.data = data
         }
         downloadTask.resume()
     }
