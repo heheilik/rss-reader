@@ -10,6 +10,8 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ViewController" customModule="rss_reader" customModuleProvider="target">
             <connections>
+                <outlet property="feedTitle" destination="1Bp-ki-vcX" id="HPl-5D-ZkA"/>
+                <outlet property="table" destination="L4c-ri-ojO" id="Pz4-Ji-XPr"/>
                 <outlet property="view" destination="Wfw-Hg-WLh" id="35f-NT-NBV"/>
             </connections>
         </placeholder>
@@ -26,11 +28,27 @@
                         <action selector="downloadFeedTouchUpInside" destination="-1" eventType="touchUpInside" id="ep8-uc-hho"/>
                     </connections>
                 </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="[feed-title]" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Bp-ki-vcX">
+                    <rect key="frame" x="149.66666666666666" y="59" width="93.666666666666657" height="24"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="L4c-ri-ojO">
+                    <rect key="frame" x="0.0" y="99" width="393" height="668"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                </tableView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="qQ8-tV-GY6"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
+                <constraint firstItem="L4c-ri-ojO" firstAttribute="leading" secondItem="Wfw-Hg-WLh" secondAttribute="leading" id="1zQ-es-OWy"/>
+                <constraint firstItem="L4c-ri-ojO" firstAttribute="top" secondItem="1Bp-ki-vcX" secondAttribute="bottom" constant="16" id="2b0-bf-CVy"/>
+                <constraint firstItem="1Bp-ki-vcX" firstAttribute="top" secondItem="qQ8-tV-GY6" secondAttribute="top" id="48C-bO-Tib"/>
                 <constraint firstItem="eer-T5-Ix0" firstAttribute="centerX" secondItem="qQ8-tV-GY6" secondAttribute="centerX" id="Thw-47-PMu"/>
+                <constraint firstItem="eer-T5-Ix0" firstAttribute="top" secondItem="L4c-ri-ojO" secondAttribute="bottom" constant="16" id="bCw-Ak-Cka"/>
+                <constraint firstItem="1Bp-ki-vcX" firstAttribute="centerX" secondItem="qQ8-tV-GY6" secondAttribute="centerX" id="u0h-Nx-bWW"/>
+                <constraint firstAttribute="trailing" secondItem="L4c-ri-ojO" secondAttribute="trailing" id="uk4-bV-2sI"/>
                 <constraint firstItem="qQ8-tV-GY6" firstAttribute="bottom" secondItem="eer-T5-Ix0" secondAttribute="bottom" id="vzc-j9-WiN"/>
             </constraints>
             <point key="canvasLocation" x="53" y="30"/>

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5D8F738B2A573B4F00CF541C /* RssInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D8F738A2A573B4F00CF541C /* RssInfoTableViewCell.xib */; };
+		5D8F738D2A573BA600CF541C /* RssInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8F738C2A573BA600CF541C /* RssInfoTableViewCell.swift */; };
 		5D992EC12A3D39250007EC2C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D992EC02A3D39250007EC2C /* AppDelegate.swift */; };
 		5D992EC32A3D39250007EC2C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D992EC22A3D39250007EC2C /* SceneDelegate.swift */; };
 		5D992EC52A3D39250007EC2C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D992EC42A3D39250007EC2C /* ViewController.swift */; };
@@ -17,6 +19,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5D8F738A2A573B4F00CF541C /* RssInfoTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RssInfoTableViewCell.xib; sourceTree = "<group>"; };
+		5D8F738C2A573BA600CF541C /* RssInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RssInfoTableViewCell.swift; sourceTree = "<group>"; };
 		5D992EBD2A3D39250007EC2C /* rss-reader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "rss-reader.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D992EC02A3D39250007EC2C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5D992EC22A3D39250007EC2C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -63,6 +67,8 @@
 				5D992EC42A3D39250007EC2C /* ViewController.swift */,
 				5DF5985B2A5640380009DB77 /* ParserDelegate.swift */,
 				5D992ED42A3D398D0007EC2C /* ViewController.xib */,
+				5D8F738A2A573B4F00CF541C /* RssInfoTableViewCell.xib */,
+				5D8F738C2A573BA600CF541C /* RssInfoTableViewCell.swift */,
 				5D992EC92A3D39260007EC2C /* Assets.xcassets */,
 				5D992ECB2A3D39260007EC2C /* LaunchScreen.storyboard */,
 				5D992ECE2A3D39260007EC2C /* Info.plist */,
@@ -132,6 +138,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5D8F738B2A573B4F00CF541C /* RssInfoTableViewCell.xib in Resources */,
 				5D992ECD2A3D39260007EC2C /* LaunchScreen.storyboard in Resources */,
 				5D992ED52A3D398D0007EC2C /* ViewController.xib in Resources */,
 				5D992ECA2A3D39260007EC2C /* Assets.xcassets in Resources */,
@@ -148,6 +155,7 @@
 				5D992EC52A3D39250007EC2C /* ViewController.swift in Sources */,
 				5D992EC12A3D39250007EC2C /* AppDelegate.swift in Sources */,
 				5D992EC32A3D39250007EC2C /* SceneDelegate.swift in Sources */,
+				5D8F738D2A573BA600CF541C /* RssInfoTableViewCell.swift in Sources */,
 				5DF5985C2A5640380009DB77 /* ParserDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

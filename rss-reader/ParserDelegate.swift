@@ -157,6 +157,8 @@ class ParserDelegate: NSObject, XMLParserDelegate {
             feed.entry[i].updated = feed.entry[i].updated.trimmingCharacters(in: .whitespacesAndNewlines)
             feed.entry[i].id = feed.entry[i].id.trimmingCharacters(in: .whitespacesAndNewlines)
         }
+        
+        
     }
 }
 

@@ -13,12 +13,18 @@ class ViewController: UIViewController {
     
     let parserDelegate = ParserDelegate()
     
+    @IBOutlet weak var feedTitle: UILabel!
+    @IBOutlet weak var table: UITableView!
     
     // MARK: - lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        table.delegate = self
+        table.dataSource = self
+        
+        table.register(UINib(nibName: "RssInfoTableViewCell", bundle: nil), forCellReuseIdentifier: "RssInfoTableViewCell")
     }
     
     
@@ -31,8 +37,32 @@ class ViewController: UIViewController {
                 return
             }
             self.parserDelegate.data = data
+            DispatchQueue.main.async {
+                self.table.reloadData()
+                self.feedTitle.text = self.parserDelegate.feed.title
+            }
         }
         downloadTask.resume()
     }
 
+}
+
+extension ViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return parserDelegate.feed.entry.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = table.dequeueReusableCell(withIdentifier: "RssInfoTableViewCell", for: indexPath) as! RssInfoTableViewCell
+        
+        cell.updateContentsWith(
+            title: parserDelegate.feed.entry[indexPath.row].title,
+            author: parserDelegate.feed.entry[indexPath.row].author,
+            updated: parserDelegate.feed.entry[indexPath.row].updated,
+            id: parserDelegate.feed.entry[indexPath.row].id
+        )
+        return cell
+    }
+    
+    
 }
