@@ -151,11 +151,11 @@ class ParserDelegate: NSObject, XMLParserDelegate {
         feed.updated = feed.updated.trimmingCharacters(in: .whitespacesAndNewlines)
         feed.id = feed.id.trimmingCharacters(in: .whitespacesAndNewlines)
         
-        for i in feed.entry.indices {
-            feed.entry[i].title = feed.entry[i].title.trimmingCharacters(in: .whitespacesAndNewlines)
-            feed.entry[i].author = feed.entry[i].author.trimmingCharacters(in: .whitespacesAndNewlines)
-            feed.entry[i].updated = feed.entry[i].updated.trimmingCharacters(in: .whitespacesAndNewlines)
-            feed.entry[i].id = feed.entry[i].id.trimmingCharacters(in: .whitespacesAndNewlines)
+        for index in feed.entry.indices {
+            feed.entry[index].title = feed.entry[index].title.trimmingCharacters(in: .whitespacesAndNewlines)
+            feed.entry[index].author = feed.entry[index].author.trimmingCharacters(in: .whitespacesAndNewlines)
+            feed.entry[index].updated = feed.entry[index].updated.trimmingCharacters(in: .whitespacesAndNewlines)
+            feed.entry[index].id = feed.entry[index].id.trimmingCharacters(in: .whitespacesAndNewlines)
         }
         
         
