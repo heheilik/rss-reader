@@ -9,7 +9,7 @@ import Foundation
 
 class ParserDelegate: NSObject, XMLParserDelegate {
     
-    var parser: XMLParser?
+    private var parser: XMLParser?
     
     var data: Data? {
         didSet {
@@ -31,10 +31,19 @@ class ParserDelegate: NSObject, XMLParserDelegate {
     private(set) var feed = Feed()
     private(set) var isFeedCorrect = false
     
-    var isInsideEntry = false
-    var isInsideContent = false
-    var elementStack: [String] = []
-    let trackedElements: Set = ["feed", "entry", "content", "title", "author", "updated", "id"]
+    private var isInsideEntry = false
+    private var isInsideContent = false
+    private var elementStack: [TrackedElement] = []
+    
+    enum TrackedElement: String {
+        case feed
+        case entry
+        case content
+        case title
+        case author
+        case updated
+        case id
+    }
     
     
     // MARK: - start/end element
@@ -46,20 +55,22 @@ class ParserDelegate: NSObject, XMLParserDelegate {
         qualifiedName qName: String?,
         attributes attributeDict: [String : String] = [:]
     ) {
-        if trackedElements.contains(elementName) {
-            elementStack.append(elementName)
+        let currentElement = TrackedElement(rawValue: elementName)
+        guard let currentElement else {
+            return
         }
         
+        elementStack.append(currentElement)
         
-        switch elementName {
-        case "feed":
+        switch currentElement {
+        case .feed:
             feed = Feed()
     
-        case "entry":
+        case .entry:
             feed.entry.append(Entry())
             isInsideEntry = true
             
-        case "content":
+        case .content:
             isInsideContent = true
             
         default:
@@ -73,18 +84,20 @@ class ParserDelegate: NSObject, XMLParserDelegate {
         namespaceURI: String?,
         qualifiedName qName: String?
     ) {
-        if elementStack.last == elementName {
-            elementStack.removeLast()
-        } else {
-            // print("Parsing error: found end of element that didn't start.")
-            // TODO: create XML parsing error
+        let currentElement = TrackedElement(rawValue: elementName)
+        guard let currentElement else {
+            return
         }
         
-        switch elementName {
-        case "entry":
+        if elementStack.last == currentElement {
+            elementStack.removeLast()
+        }
+        
+        switch currentElement {
+        case .entry:
             isInsideEntry = false
             
-        case "content":
+        case .content:
             isInsideContent = false
             
         default:
@@ -102,11 +115,11 @@ class ParserDelegate: NSObject, XMLParserDelegate {
         
         if !isInsideEntry {
             switch currentElement {
-            case "title":
+            case .title:
                 feed.title.append(string)
-            case "updated":
+            case .updated:
                 feed.updated.append(string)
-            case "id":
+            case .id:
                 feed.id.append(string)
             default:
                 break
@@ -123,13 +136,13 @@ class ParserDelegate: NSObject, XMLParserDelegate {
             }
             
             switch currentElement {
-            case "title":
+            case .title:
                 feed.entry[lastEntryIndex].title.append(string)
-            case "author":
+            case .author:
                 feed.entry[lastEntryIndex].author.append(string)
-            case "updated":
+            case .updated:
                 feed.entry[lastEntryIndex].updated.append(string)
-            case "id":
+            case .id:
                 feed.entry[lastEntryIndex].id.append(string)
             default:
                 break
