@@ -162,14 +162,14 @@ class ParserDelegate: NSObject, XMLParserDelegate {
     }
 }
 
-struct Feed: Codable {
+struct Feed {
     var title: String = ""
     var updated: String = ""
     var id: String = ""
     var entry: [Entry] = []
 }
 
-struct Entry: Codable {
+struct Entry {
     var title: String = ""
     var author: String = ""
     var updated: String = ""
