@@ -55,12 +55,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = table.dequeueReusableCell(withIdentifier: "RssInfoTableViewCell", for: indexPath) as! RssInfoTableViewCell
         
-        cell.updateContentsWith(
-            title: parserDelegate.feed.entry[indexPath.row].title,
-            author: parserDelegate.feed.entry[indexPath.row].author,
-            updated: parserDelegate.feed.entry[indexPath.row].updated,
-            id: parserDelegate.feed.entry[indexPath.row].id
-        )
+        cell.updateContentsWith(parserDelegate.feed.entry[indexPath.row])
         return cell
     }
     
