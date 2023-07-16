@@ -39,7 +39,7 @@ class ViewController: UIViewController {
             self.parserDelegate.data = data
             DispatchQueue.main.async {
                 self.table.reloadData()
-                self.feedTitle.text = self.parserDelegate.feed.title
+                self.feedTitle.text = self.parserDelegate.feed?.title ?? "[feed-title]"
             }
         }
         downloadTask.resume()
@@ -49,13 +49,13 @@ class ViewController: UIViewController {
 
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return parserDelegate.feed.entry.count
+        return parserDelegate.feed?.entry.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = table.dequeueReusableCell(withIdentifier: "RssInfoTableViewCell", for: indexPath) as! RssInfoTableViewCell
         
-        cell.updateContentsWith(parserDelegate.feed.entry[indexPath.row])
+        cell.updateContentsWith(parserDelegate.feed!.entry[indexPath.row])
         return cell
     }
     

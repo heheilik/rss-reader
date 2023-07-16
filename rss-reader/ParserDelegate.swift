@@ -24,19 +24,11 @@ class ParserDelegate: NSObject, XMLParserDelegate {
             }
             
             parser.delegate = self
-            isFeedCorrect = parser.parse()
+            parser.parse()
         }
     }
     
-    private(set) var feed = Feed()
-    private(set) var isFeedCorrect = false
-    
-    private var isInsideEntry = false
-    private var isInsideContent = false
-    private var elementStack: [TrackedElement] = []
-    
     enum TrackedElement: String {
-        case feed
         case entry
         case content
         case title
@@ -44,6 +36,22 @@ class ParserDelegate: NSObject, XMLParserDelegate {
         case updated
         case id
     }
+    
+    private var elementStack: [TrackedElement] = []
+    
+    
+    private var feedTitle = ""
+    private var feedUpdated = ""
+    private var feedId = ""
+    
+    private var entries: [Entry] = []
+    private var entryTitle = ""
+    private var entryAuthor = ""
+    private var entryUpdated = ""
+    private var entryId = ""
+    private var entryContent = ""
+    
+    private(set) var feed: Feed?
     
     
     // MARK: - start/end element
@@ -60,22 +68,15 @@ class ParserDelegate: NSObject, XMLParserDelegate {
             return
         }
         
-        elementStack.append(currentElement)
-        
-        switch currentElement {
-        case .feed:
-            feed = Feed()
-    
-        case .entry:
-            feed.entry.append(Entry())
-            isInsideEntry = true
-            
-        case .content:
-            isInsideContent = true
-            
-        default:
-            break
+        if currentElement == .entry {
+            entryTitle = ""
+            entryAuthor = ""
+            entryUpdated = ""
+            entryId = ""
+            entryContent = ""
         }
+        
+        elementStack.append(currentElement)
     }
     
     func parser(
@@ -89,19 +90,18 @@ class ParserDelegate: NSObject, XMLParserDelegate {
             return
         }
         
-        if elementStack.last == currentElement {
-            elementStack.removeLast()
+        if currentElement == .entry {
+            entries.append(Entry(
+                title: entryTitle.trimmingCharacters(in: .whitespacesAndNewlines),
+                author: entryAuthor.trimmingCharacters(in: .whitespacesAndNewlines),
+                updated: entryUpdated.trimmingCharacters(in: .whitespacesAndNewlines),
+                id: entryId.trimmingCharacters(in: .whitespacesAndNewlines),
+                content: entryContent.trimmingCharacters(in: .whitespacesAndNewlines)
+            ))
         }
         
-        switch currentElement {
-        case .entry:
-            isInsideEntry = false
-            
-        case .content:
-            isInsideContent = false
-            
-        default:
-            break
+        if elementStack.last == currentElement {
+            elementStack.removeLast()
         }
     }
     
@@ -113,40 +113,33 @@ class ParserDelegate: NSObject, XMLParserDelegate {
             return
         }
         
-        if !isInsideEntry {
+        if elementStack[0] != .entry {
             switch currentElement {
             case .title:
-                feed.title.append(string)
+                feedTitle.append(string)
             case .updated:
-                feed.updated.append(string)
+                feedUpdated.append(string)
             case .id:
-                feed.id.append(string)
+                feedId.append(string)
             default:
                 break
             }
-        } else {
-            let lastEntryIndex = feed.entry.count - 1
-            guard lastEntryIndex >= 0 else {
-                return
-            }
-            
-            if isInsideContent {
-                feed.entry[lastEntryIndex].content.append(string)
-                return
-            }
-            
-            switch currentElement {
-            case .title:
-                feed.entry[lastEntryIndex].title.append(string)
-            case .author:
-                feed.entry[lastEntryIndex].author.append(string)
-            case .updated:
-                feed.entry[lastEntryIndex].updated.append(string)
-            case .id:
-                feed.entry[lastEntryIndex].id.append(string)
-            default:
-                break
-            }
+            return
+        }
+        
+        switch currentElement {
+        case .title:
+            entryTitle.append(string)
+        case .author:
+            entryAuthor.append(string)
+        case .updated:
+            entryUpdated.append(string)
+        case .id:
+            entryId.append(string)
+        case .content:
+            entryContent.append(string)
+        default:
+            break
         }
     }
     
@@ -160,32 +153,26 @@ class ParserDelegate: NSObject, XMLParserDelegate {
     func parserDidEndDocument(_ parser: XMLParser) {
         print("Parsing ended.")
         
-        feed.title = feed.title.trimmingCharacters(in: .whitespacesAndNewlines)
-        feed.updated = feed.updated.trimmingCharacters(in: .whitespacesAndNewlines)
-        feed.id = feed.id.trimmingCharacters(in: .whitespacesAndNewlines)
-        
-        for index in feed.entry.indices {
-            feed.entry[index].title = feed.entry[index].title.trimmingCharacters(in: .whitespacesAndNewlines)
-            feed.entry[index].author = feed.entry[index].author.trimmingCharacters(in: .whitespacesAndNewlines)
-            feed.entry[index].updated = feed.entry[index].updated.trimmingCharacters(in: .whitespacesAndNewlines)
-            feed.entry[index].id = feed.entry[index].id.trimmingCharacters(in: .whitespacesAndNewlines)
-        }
-        
-        
+        feed = Feed(
+            title: feedTitle.trimmingCharacters(in: .whitespacesAndNewlines),
+            updated: feedUpdated.trimmingCharacters(in: .whitespacesAndNewlines),
+            id: feedId.trimmingCharacters(in: .whitespacesAndNewlines),
+            entry: entries
+        )        
     }
 }
 
 struct Feed {
-    var title: String = ""
-    var updated: String = ""
-    var id: String = ""
-    var entry: [Entry] = []
+    let title: String
+    let updated: String
+    let id: String
+    let entry: [Entry]
 }
 
 struct Entry {
-    var title: String = ""
-    var author: String = ""
-    var updated: String = ""
-    var id: String = ""
-    var content: String = ""
+    let title: String
+    let author: String
+    let updated: String
+    let id: String
+    let content: String
 }
