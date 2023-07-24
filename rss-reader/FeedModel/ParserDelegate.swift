@@ -161,18 +161,3 @@ class ParserDelegate: NSObject, XMLParserDelegate {
         )        
     }
 }
-
-struct Feed {
-    let title: String
-    let updated: String
-    let id: String
-    let entry: [Entry]
-}
-
-struct Entry {
-    let title: String
-    let author: String
-    let updated: String
-    let id: String
-    let content: String
-}
