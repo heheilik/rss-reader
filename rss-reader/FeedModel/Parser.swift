@@ -154,14 +154,8 @@ extension Parser: XMLParserDelegate {
     
     
     // MARK: - start/end document
-    
-    func parserDidStartDocument(_ parser: XMLParser) {
-        print("Parsing started.")
-    }
 
-    func parserDidEndDocument(_ parser: XMLParser) {
-        print("Parsing ended.")
-        
+    func parserDidEndDocument(_ parser: XMLParser) {        
         feed = Feed(
             title: feedTitle.trimmingCharacters(in: .whitespacesAndNewlines),
             updated: feedUpdated.trimmingCharacters(in: .whitespacesAndNewlines),
