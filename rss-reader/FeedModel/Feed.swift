@@ -19,3 +19,13 @@ struct Entry {
     let id: String
     let content: String
 }
+
+
+extension Feed {
+    init() {
+        title = ""
+        updated = ""
+        id = ""
+        entry = []
+    }
+}

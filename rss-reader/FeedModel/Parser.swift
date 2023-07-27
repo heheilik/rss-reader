@@ -1,30 +1,23 @@
 //
-//  ParserDelegate.swift
+//  Parser.swift
 //  rss-reader
 //
-//  Created by Heorhi Heilik on 6.07.23.
+//  Created by Heorhi Heilik on 27.07.23.
 //
 
-import Foundation
+import UIKit
 
-class ParserDelegate: NSObject, XMLParserDelegate {
+final class Parser: NSObject {
     
-    private var parser: XMLParser?
+    private(set) var feed: Feed?
     
-    var data: Data? {
-        didSet {
-            guard let data else {
-                print("No data found.")
-                return
-            }
-            
-            parser = XMLParser(data: data)
-            guard let parser else {
-                return
-            }
-            
-            parser.delegate = self
+    func parse(_ data: Data, completion: @escaping (Feed?) -> Void) {
+        let parser = XMLParser(data: data)
+        parser.delegate = self
+        DispatchQueue.global().async {
+            self.clearTempData()
             parser.parse()
+            completion(self.feed)
         }
     }
     
@@ -39,7 +32,6 @@ class ParserDelegate: NSObject, XMLParserDelegate {
     
     private var elementStack: [TrackedElement] = []
     
-    
     private var feedTitle = ""
     private var feedUpdated = ""
     private var feedId = ""
@@ -50,9 +42,26 @@ class ParserDelegate: NSObject, XMLParserDelegate {
     private var entryUpdated = ""
     private var entryId = ""
     private var entryContent = ""
+
+    func clearTempData() {
+        elementStack = []
+        
+        feedTitle = ""
+        feedUpdated = ""
+        feedId = ""
+        
+        entries = []
+        entryTitle = ""
+        entryAuthor = ""
+        entryUpdated = ""
+        entryId = ""
+        entryContent = ""
+    }
     
-    private(set) var feed: Feed?
     
+}
+
+extension Parser: XMLParserDelegate {
     
     // MARK: - start/end element
     
@@ -158,6 +167,7 @@ class ParserDelegate: NSObject, XMLParserDelegate {
             updated: feedUpdated.trimmingCharacters(in: .whitespacesAndNewlines),
             id: feedId.trimmingCharacters(in: .whitespacesAndNewlines),
             entry: entries
-        )        
+        )
     }
+    
 }

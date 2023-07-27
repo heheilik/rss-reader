@@ -11,10 +11,12 @@ class ViewController: UIViewController {
     
     let rssFeedUrl = URL(string: "https://www.swift.org/atom.xml")!
     
-    let parserDelegate = ParserDelegate()
+    var currentFeedName = "Swift"
+    var feed = ["Swift": Feed()]
     
     @IBOutlet weak var feedTitle: UILabel!
     @IBOutlet weak var table: UITableView!
+    
     
     // MARK: - lifecycle
     
@@ -31,33 +33,28 @@ class ViewController: UIViewController {
     // MARK: - IBActions
     
     @IBAction func downloadFeedTouchUpInside() {
-        let downloadTask = URLSession.shared.dataTask(with: rssFeedUrl) { data, response, error in
-            guard error == nil else {
-                print(error ?? "Unknown error.")
-                return
-            }
-            self.parserDelegate.data = data
+        let service = FeedService(url: rssFeedUrl)
+        service.prepareFeed() { feed in
+            self.feed[self.currentFeedName] = feed
             DispatchQueue.main.async {
+                self.feedTitle.text = self.feed[self.currentFeedName]!.title
                 self.table.reloadData()
-                self.feedTitle.text = self.parserDelegate.feed?.title ?? "[feed-title]"
             }
         }
-        downloadTask.resume()
     }
 
 }
 
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return parserDelegate.feed?.entry.count ?? 0
+        return feed[currentFeedName]?.entry.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = table.dequeueReusableCell(withIdentifier: "RssInfoTableViewCell", for: indexPath) as! RssInfoTableViewCell
-        
-        cell.updateContentsWith(parserDelegate.feed!.entry[indexPath.row])
+        cell.updateContentsWith(feed[currentFeedName]!.entry[indexPath.row])
         return cell
     }
-    
     
 }
