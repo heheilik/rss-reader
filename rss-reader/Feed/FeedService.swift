@@ -9,8 +9,6 @@ import UIKit
 
 final class FeedService {
     
-    let parser = Parser()
-    
     func prepareFeed(with url: URL, completion: @escaping (Feed?) -> Void) {
         let downloadTask = URLSession.shared.dataTask(with: url) { data, response, error in
             guard error == nil else {
@@ -22,7 +20,8 @@ final class FeedService {
                 return
             }
             
-            self.parser.parse(data) { feed in
+            let parser = Parser()
+            parser.parse(data) { feed in
                 completion(feed)
             }
         }
