@@ -13,6 +13,7 @@ class ViewController: UIViewController {
     
     var currentFeedName = "Swift"
     var feed = ["Swift": Feed()]
+    let feedService = FeedService()
     
     @IBOutlet weak var feedTitle: UILabel!
     @IBOutlet weak var table: UITableView!
@@ -33,8 +34,7 @@ class ViewController: UIViewController {
     // MARK: - IBActions
     
     @IBAction func downloadFeedTouchUpInside() {
-        let service = FeedService(url: rssFeedUrl)
-        service.prepareFeed() { feed in
+        feedService.prepareFeed(with: rssFeedUrl) { feed in
             self.feed[self.currentFeedName] = feed
             DispatchQueue.main.async {
                 self.feedTitle.text = self.feed[self.currentFeedName]?.title ?? "[feed-title]"

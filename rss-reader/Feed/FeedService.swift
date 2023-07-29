@@ -9,14 +9,9 @@ import UIKit
 
 final class FeedService {
     
-    private let url: URL
-    private var data: Data?
+    let parser = Parser()
     
-    init(url: URL) {
-        self.url = url
-    }
-    
-    func prepareFeed(completion: @escaping (Feed?) -> Void) {
+    func prepareFeed(with url: URL, completion: @escaping (Feed?) -> Void) {
         let downloadTask = URLSession.shared.dataTask(with: url) { data, response, error in
             guard error == nil else {
                 print(error ?? "Unknown error.")
@@ -26,8 +21,8 @@ final class FeedService {
                 print("No data downloaded.")
                 return
             }
-            let parser = Parser()
-            parser.parse(data) { feed in
+            
+            self.parser.parse(data) { feed in
                 completion(feed)
             }
         }
