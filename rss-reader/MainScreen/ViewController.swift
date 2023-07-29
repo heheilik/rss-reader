@@ -23,9 +23,9 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        
         table.delegate = self
         table.dataSource = self
-        
         table.register(UINib(nibName: "RssInfoTableViewCell", bundle: nil), forCellReuseIdentifier: "RssInfoTableViewCell")
     }
     
@@ -37,7 +37,7 @@ class ViewController: UIViewController {
         service.prepareFeed() { feed in
             self.feed[self.currentFeedName] = feed
             DispatchQueue.main.async {
-                self.feedTitle.text = self.feed[self.currentFeedName]!.title
+                self.feedTitle.text = self.feed[self.currentFeedName]?.title ?? "[feed-title]"
                 self.table.reloadData()
             }
         }
@@ -52,8 +52,23 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = table.dequeueReusableCell(withIdentifier: "RssInfoTableViewCell", for: indexPath) as! RssInfoTableViewCell
-        cell.updateContentsWith(feed[currentFeedName]!.entry[indexPath.row])
+        guard let cell = table.dequeueReusableCell(withIdentifier: "RssInfoTableViewCell", for: indexPath) as? RssInfoTableViewCell else {
+            fatalError("Failed to dequeue.")
+        }
+        
+        if let entry = feed[currentFeedName]?.entry[indexPath.row] {
+            cell.updateContentsWith(entry)
+        } else {
+            let emptyEntry = Entry(
+                title: "No data available.",
+                author: "-",
+                updated: "-",
+                id: "-",
+                content: ""
+            )
+            cell.updateContentsWith(emptyEntry)
+        }
+        
         return cell
     }
     

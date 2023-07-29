@@ -47,14 +47,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		5D30D53B2A6E15CE0003DA1F /* FeedModel */ = {
+		5D30D53B2A6E15CE0003DA1F /* Feed */ = {
 			isa = PBXGroup;
 			children = (
 				5D30D53D2A6E167C0003DA1F /* FeedService.swift */,
 				5D9C335C2A72C47F00CDFFD5 /* Parser.swift */,
 				5D30D5392A6E158E0003DA1F /* Feed.swift */,
 			);
-			path = FeedModel;
+			path = Feed;
 			sourceTree = "<group>";
 		};
 		5D992EB42A3D39250007EC2C = {
@@ -76,12 +76,10 @@
 		5D992EBF2A3D39250007EC2C /* rss-reader */ = {
 			isa = PBXGroup;
 			children = (
-				5D9C335E2A73253B00CDFFD5 /* app */,
-				5D992EC42A3D39250007EC2C /* ViewController.swift */,
-				5D992ED42A3D398D0007EC2C /* ViewController.xib */,
-				5D8F738C2A573BA600CF541C /* RssInfoTableViewCell.swift */,
-				5D8F738A2A573B4F00CF541C /* RssInfoTableViewCell.xib */,
-				5D30D53B2A6E15CE0003DA1F /* FeedModel */,
+				5D992EC02A3D39250007EC2C /* AppDelegate.swift */,
+				5D992EC22A3D39250007EC2C /* SceneDelegate.swift */,
+				5D9C335F2A74916900CDFFD5 /* MainScreen */,
+				5D30D53B2A6E15CE0003DA1F /* Feed */,
 				5D992EC92A3D39260007EC2C /* Assets.xcassets */,
 				5D992ECB2A3D39260007EC2C /* LaunchScreen.storyboard */,
 				5D992ECE2A3D39260007EC2C /* Info.plist */,
@@ -89,13 +87,15 @@
 			path = "rss-reader";
 			sourceTree = "<group>";
 		};
-		5D9C335E2A73253B00CDFFD5 /* app */ = {
+		5D9C335F2A74916900CDFFD5 /* MainScreen */ = {
 			isa = PBXGroup;
 			children = (
-				5D992EC02A3D39250007EC2C /* AppDelegate.swift */,
-				5D992EC22A3D39250007EC2C /* SceneDelegate.swift */,
+				5D992EC42A3D39250007EC2C /* ViewController.swift */,
+				5D992ED42A3D398D0007EC2C /* ViewController.xib */,
+				5D8F738C2A573BA600CF541C /* RssInfoTableViewCell.swift */,
+				5D8F738A2A573B4F00CF541C /* RssInfoTableViewCell.xib */,
 			);
-			path = app;
+			path = MainScreen;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
