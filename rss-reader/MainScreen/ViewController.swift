@@ -37,7 +37,7 @@ class ViewController: UIViewController {
         feedService.prepareFeed(with: rssFeedUrl) { feed in
             self.feed[self.currentFeedName] = feed
             DispatchQueue.main.async {
-                self.feedTitle.text = self.feed[self.currentFeedName]?.title ?? "[feed-title]"
+                self.feedTitle.text = self.feed[self.currentFeedName]?.title.trimmingCharacters(in: .whitespacesAndNewlines) ?? "[feed-title]"
                 self.table.reloadData()
             }
         }

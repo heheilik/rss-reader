@@ -15,10 +15,10 @@ class RssInfoTableViewCell: UITableViewCell {
     @IBOutlet private weak var id: UILabel!
     
     func updateContentsWith(_ entry: Entry) {
-        title.text = entry.title
-        author.text = entry.author
-        updated.text = entry.updated
-        id.text = entry.id
+        title.text = entry.title.trimmingCharacters(in: .whitespacesAndNewlines)
+        author.text = entry.author.trimmingCharacters(in: .whitespacesAndNewlines)
+        updated.text = entry.updated.trimmingCharacters(in: .whitespacesAndNewlines)
+        id.text = entry.id.trimmingCharacters(in: .whitespacesAndNewlines)
     }
     
 }

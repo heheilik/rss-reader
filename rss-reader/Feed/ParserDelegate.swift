@@ -11,6 +11,16 @@ final class ParserDelegate: NSObject {
     
     private(set) var feed: Feed?
     
+    override init() {
+        super.init()
+        for key in entryDataRequiredKeys {
+            entryData[key] = ""
+        }
+        for key in feedDataRequiredKeys {
+            feedData[key] = ""
+        }
+    }
+    
     enum TrackedElement: String {
         case entry
         case content
@@ -22,16 +32,12 @@ final class ParserDelegate: NSObject {
     
     private var elementStack: [TrackedElement] = []
     
-    private var feedTitle = ""
-    private var feedUpdated = ""
-    private var feedId = ""
+    private var feedData: [TrackedElement: String] = [:]
+    private let feedDataRequiredKeys: Set<TrackedElement> = [.title, .updated, .id]
+    private var entryData: [TrackedElement: String] = [:]
+    private let entryDataRequiredKeys: Set<TrackedElement> = [.title, .author, .updated, .id, .content]
     
     private var entries: [Entry] = []
-    private var entryTitle = ""
-    private var entryAuthor = ""
-    private var entryUpdated = ""
-    private var entryId = ""
-    private var entryContent = ""
     
 }
 
@@ -51,12 +57,13 @@ extension ParserDelegate: XMLParserDelegate {
             return
         }
         
-        if currentElement == .entry {
-            entryTitle = ""
-            entryAuthor = ""
-            entryUpdated = ""
-            entryId = ""
-            entryContent = ""
+        switch currentElement {
+        case .entry:
+            for key in entryData.keys {
+                entryData[key] = ""
+            }
+        default:
+            break
         }
         
         elementStack.append(currentElement)
@@ -73,14 +80,20 @@ extension ParserDelegate: XMLParserDelegate {
             return
         }
         
-        if currentElement == .entry {
+        switch currentElement {
+        case .entry:
+            guard Set(entryData.keys) == entryDataRequiredKeys else {
+                fatalError("Required key was deleted from entryData dictionary.")
+            }
             entries.append(Entry(
-                title: entryTitle.trimmingCharacters(in: .whitespacesAndNewlines),
-                author: entryAuthor.trimmingCharacters(in: .whitespacesAndNewlines),
-                updated: entryUpdated.trimmingCharacters(in: .whitespacesAndNewlines),
-                id: entryId.trimmingCharacters(in: .whitespacesAndNewlines),
-                content: entryContent.trimmingCharacters(in: .whitespacesAndNewlines)
+                title: entryData[.title] ?? "[error]",
+                author: entryData[.author] ?? "[error]",
+                updated: entryData[.updated] ?? "[error]",
+                id: entryData[.id] ?? "[error]",
+                content: entryData[.content] ?? "[error]"
             ))
+        default:
+            break
         }
         
         if elementStack.last == currentElement {
@@ -98,12 +111,8 @@ extension ParserDelegate: XMLParserDelegate {
         
         if elementStack[0] != .entry {
             switch currentElement {
-            case .title:
-                feedTitle.append(string)
-            case .updated:
-                feedUpdated.append(string)
-            case .id:
-                feedId.append(string)
+            case .title, .updated, .id:
+                feedData[currentElement]?.append(string)
             default:
                 break
             }
@@ -111,16 +120,8 @@ extension ParserDelegate: XMLParserDelegate {
         }
         
         switch currentElement {
-        case .title:
-            entryTitle.append(string)
-        case .author:
-            entryAuthor.append(string)
-        case .updated:
-            entryUpdated.append(string)
-        case .id:
-            entryId.append(string)
-        case .content:
-            entryContent.append(string)
+        case .title, .author, .updated, .id, .content:
+            entryData[currentElement]?.append(string)
         default:
             break
         }
@@ -130,10 +131,13 @@ extension ParserDelegate: XMLParserDelegate {
     // MARK: - start/end document
 
     func parserDidEndDocument(_ parser: XMLParser) {
+        guard Set(feedData.keys) == feedDataRequiredKeys else {
+            fatalError("Required key was deleted from feedData dictionary.")
+        }
         feed = Feed(
-            title: feedTitle.trimmingCharacters(in: .whitespacesAndNewlines),
-            updated: feedUpdated.trimmingCharacters(in: .whitespacesAndNewlines),
-            id: feedId.trimmingCharacters(in: .whitespacesAndNewlines),
+            title: feedData[.title] ?? "[error]",
+            updated: feedData[.updated] ?? "[error]",
+            id: feedData[.id] ?? "[error]",
             entry: entries
         )
     }
