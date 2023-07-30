@@ -9,11 +9,18 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    let rssFeedUrl = URL(string: "https://www.swift.org/atom.xml")!
-    
     var currentFeedName = "Swift"
     var feed = ["Swift": Feed()]
     let feedService = FeedService()
+    
+    var feedUrls: [String] {
+        get {
+            UserDefaults.standard.array(forKey: "urls") as? [String] ?? []
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: "urls")
+        }
+    }
     
     @IBOutlet weak var feedTitle: UILabel!
     @IBOutlet weak var table: UITableView!
@@ -22,6 +29,10 @@ class ViewController: UIViewController {
     // MARK: - lifecycle
     
     override func viewDidLoad() {
+        if feedUrls.isEmpty {
+            feedUrls.append("https://www.swift.org/atom.xml")
+        }
+        
         super.viewDidLoad()
         view.backgroundColor = .white
         
@@ -34,7 +45,11 @@ class ViewController: UIViewController {
     // MARK: - IBActions
     
     @IBAction func downloadFeedTouchUpInside() {
-        feedService.prepareFeed(with: rssFeedUrl) { feed in
+        guard let url = URL(string: feedUrls[0]) else {
+            print("URL is not available.")
+            return
+        }
+        feedService.prepareFeed(with: url) { feed in
             self.feed[self.currentFeedName] = feed
             DispatchQueue.main.async {
                 self.feedTitle.text = self.feed[self.currentFeedName]?.title.trimmingCharacters(in: .whitespacesAndNewlines) ?? "[feed-title]"
