@@ -65,13 +65,10 @@ extension Parser: XMLParserDelegate {
             return
         }
         
-        switch currentElement {
-        case .entry:
+        if currentElement == .entry {
             for key in entryData.keys {
                 entryData[key] = ""
             }
-        default:
-            break
         }
         
         elementStack.append(currentElement)
@@ -88,8 +85,7 @@ extension Parser: XMLParserDelegate {
             return
         }
         
-        switch currentElement {
-        case .entry:
+        if currentElement == .entry {
             guard Set(entryData.keys) == entryDataRequiredKeys else {
                 fatalError("Required key was deleted from entryData dictionary.")
             }
@@ -100,8 +96,6 @@ extension Parser: XMLParserDelegate {
                 id: entryData[.id] ?? "[error]",
                 content: entryData[.content] ?? "[error]"
             ))
-        default:
-            break
         }
         
         if elementStack.last == currentElement {
@@ -121,7 +115,7 @@ extension Parser: XMLParserDelegate {
             switch currentElement {
             case .title, .updated, .id:
                 feedData[currentElement]?.append(string)
-            default:
+            case .entry, .content, .author:
                 break
             }
             return
@@ -130,7 +124,7 @@ extension Parser: XMLParserDelegate {
         switch currentElement {
         case .title, .author, .updated, .id, .content:
             entryData[currentElement]?.append(string)
-        default:
+        case .entry:
             break
         }
     }
