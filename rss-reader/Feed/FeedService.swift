@@ -17,10 +17,10 @@ final class FeedService: NSObject {
         feed = .init(repeating: nil, count: feedUrls.count)
     }
     
-    var activeFeedIndex = 0
+    var activeFeedIndex = 0  // wrong
     private(set) var feed: [Feed?] = []  // TODO: make list instead of array
     
-    var feedUrls: [String] {
+    var feedUrls: [String] {  // TODO: (probably) write as NSURL
         get {
             UserDefaults.standard.array(forKey: "urls") as? [String] ?? []
         }
@@ -64,7 +64,7 @@ extension FeedService: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "RssInfoTableViewCell", for: indexPath) as? RssInfoTableViewCell else {
-            fatalError("Failed to dequeue.")
+            fatalError("Failed to dequeue (ViewController.entriesTable).")
         }
         
         if let entry = feed[activeFeedIndex]?.entry[indexPath.row] {
@@ -81,6 +81,30 @@ extension FeedService: UITableViewDataSource {
         }
         
         return cell
+    }
+    
+}
+
+extension FeedService: UICollectionViewDataSource, UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return feedUrls.count + 1
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        if indexPath.row == 0 {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AddFeedCollectionViewCell", for: indexPath) as? AddFeedCollectionViewCell else {
+                fatalError("Failed to dequeue (ViewController.feedCollection).")
+            }
+            return cell
+        }
+        
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FeedCollectionViewCell", for: indexPath) as? FeedCollectionViewCell else {
+            fatalError("Failed to dequeue (ViewController.feedCollection).")
+        }
+        cell.updateContentsWith("some text")
+        return cell
+                
     }
     
 }

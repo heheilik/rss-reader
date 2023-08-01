@@ -12,7 +12,8 @@ class ViewController: UIViewController {
     let feedService = FeedService()
     
     @IBOutlet weak var feedTitle: UILabel!
-    @IBOutlet weak var table: UITableView!
+    @IBOutlet weak var feedsCollection: UICollectionView!
+    @IBOutlet weak var entriesTable: UITableView!
     
     
     // MARK: - lifecycle
@@ -21,8 +22,21 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         
-        table.dataSource = feedService
-        table.register(UINib(nibName: "RssInfoTableViewCell", bundle: nil), forCellReuseIdentifier: "RssInfoTableViewCell")
+        feedsCollection.dataSource = feedService
+        feedsCollection.register(
+            UINib(nibName: "AddFeedCollectionViewCell", bundle: nil),
+            forCellWithReuseIdentifier: "AddFeedCollectionViewCell"
+        )
+        feedsCollection.register(
+            UINib(nibName: "FeedCollectionViewCell", bundle: nil),
+            forCellWithReuseIdentifier: "FeedCollectionViewCell"
+        )
+        
+        entriesTable.dataSource = feedService
+        entriesTable.register(
+            UINib(nibName: "RssInfoTableViewCell", bundle: nil),
+            forCellReuseIdentifier: "RssInfoTableViewCell"
+        )
     }
     
     
@@ -32,7 +46,7 @@ class ViewController: UIViewController {
         feedService.prepareFeed(withIndex: feedService.activeFeedIndex) { feed in
             DispatchQueue.main.async { [self] in
                 feedTitle.text = feedService.feed[feedService.activeFeedIndex]?.title.trimmingCharacters(in: .whitespacesAndNewlines) ?? "[feed-title]"
-                table.reloadData()
+                entriesTable.reloadData()
             }
         }
     }

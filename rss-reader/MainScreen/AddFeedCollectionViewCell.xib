@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22113.1" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22089"/>
+        <capability name="collection view cell content view" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="wCi-BO-MXS" customClass="AddFeedCollectionViewCell" customModule="rss_reader" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="111" height="105"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="NSH-c0-62F">
+                <rect key="frame" x="0.0" y="0.0" width="111" height="105"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PtK-1x-Ez2">
+                        <rect key="frame" x="0.0" y="0.0" width="111" height="105"/>
+                        <state key="normal" title="Button"/>
+                        <buttonConfiguration key="configuration" style="filled" title="+"/>
+                        <connections>
+                            <action selector="addTouchUpInside:" destination="wCi-BO-MXS" eventType="touchUpInside" id="g9u-DS-yOG"/>
+                        </connections>
+                    </button>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="PtK-1x-Ez2" firstAttribute="leading" secondItem="NSH-c0-62F" secondAttribute="leading" id="WTA-Kg-ZPH"/>
+                    <constraint firstAttribute="trailing" secondItem="PtK-1x-Ez2" secondAttribute="trailing" id="dgz-J2-Yd5"/>
+                    <constraint firstAttribute="bottom" secondItem="PtK-1x-Ez2" secondAttribute="bottom" id="hrh-8P-coB"/>
+                    <constraint firstItem="PtK-1x-Ez2" firstAttribute="top" secondItem="NSH-c0-62F" secondAttribute="top" id="rHv-lI-OeI"/>
+                </constraints>
+            </collectionViewCellContentView>
+            <size key="customSize" width="111" height="105"/>
+            <point key="canvasLocation" x="-145.80152671755724" y="-19.366197183098592"/>
+        </collectionViewCell>
+    </objects>
+</document>
