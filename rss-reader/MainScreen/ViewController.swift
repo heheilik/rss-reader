@@ -43,6 +43,11 @@ class ViewController: UIViewController {
             UINib(nibName: "RssInfoTableViewCell", bundle: nil),
             forCellReuseIdentifier: "RssInfoTableViewCell"
         )
+        
+        
+        let layout = FeedsCollectionViewLayout()
+        feedsCollection.collectionViewLayout = layout
+        feedsCollection.delegate = layout
     }
     
     
@@ -102,7 +107,7 @@ extension ViewController: UITableViewDataSource {
 extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return FeedURLDatabase.urlArray.count + 1
+        return 5 + 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
