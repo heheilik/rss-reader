@@ -28,6 +28,12 @@ class ViewController: UIViewController {
         feed = .init(repeating: nil, count: FeedURLDatabase.urlArray.count)
         activeFeedIndex = 0
         
+        feedsCollection.collectionViewLayout = {
+            let layout = UICollectionViewFlowLayout()
+            layout.scrollDirection = .horizontal
+            return layout
+        }()
+        feedsCollection.delegate = self
         feedsCollection.dataSource = self
         feedsCollection.register(
             UINib(nibName: "AddFeedCollectionViewCell", bundle: nil),
@@ -43,11 +49,6 @@ class ViewController: UIViewController {
             UINib(nibName: "RssInfoTableViewCell", bundle: nil),
             forCellReuseIdentifier: "RssInfoTableViewCell"
         )
-        
-        
-        let layout = FeedsCollectionViewLayout()
-        feedsCollection.collectionViewLayout = layout
-        feedsCollection.delegate = layout
     }
     
     
@@ -104,7 +105,9 @@ extension ViewController: UITableViewDataSource {
     
 }
 
-extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+extension ViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
+    // MARK: - Data Source
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 5 + 1
@@ -118,12 +121,64 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate {
             return cell
         }
         
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FeedCollectionViewCell", for: indexPath) as? FeedCollectionViewCell else {
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: "FeedCollectionViewCell",
+            for: indexPath
+        ) as? FeedCollectionViewCell else {
             fatalError("Failed to dequeue (ViewController.feedCollection).")
         }
         cell.updateContentsWith("some text")
         return cell
                 
+    }
+    
+    
+    // MARK: - Delegate
+    
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        sizeForItemAt indexPath: IndexPath
+    ) -> CGSize {
+        let inset = self.collectionView(
+            collectionView,
+            layout: collectionViewLayout,
+            insetForSectionAt: indexPath.section
+        )
+        let spacing = self.collectionView(
+            collectionView,
+            layout: collectionViewLayout,
+            minimumInteritemSpacingForSectionAt: indexPath.section
+        )
+        let contentHeight = collectionView.bounds.size.height
+        let contentWidth = collectionView.bounds.size.width
+        
+        let plusSize = CGSize(width: contentHeight, height: contentHeight)
+        
+        if indexPath.row == 0 {
+            return plusSize
+        }
+        
+        return CGSize(
+            width: (contentWidth - plusSize.width - inset.left - 3 * spacing) / 2.5,
+            height: contentHeight
+        )
+    }
+    
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        insetForSectionAt section: Int
+    ) -> UIEdgeInsets {
+        UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8)
+    }
+    
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        minimumInteritemSpacingForSectionAt section: Int
+    ) -> CGFloat {
+        8
     }
     
 }
