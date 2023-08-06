@@ -18,6 +18,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var feedsCollection: UICollectionView!
     @IBOutlet weak var entriesTable: UITableView!
     
+    private let addFeedViewController = AddFeedViewController()
+    
     
     // MARK: - Lifecycle
     
@@ -52,7 +54,7 @@ class ViewController: UIViewController {
     }
     
     
-    // MARK: - Controls' Actions
+    // MARK: - IBActions
     
     @IBAction func downloadFeedTouchUpInside() {
         guard let activeFeedIndex else {
@@ -70,10 +72,29 @@ class ViewController: UIViewController {
         }
     }
     
+    
+    // MARK: - feedsCollections actions
+    
     @objc
     func plusButtonTouchUpInside() {
-        let addViewController = AddFeedViewController()
-        present(addViewController, animated: true)
+        if let sheet = addFeedViewController.sheetPresentationController {
+            sheet.detents = [.medium()]
+        }
+        present(addFeedViewController, animated: true)
+    }
+    
+    
+    // MARK: - addFeedViewController actions
+    
+    @objc
+    func cancelBarButtonTouchUpInside() {
+        addFeedViewController.clearFields()
+        addFeedViewController.dismiss(animated: true)
+    }
+    
+    @objc
+    func saveBarButtonTouchUpInside() {
+        print("save clicked")
     }
 
 }

@@ -11,7 +11,9 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AddFeedViewController" customModule="rss_reader" customModuleProvider="target">
             <connections>
+                <outlet property="cancelBarButton" destination="GnN-xO-Mja" id="zLr-pg-HwB"/>
                 <outlet property="nameField" destination="LJq-0x-NzQ" id="k59-RS-5sw"/>
+                <outlet property="saveBarButton" destination="0Jo-C8-fdd" id="Nli-SO-x7T"/>
                 <outlet property="urlField" destination="Mrw-az-Bng" id="ovd-1M-84D"/>
                 <outlet property="view" destination="nOZ-Z3-K0Q" id="Vt0-nV-uHL"/>
             </connections>
@@ -24,19 +26,22 @@
                 <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="r3m-jo-JlQ">
                     <rect key="frame" x="0.0" y="59" width="393" height="44"/>
                     <items>
-                        <navigationItem title="Title" id="SES-Cj-UhO"/>
+                        <navigationItem title="Add New Feed..." id="pHv-I0-fz5">
+                            <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="GnN-xO-Mja"/>
+                            <barButtonItem key="rightBarButtonItem" style="done" systemItem="save" id="0Jo-C8-fdd"/>
+                        </navigationItem>
                     </items>
                 </navigationBar>
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Lwj-bW-RxM">
-                    <rect key="frame" x="8" y="111" width="377" height="76"/>
+                    <rect key="frame" x="16" y="111" width="361" height="76"/>
                     <subviews>
                         <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="LJq-0x-NzQ">
-                            <rect key="frame" x="0.0" y="0.0" width="377" height="34"/>
+                            <rect key="frame" x="0.0" y="0.0" width="361" height="34"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
                         <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="URL" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Mrw-az-Bng">
-                            <rect key="frame" x="0.0" y="42" width="377" height="34"/>
+                            <rect key="frame" x="0.0" y="42" width="361" height="34"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
@@ -47,9 +52,9 @@
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
                 <constraint firstItem="Lwj-bW-RxM" firstAttribute="top" secondItem="r3m-jo-JlQ" secondAttribute="bottom" constant="8" id="0Uv-b9-oNF"/>
-                <constraint firstItem="W4x-R7-Enm" firstAttribute="trailing" secondItem="Lwj-bW-RxM" secondAttribute="trailing" constant="8" id="8Ee-fp-xFM"/>
+                <constraint firstItem="W4x-R7-Enm" firstAttribute="trailing" secondItem="Lwj-bW-RxM" secondAttribute="trailing" constant="16" id="8Ee-fp-xFM"/>
                 <constraint firstItem="r3m-jo-JlQ" firstAttribute="top" secondItem="W4x-R7-Enm" secondAttribute="top" id="JhZ-Cv-fJb"/>
-                <constraint firstItem="Lwj-bW-RxM" firstAttribute="leading" secondItem="W4x-R7-Enm" secondAttribute="leading" constant="8" id="Qnb-ZK-EFv"/>
+                <constraint firstItem="Lwj-bW-RxM" firstAttribute="leading" secondItem="W4x-R7-Enm" secondAttribute="leading" constant="16" id="Qnb-ZK-EFv"/>
                 <constraint firstItem="W4x-R7-Enm" firstAttribute="trailing" secondItem="r3m-jo-JlQ" secondAttribute="trailing" id="QvA-P5-NEP"/>
                 <constraint firstItem="r3m-jo-JlQ" firstAttribute="leading" secondItem="W4x-R7-Enm" secondAttribute="leading" id="vdL-5n-gja"/>
             </constraints>
