@@ -19,7 +19,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var entriesTable: UITableView!
     
     
-    // MARK: - lifecycle
+    // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,7 +52,7 @@ class ViewController: UIViewController {
     }
     
     
-    // MARK: - IBActions
+    // MARK: - Controls' Actions
     
     @IBAction func downloadFeedTouchUpInside() {
         guard let activeFeedIndex else {
@@ -80,16 +80,27 @@ class ViewController: UIViewController {
 
 extension ViewController: UITableViewDataSource {
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let activeFeedIndex else {
-            print("No feed chosen.")
-            return 0
+    // MARK: - entriesTable Data Source
+    
+    func tableView(
+        _ tableView: UITableView,
+        numberOfRowsInSection section: Int
+    ) -> Int {
+        if let activeFeedIndex {
+            return feed[activeFeedIndex]?.entry.count ?? 0
         }
-        return feed[activeFeedIndex]?.entry.count ?? 0
+        return 0
+        
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "RssInfoTableViewCell", for: indexPath) as? RssInfoTableViewCell else {
+    func tableView(
+        _ tableView: UITableView,
+        cellForRowAt indexPath: IndexPath
+    ) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: "RssInfoTableViewCell",
+            for: indexPath
+        ) as? RssInfoTableViewCell else {
             fatalError("Failed to dequeue (ViewController.entriesTable).")
         }
         
@@ -113,18 +124,32 @@ extension ViewController: UITableViewDataSource {
 
 extension ViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
-    // MARK: - Data Source
+    // MARK: - feedsCollection Data Source
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        numberOfItemsInSection section: Int
+    ) -> Int {
         return 5 + 1
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        cellForItemAt indexPath: IndexPath
+    ) -> UICollectionViewCell {
         if indexPath.row == 0 {
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AddFeedCollectionViewCell", for: indexPath) as? AddFeedCollectionViewCell else {
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: "AddFeedCollectionViewCell",
+                for: indexPath
+            ) as? AddFeedCollectionViewCell else {
                 fatalError("Failed to dequeue (ViewController.feedCollection).")
             }
-            cell.plusButton.addTarget(self, action: #selector(plusButtonTouchUpInside), for: .touchUpInside)
+            
+            cell.plusButton.addTarget(
+                self,
+                action: #selector(plusButtonTouchUpInside),
+                for: .touchUpInside
+            )
             return cell
         }
         
@@ -136,11 +161,10 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegateFl
         }
         cell.updateContentsWith("some text")
         return cell
-                
     }
     
     
-    // MARK: - Delegate
+    // MARK: - feedsCollection Delegate
     
     func collectionView(
         _ collectionView: UICollectionView,
