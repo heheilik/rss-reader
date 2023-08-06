@@ -16,13 +16,10 @@
                 <rect key="frame" x="0.0" y="0.0" width="111" height="105"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PtK-1x-Ez2">
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PtK-1x-Ez2" userLabel="plusButton">
                         <rect key="frame" x="0.0" y="0.0" width="111" height="105"/>
                         <state key="normal" title="Button"/>
                         <buttonConfiguration key="configuration" style="filled" title="+"/>
-                        <connections>
-                            <action selector="addTouchUpInside:" destination="wCi-BO-MXS" eventType="touchUpInside" id="g9u-DS-yOG"/>
-                        </connections>
                     </button>
                 </subviews>
                 <constraints>
@@ -33,6 +30,9 @@
                 </constraints>
             </collectionViewCellContentView>
             <size key="customSize" width="111" height="105"/>
+            <connections>
+                <outlet property="plusButton" destination="PtK-1x-Ez2" id="6Ke-Br-HZ3"/>
+            </connections>
             <point key="canvasLocation" x="-145.80152671755724" y="-19.366197183098592"/>
         </collectionViewCell>
     </objects>

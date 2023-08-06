@@ -69,6 +69,12 @@ class ViewController: UIViewController {
             }
         }
     }
+    
+    @objc
+    func plusButtonTouchUpInside() {
+        let addViewController = AddFeedViewController()
+        present(addViewController, animated: true)
+    }
 
 }
 
@@ -118,6 +124,7 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegateFl
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AddFeedCollectionViewCell", for: indexPath) as? AddFeedCollectionViewCell else {
                 fatalError("Failed to dequeue (ViewController.feedCollection).")
             }
+            cell.plusButton.addTarget(self, action: #selector(plusButtonTouchUpInside), for: .touchUpInside)
             return cell
         }
         

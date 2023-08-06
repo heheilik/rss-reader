@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22113.1" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22089"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AddFeedViewController" customModule="rss_reader" customModuleProvider="target">
+            <connections>
+                <outlet property="nameField" destination="LJq-0x-NzQ" id="k59-RS-5sw"/>
+                <outlet property="urlField" destination="Mrw-az-Bng" id="ovd-1M-84D"/>
+                <outlet property="view" destination="nOZ-Z3-K0Q" id="Vt0-nV-uHL"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="nOZ-Z3-K0Q">
+            <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="r3m-jo-JlQ">
+                    <rect key="frame" x="0.0" y="59" width="393" height="44"/>
+                    <items>
+                        <navigationItem title="Title" id="SES-Cj-UhO"/>
+                    </items>
+                </navigationBar>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Lwj-bW-RxM">
+                    <rect key="frame" x="8" y="111" width="377" height="76"/>
+                    <subviews>
+                        <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="LJq-0x-NzQ">
+                            <rect key="frame" x="0.0" y="0.0" width="377" height="34"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <textInputTraits key="textInputTraits"/>
+                        </textField>
+                        <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="URL" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Mrw-az-Bng">
+                            <rect key="frame" x="0.0" y="42" width="377" height="34"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <textInputTraits key="textInputTraits"/>
+                        </textField>
+                    </subviews>
+                </stackView>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="W4x-R7-Enm"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="Lwj-bW-RxM" firstAttribute="top" secondItem="r3m-jo-JlQ" secondAttribute="bottom" constant="8" id="0Uv-b9-oNF"/>
+                <constraint firstItem="W4x-R7-Enm" firstAttribute="trailing" secondItem="Lwj-bW-RxM" secondAttribute="trailing" constant="8" id="8Ee-fp-xFM"/>
+                <constraint firstItem="r3m-jo-JlQ" firstAttribute="top" secondItem="W4x-R7-Enm" secondAttribute="top" id="JhZ-Cv-fJb"/>
+                <constraint firstItem="Lwj-bW-RxM" firstAttribute="leading" secondItem="W4x-R7-Enm" secondAttribute="leading" constant="8" id="Qnb-ZK-EFv"/>
+                <constraint firstItem="W4x-R7-Enm" firstAttribute="trailing" secondItem="r3m-jo-JlQ" secondAttribute="trailing" id="QvA-P5-NEP"/>
+                <constraint firstItem="r3m-jo-JlQ" firstAttribute="leading" secondItem="W4x-R7-Enm" secondAttribute="leading" id="vdL-5n-gja"/>
+            </constraints>
+            <point key="canvasLocation" x="-315" y="-605"/>
+        </view>
+    </objects>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5D1B95662A7F2BFA00AA63ED /* AddFeedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D1B95652A7F2BFA00AA63ED /* AddFeedViewController.xib */; };
+		5D1B95682A7F2C0100AA63ED /* AddFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D1B95672A7F2C0100AA63ED /* AddFeedViewController.swift */; };
 		5D30D53A2A6E158E0003DA1F /* Feed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D30D5392A6E158E0003DA1F /* Feed.swift */; };
 		5D30D53E2A6E167C0003DA1F /* FeedService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D30D53D2A6E167C0003DA1F /* FeedService.swift */; };
 		5D84B6482A78363C0019266D /* AddFeedCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D84B6472A78363C0019266D /* AddFeedCollectionViewCell.xib */; };
@@ -37,6 +39,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5D1B95652A7F2BFA00AA63ED /* AddFeedViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddFeedViewController.xib; sourceTree = "<group>"; };
+		5D1B95672A7F2C0100AA63ED /* AddFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFeedViewController.swift; sourceTree = "<group>"; };
 		5D30D5392A6E158E0003DA1F /* Feed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Feed.swift; sourceTree = "<group>"; };
 		5D30D53D2A6E167C0003DA1F /* FeedService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedService.swift; sourceTree = "<group>"; };
 		5D84B6472A78363C0019266D /* AddFeedCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddFeedCollectionViewCell.xib; sourceTree = "<group>"; };
@@ -153,6 +157,8 @@
 			children = (
 				5D992EC42A3D39250007EC2C /* ViewController.swift */,
 				5D992ED42A3D398D0007EC2C /* ViewController.xib */,
+				5D1B95672A7F2C0100AA63ED /* AddFeedViewController.swift */,
+				5D1B95652A7F2BFA00AA63ED /* AddFeedViewController.xib */,
 				5D1B95642A7CEB0800AA63ED /* FeedsCollection */,
 				5D1B95632A7CEAF400AA63ED /* EntriesTable */,
 			);
@@ -254,6 +260,7 @@
 				5D8F738B2A573B4F00CF541C /* RssInfoTableViewCell.xib in Resources */,
 				5D84B6482A78363C0019266D /* AddFeedCollectionViewCell.xib in Resources */,
 				5D992ECD2A3D39260007EC2C /* LaunchScreen.storyboard in Resources */,
+				5D1B95662A7F2BFA00AA63ED /* AddFeedViewController.xib in Resources */,
 				5D992ED52A3D398D0007EC2C /* ViewController.xib in Resources */,
 				5D84B64C2A7839240019266D /* FeedCollectionViewCell.xib in Resources */,
 				5D992ECA2A3D39260007EC2C /* Assets.xcassets in Resources */,
@@ -275,6 +282,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5D1B95682A7F2C0100AA63ED /* AddFeedViewController.swift in Sources */,
 				5D992EC52A3D39250007EC2C /* ViewController.swift in Sources */,
 				5D30D53A2A6E158E0003DA1F /* Feed.swift in Sources */,
 				5D30D53E2A6E167C0003DA1F /* FeedService.swift in Sources */,

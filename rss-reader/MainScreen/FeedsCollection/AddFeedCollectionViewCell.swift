@@ -9,8 +9,10 @@ import UIKit
 
 class AddFeedCollectionViewCell: UICollectionViewCell {
     
-    @IBAction func addTouchUpInside(_ sender: Any) {
-        print("Add feed button pressed.")
+    @IBOutlet weak var plusButton: UIButton!
+    
+    override func prepareForReuse() {
+        plusButton.removeTarget(nil, action: nil, for: .touchUpInside)
     }
     
 }
