@@ -15,4 +15,16 @@ class FeedCollectionViewCell: UICollectionViewCell {
         title.text = text.trimmingCharacters(in: .whitespacesAndNewlines)
     }
     
+    override var isSelected: Bool {
+        didSet {
+            if isSelected {
+                contentView.layer.borderColor = UIColor.systemGray.cgColor
+                title.textColor = UIColor.systemGray
+            } else {
+                contentView.layer.borderColor = UIColor.systemBlue.cgColor
+                title.textColor = UIColor.systemBlue
+            }
+        }
+    }
+    
 }

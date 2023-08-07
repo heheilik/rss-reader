@@ -56,19 +56,7 @@ class ViewController: UIViewController {
     // MARK: - IBActions
     
 //    @IBAction func downloadFeedTouchUpInside() {
-//        guard let activeFeedIndex else {
-//            return
-//        }
-//        feedService.prepareFeed(withURL: FeedURLDatabase.nameUrlArray[activeFeedIndex]) { feed in
-//            guard let activeFeedIndex = self.activeFeedIndex else {
-//                return
-//            }
-//            self.feed[activeFeedIndex] = feed
-//            DispatchQueue.main.async { [self] in
-//                feedTitle.text = self.feed[activeFeedIndex]?.title.trimmingCharacters(in: .whitespacesAndNewlines) ?? "[feed-title]"
-//                entriesTable.reloadData()
-//            }
-//        }
+//        
 //    }
     
     
@@ -184,6 +172,7 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegateFl
         }
         
         cell.updateContentsWith(FeedURLDatabase.nameAt(indexPath.row - 1) ?? "[error]")
+        cell.isSelected = false
         
         return cell
     }
@@ -235,6 +224,28 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegateFl
         minimumInteritemSpacingForSectionAt section: Int
     ) -> CGFloat {
         8
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
+        print("\(indexPath)")
+        return indexPath.row != 0 && !(collectionView.cellForItem(at: indexPath)?.isSelected ?? true)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        activeFeedIndex = indexPath.row - 1
+        guard let activeFeedIndex else {
+            return
+        }
+        feedService.prepareFeed(withURL: FeedURLDatabase.urlAt(indexPath.row - 1)!) { feed in
+            guard let activeFeedIndex = self.activeFeedIndex else {
+                return
+            }
+            self.feed[activeFeedIndex] = feed
+            DispatchQueue.main.async { [self] in
+                feedTitle.text = self.feed[activeFeedIndex]?.title.trimmingCharacters(in: .whitespacesAndNewlines) ?? "[feed-title]"
+                entriesTable.reloadData()
+            }
+        }
     }
     
 }

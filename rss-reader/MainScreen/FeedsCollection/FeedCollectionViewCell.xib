@@ -3,7 +3,6 @@
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22089"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -24,13 +23,21 @@
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
-                <color key="backgroundColor" systemColor="systemGray2Color"/>
+                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
                     <constraint firstItem="mPj-Ik-N0C" firstAttribute="leading" secondItem="rIc-Y3-dzl" secondAttribute="leading" id="9hm-Y4-TmI"/>
                     <constraint firstItem="mPj-Ik-N0C" firstAttribute="centerX" secondItem="rIc-Y3-dzl" secondAttribute="centerX" id="FP0-9J-tde"/>
                     <constraint firstAttribute="trailing" secondItem="mPj-Ik-N0C" secondAttribute="trailing" id="VsA-d0-f4x"/>
                     <constraint firstItem="mPj-Ik-N0C" firstAttribute="centerY" secondItem="rIc-Y3-dzl" secondAttribute="centerY" id="gT9-go-v3x"/>
                 </constraints>
+                <userDefinedRuntimeAttributes>
+                    <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
+                        <integer key="value" value="3"/>
+                    </userDefinedRuntimeAttribute>
+                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                        <integer key="value" value="5"/>
+                    </userDefinedRuntimeAttribute>
+                </userDefinedRuntimeAttributes>
             </collectionViewCellContentView>
             <size key="customSize" width="220" height="167"/>
             <connections>
@@ -39,9 +46,4 @@
             <point key="canvasLocation" x="256.48854961832058" y="82.74647887323944"/>
         </collectionViewCell>
     </objects>
-    <resources>
-        <systemColor name="systemGray2Color">
-            <color red="0.68235294120000001" green="0.68235294120000001" blue="0.69803921570000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-    </resources>
 </document>

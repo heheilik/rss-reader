@@ -15,11 +15,11 @@ final class FeedService {
     
     let urlSession: URLSession
     
-    func prepareFeed(withURL url: String, completion: @escaping (Feed?) -> Void) {
-        guard let url = URL(string: url) else {
-            print("URL is wrong.")
-            return
-        }
+    func prepareFeed(withURL url: URL, completion: @escaping (Feed?) -> Void) {
+//        guard let url = URL(string: url) else {
+//            print("URL is wrong.")
+//            return
+//        }
         
         let downloadTask = urlSession.dataTask(with: url) { data, response, error in
             guard error == nil else {
