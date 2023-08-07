@@ -34,7 +34,7 @@ class AddFeedViewController: UIViewController {
             return false
         }
         
-        FeedURLDatabase.append(name: name, url: url)
+        FeedURLDatabase.append((name, url.absoluteString))
         clearFields()
         return true
     }

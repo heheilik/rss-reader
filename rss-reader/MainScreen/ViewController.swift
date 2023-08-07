@@ -38,6 +38,7 @@ class ViewController: UIViewController {
         feedsCollection.delegate = self
         feedsCollection.dataSource = self
         feedsCollection.dragDelegate = self
+        feedsCollection.dropDelegate = self
         feedsCollection.register(
             UINib(nibName: "AddFeedCollectionViewCell", bundle: nil),
             forCellWithReuseIdentifier: "AddFeedCollectionViewCell"
@@ -225,7 +226,6 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        print("\(indexPath)")
         return indexPath.row != 0 && !(collectionView.cellForItem(at: indexPath)?.isSelected ?? true)
     }
     
@@ -235,7 +235,7 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
         guard let activeFeedIndex else {
             return
         }
-        feedService.prepareFeed(withURL: FeedURLDatabase.urlAt(indexPath.row - 1)!) { feed in
+        feedService.prepareFeed(withURL: URL(string: FeedURLDatabase.urlAt(indexPath.row - 1)!)!) { feed in
             guard let activeFeedIndex = self.activeFeedIndex else {
                 return
             }
@@ -260,12 +260,64 @@ extension ViewController: UICollectionViewDragDelegate {
             return []
         }
         
-        let objProvider = NSItemProvider(item: NSNumber(value: indexPath.row - 1), typeIdentifier: "feedIndex")
+        let data = indexPath.row - 1
+        
+        let objProvider = NSItemProvider(
+            item: NSNumber(value: data),
+            typeIdentifier: "feedIndex"
+        )
+        
         let item = UIDragItem(itemProvider: objProvider)
+        item.localObject = data
+        
         return [item]
     }
     
+}
+
+extension ViewController: UICollectionViewDropDelegate {
     
+    func collectionView(
+        _ collectionView: UICollectionView,
+        canHandle session: UIDropSession
+    ) -> Bool {
+        session.hasItemsConforming(toTypeIdentifiers: ["feedIndex"])
+    }
     
+    func collectionView(
+        _ collectionView: UICollectionView,
+        dropSessionDidUpdate session: UIDropSession,
+        withDestinationIndexPath destinationIndexPath: IndexPath?
+    ) -> UICollectionViewDropProposal {
+        let operation: UIDropOperation = {
+            if let destinationIndexPath, destinationIndexPath.row != 0 {
+                return .move
+            } else {
+                return .forbidden
+            }
+        }()
+        return UICollectionViewDropProposal(operation: operation, intent: .insertAtDestinationIndexPath)
+    }
+    
+    func collectionView(
+        _ collectionView: UICollectionView,
+        performDropWith coordinator: UICollectionViewDropCoordinator
+    ) {
+        for item in coordinator.items {
+            guard
+                let sourceIndexPath = item.sourceIndexPath,
+                let destinationIndexPath = coordinator.destinationIndexPath
+            else {
+                continue
+            }
+    
+            collectionView.performBatchUpdates {
+                let element = FeedURLDatabase.remove(at: sourceIndexPath.row - 1)
+                FeedURLDatabase.insert(element, at: destinationIndexPath.row - 1)
+                collectionView.moveItem(at: sourceIndexPath, to: destinationIndexPath)
+            }
+            coordinator.drop(item.dragItem, toItemAt: destinationIndexPath)
+        }
+    }
     
 }
