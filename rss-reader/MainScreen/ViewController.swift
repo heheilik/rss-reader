@@ -27,8 +27,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         
-        feed = .init(repeating: nil, count: FeedURLDatabase.urlArray.count)
-        activeFeedIndex = 0
+        feed = .init(repeating: nil, count: FeedURLDatabase.count)
         
         feedsCollection.collectionViewLayout = {
             let layout = UICollectionViewFlowLayout()
@@ -56,21 +55,21 @@ class ViewController: UIViewController {
     
     // MARK: - IBActions
     
-    @IBAction func downloadFeedTouchUpInside() {
-        guard let activeFeedIndex else {
-            return
-        }
-        feedService.prepareFeed(withURL: FeedURLDatabase.urlArray[activeFeedIndex]) { feed in
-            guard let activeFeedIndex = self.activeFeedIndex else {
-                return
-            }
-            self.feed[activeFeedIndex] = feed
-            DispatchQueue.main.async { [self] in
-                feedTitle.text = self.feed[activeFeedIndex]?.title.trimmingCharacters(in: .whitespacesAndNewlines) ?? "[feed-title]"
-                entriesTable.reloadData()
-            }
-        }
-    }
+//    @IBAction func downloadFeedTouchUpInside() {
+//        guard let activeFeedIndex else {
+//            return
+//        }
+//        feedService.prepareFeed(withURL: FeedURLDatabase.nameUrlArray[activeFeedIndex]) { feed in
+//            guard let activeFeedIndex = self.activeFeedIndex else {
+//                return
+//            }
+//            self.feed[activeFeedIndex] = feed
+//            DispatchQueue.main.async { [self] in
+//                feedTitle.text = self.feed[activeFeedIndex]?.title.trimmingCharacters(in: .whitespacesAndNewlines) ?? "[feed-title]"
+//                entriesTable.reloadData()
+//            }
+//        }
+//    }
     
     
     // MARK: - feedsCollections actions
@@ -94,7 +93,10 @@ class ViewController: UIViewController {
     
     @objc
     func saveBarButtonTouchUpInside() {
-        print("save clicked")
+        if addFeedViewController.saveFields() {
+            addFeedViewController.dismiss(animated: true)
+            feedsCollection.reloadData()
+        }
     }
 
 }
@@ -151,7 +153,7 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegateFl
         _ collectionView: UICollectionView,
         numberOfItemsInSection section: Int
     ) -> Int {
-        return 5 + 1
+        return 1 + FeedURLDatabase.count
     }
     
     func collectionView(
@@ -180,7 +182,9 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegateFl
         ) as? FeedCollectionViewCell else {
             fatalError("Failed to dequeue (ViewController.feedCollection).")
         }
-        cell.updateContentsWith("some text")
+        
+        cell.updateContentsWith(FeedURLDatabase.nameAt(indexPath.row - 1) ?? "[error]")
+        
         return cell
     }
     

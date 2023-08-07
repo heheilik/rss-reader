@@ -24,5 +24,18 @@ class AddFeedViewController: UIViewController {
         nameField.text = ""
         urlField.text = ""
     }
+    
+    func saveFields() -> Bool {
+        guard
+            let name = nameField.text,
+            let url = URL(string: urlField.text ?? "")
+        else {
+            return false
+        }
+        
+        FeedURLDatabase.append(name: name, url: url)
+        clearFields()
+        return true
+    }
 
 }
