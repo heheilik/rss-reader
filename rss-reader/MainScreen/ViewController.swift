@@ -28,6 +28,7 @@ class ViewController: UIViewController {
         view.backgroundColor = .white
         
         feed = .init(repeating: nil, count: FeedURLDatabase.count)
+        #warning("Must be recalculated when new feed added.")
         
         feedsCollection.collectionViewLayout = {
             let layout = UICollectionViewFlowLayout()
@@ -36,6 +37,7 @@ class ViewController: UIViewController {
         }()
         feedsCollection.delegate = self
         feedsCollection.dataSource = self
+        feedsCollection.dragDelegate = self
         feedsCollection.register(
             UINib(nibName: "AddFeedCollectionViewCell", bundle: nil),
             forCellWithReuseIdentifier: "AddFeedCollectionViewCell"
@@ -51,13 +53,6 @@ class ViewController: UIViewController {
             forCellReuseIdentifier: "RssInfoTableViewCell"
         )
     }
-    
-    
-    // MARK: - IBActions
-    
-//    @IBAction func downloadFeedTouchUpInside() {
-//        
-//    }
     
     
     // MARK: - feedsCollections actions
@@ -133,7 +128,7 @@ extension ViewController: UITableViewDataSource {
     
 }
 
-extension ViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension ViewController: UICollectionViewDataSource {
     
     // MARK: - feedsCollection Data Source
     
@@ -177,6 +172,9 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegateFl
         return cell
     }
     
+}
+
+extension ViewController: UICollectionViewDelegateFlowLayout {
     
     // MARK: - feedsCollection Delegate
     
@@ -231,6 +229,7 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegateFl
         return indexPath.row != 0 && !(collectionView.cellForItem(at: indexPath)?.isSelected ?? true)
     }
     
+    #warning("Rewrite")
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         activeFeedIndex = indexPath.row - 1
         guard let activeFeedIndex else {
@@ -247,5 +246,26 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegateFl
             }
         }
     }
+    
+}
+
+extension ViewController: UICollectionViewDragDelegate {
+    
+    func collectionView(
+        _ collectionView: UICollectionView,
+        itemsForBeginning session: UIDragSession,
+        at indexPath: IndexPath
+    ) -> [UIDragItem] {
+        if indexPath.row == 0 {
+            return []
+        }
+        
+        let objProvider = NSItemProvider(item: NSNumber(value: indexPath.row - 1), typeIdentifier: "feedIndex")
+        let item = UIDragItem(itemProvider: objProvider)
+        return [item]
+    }
+    
+    
+    
     
 }

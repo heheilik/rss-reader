@@ -7,6 +7,7 @@
 
 import Foundation
 
+// TODO: save it as dictionary [url: name], both strings
 struct FeedURLDatabase {
     
     private static var nameArray: [String] {

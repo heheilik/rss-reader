@@ -7,6 +7,7 @@
 
 import UIKit
 
+// TODO: open for space only needed to show fields
 class AddFeedViewController: UIViewController {
     
     @IBOutlet weak var nameField: UITextField!
