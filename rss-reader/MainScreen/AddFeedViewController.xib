@@ -11,9 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AddFeedViewController" customModule="rss_reader" customModuleProvider="target">
             <connections>
-                <outlet property="cancelBarButton" destination="GnN-xO-Mja" id="zLr-pg-HwB"/>
                 <outlet property="nameField" destination="LJq-0x-NzQ" id="k59-RS-5sw"/>
-                <outlet property="saveBarButton" destination="0Jo-C8-fdd" id="Nli-SO-x7T"/>
                 <outlet property="urlField" destination="Mrw-az-Bng" id="ovd-1M-84D"/>
                 <outlet property="view" destination="nOZ-Z3-K0Q" id="Vt0-nV-uHL"/>
             </connections>
@@ -27,8 +25,16 @@
                     <rect key="frame" x="0.0" y="59" width="393" height="44"/>
                     <items>
                         <navigationItem title="Add New Feed..." id="pHv-I0-fz5">
-                            <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="GnN-xO-Mja"/>
-                            <barButtonItem key="rightBarButtonItem" style="done" systemItem="save" id="0Jo-C8-fdd"/>
+                            <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="GnN-xO-Mja">
+                                <connections>
+                                    <action selector="cancelButtonTouchUpInside:" destination="-1" id="zLv-fJ-yvA"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem key="rightBarButtonItem" style="done" systemItem="save" id="0Jo-C8-fdd">
+                                <connections>
+                                    <action selector="saveButtonTouchUpInside:" destination="-1" id="yyj-PB-yqi"/>
+                                </connections>
+                            </barButtonItem>
                         </navigationItem>
                     </items>
                 </navigationBar>

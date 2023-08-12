@@ -7,36 +7,89 @@
 
 import UIKit
 
-// TODO: open for space only needed to show fields
 class AddFeedViewController: UIViewController {
+    
+    var saveDataCallback: ((String, URL) -> Void)?
     
     @IBOutlet weak var nameField: UITextField!
     @IBOutlet weak var urlField: UITextField!
     
-    @IBOutlet weak var cancelBarButton: UIBarButtonItem!
-    @IBOutlet weak var saveBarButton: UIBarButtonItem!
-    
-    override func viewDidLoad() {
-        cancelBarButton.action = #selector(ViewController.cancelBarButtonTouchUpInside)
-        saveBarButton.action = #selector(ViewController.saveBarButtonTouchUpInside)
+    @IBAction func cancelButtonTouchUpInside(_ sender: Any) {
+        dismiss(animated: true)
     }
     
-    func clearFields() {
-        nameField.text = ""
-        urlField.text = ""
-    }
-    
-    func saveFields() -> Bool {
-        guard
-            let name = nameField.text,
-            let url = URL(string: urlField.text ?? "")
-        else {
-            return false
+    @IBAction func saveButtonTouchUpInside(_ sender: Any) {
+        let data: FieldsData
+        do {
+            data = try retrieveDataFromFields()
+        } catch let error as DataFieldError {
+            generateAlert(forErrorType: error)
+            return
+        } catch {
+            print("Unexpected error (\(error)).")
+            return
         }
         
-        FeedURLDatabase.array.append((name, url))
-        clearFields()
-        return true
+        if let callback = saveDataCallback {
+            callback(data.name, data.url)
+        }
+        dismiss(animated: true)
+    }
+    
+    
+    private typealias FieldsData = (name: String, url: URL)
+                    
+    private enum DataFieldError: Error {
+        case emptyName
+        case emptyUrl
+        case incorrectUrl
+    }
+    
+    private func retrieveDataFromFields() throws -> (name: String, url: URL) {
+        guard let name = nameField.text, name.count != 0 else {
+            throw DataFieldError.emptyName
+        }
+        guard let urlString = urlField.text, urlString.count != 0 else {
+            throw DataFieldError.emptyUrl
+        }
+        guard
+            let url = URL(string: urlString),
+            let scheme = url.scheme,
+            scheme == "http" || scheme == "https",
+            url.host() != nil
+        else {
+            throw DataFieldError.incorrectUrl
+        }
+        
+        return (name, url)
+    }
+    
+    private func generateAlert(forErrorType errorType: DataFieldError) {
+        let alertController: UIAlertController
+        
+        switch errorType {
+        case .emptyName:
+            alertController = UIAlertController(
+                title: "Empty Name Field",
+                message: "Please fill in the name of feed.",
+                preferredStyle: .alert
+            )
+        case .emptyUrl:
+            alertController = UIAlertController(
+                title: "Empty URL Field",
+                message: "Please fill in the name of feed.",
+                preferredStyle: .alert
+            )
+        case .incorrectUrl:
+            alertController = UIAlertController(
+                title: "Incorrect URL",
+                message: "Check the correctness of entered URL.",
+                preferredStyle: .alert
+            )
+        }
+        alertController.addAction(UIAlertAction(title: "OK", style: .default))
+        
+        present(alertController, animated: true)
     }
 
 }

@@ -18,8 +18,6 @@ class ViewController: UIViewController {
     @IBOutlet weak var feedsCollection: UICollectionView!
     @IBOutlet weak var entriesTable: UITableView!
     
-    private let addFeedViewController = AddFeedViewController()
-    
     
     // MARK: - Lifecycle
     
@@ -60,29 +58,18 @@ class ViewController: UIViewController {
     
     @objc
     func plusButtonTouchUpInside() {
-        if let sheet = addFeedViewController.sheetPresentationController {
-            sheet.detents = [.medium()]
-        }
+        let addFeedViewController = {
+            let controller = AddFeedViewController()
+            controller.sheetPresentationController?.detents = [.medium()]
+            controller.saveDataCallback = { name, url in
+                FeedURLDatabase.array.append((name, url))
+                self.feedsCollection.reloadData()
+            }
+            return controller
+        }()
         present(addFeedViewController, animated: true)
     }
     
-    
-    // MARK: - addFeedViewController actions
-    
-    @objc
-    func cancelBarButtonTouchUpInside() {
-        addFeedViewController.clearFields()
-        addFeedViewController.dismiss(animated: true)
-    }
-    
-    @objc
-    func saveBarButtonTouchUpInside() {
-        if addFeedViewController.saveFields() {
-            addFeedViewController.dismiss(animated: true)
-            feedsCollection.reloadData()
-        }
-    }
-
 }
 
 extension ViewController: UITableViewDataSource {
