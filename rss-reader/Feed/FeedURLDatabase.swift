@@ -10,14 +10,17 @@ import Foundation
 struct FeedURLDatabase {
     
     typealias StringWithUrl = (name: String, url: URL)
-    private static let userDefaultsAccessKeyName = "names"
-    private static let userDefaultsAccessKeyUrl = "urls"
+    
+    private enum UserDefaultsAccessKey: String {
+        case names
+        case urls
+    }
     
     static var array: [StringWithUrl] {
         get {
             guard
-                let nameArray = UserDefaults.standard.value(forKey: userDefaultsAccessKeyName) as? [String],
-                let urlArray = UserDefaults.standard.value(forKey: userDefaultsAccessKeyUrl) as? [String]
+                let nameArray = UserDefaults.standard.value(forKey: UserDefaultsAccessKey.names.rawValue) as? [String],
+                let urlArray = UserDefaults.standard.value(forKey: UserDefaultsAccessKey.urls.rawValue) as? [String]
             else {
                 return []
             }
@@ -32,12 +35,12 @@ struct FeedURLDatabase {
             var nameArray: [String] = .init(repeating: "", count: newValue.count)
             var urlArray: [String] = .init(repeating: "", count: newValue.count)
             for index in newValue.indices {
-                nameArray[index] = newValue[index].0
-                urlArray[index] = newValue[index].1.absoluteString
+                nameArray[index] = newValue[index].name
+                urlArray[index] = newValue[index].url.absoluteString
             }
             
-            UserDefaults.standard.setValue(nameArray, forKey: userDefaultsAccessKeyName)
-            UserDefaults.standard.setValue(urlArray, forKey: userDefaultsAccessKeyUrl)
+            UserDefaults.standard.setValue(nameArray, forKey: UserDefaultsAccessKey.names.rawValue)
+            UserDefaults.standard.setValue(urlArray, forKey: UserDefaultsAccessKey.urls.rawValue)
         }
     }
 
