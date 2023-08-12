@@ -11,11 +11,12 @@
 		5D1B95682A7F2C0100AA63ED /* AddFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D1B95672A7F2C0100AA63ED /* AddFeedViewController.swift */; };
 		5D30D53A2A6E158E0003DA1F /* Feed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D30D5392A6E158E0003DA1F /* Feed.swift */; };
 		5D30D53E2A6E167C0003DA1F /* FeedService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D30D53D2A6E167C0003DA1F /* FeedService.swift */; };
+		5D5AE97D2A870C1F00A8FD96 /* FeedURLDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D84B65C2A7943220019266D /* FeedURLDatabase.swift */; };
+		5D5C83E12A86F10400BB197D /* FeedURLDatabaseTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D5C83E02A86F10400BB197D /* FeedURLDatabaseTest.swift */; };
 		5D84B6482A78363C0019266D /* AddFeedCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D84B6472A78363C0019266D /* AddFeedCollectionViewCell.xib */; };
 		5D84B64A2A7836910019266D /* AddFeedCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D84B6492A7836910019266D /* AddFeedCollectionViewCell.swift */; };
 		5D84B64C2A7839240019266D /* FeedCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D84B64B2A7839240019266D /* FeedCollectionViewCell.xib */; };
 		5D84B64E2A78392F0019266D /* FeedCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D84B64D2A78392F0019266D /* FeedCollectionViewCell.swift */; };
-		5D84B6562A7877530019266D /* rss_readerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D84B6552A7877530019266D /* rss_readerTests.swift */; };
 		5D84B65D2A7943220019266D /* FeedURLDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D84B65C2A7943220019266D /* FeedURLDatabase.swift */; };
 		5D8F738B2A573B4F00CF541C /* RssInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D8F738A2A573B4F00CF541C /* RssInfoTableViewCell.xib */; };
 		5D8F738D2A573BA600CF541C /* RssInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8F738C2A573BA600CF541C /* RssInfoTableViewCell.swift */; };
@@ -29,7 +30,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		5D84B6572A7877530019266D /* PBXContainerItemProxy */ = {
+		5DF8527D2A86F0A500760527 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 5D992EB52A3D39250007EC2C /* Project object */;
 			proxyType = 1;
@@ -43,12 +44,11 @@
 		5D1B95672A7F2C0100AA63ED /* AddFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFeedViewController.swift; sourceTree = "<group>"; };
 		5D30D5392A6E158E0003DA1F /* Feed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Feed.swift; sourceTree = "<group>"; };
 		5D30D53D2A6E167C0003DA1F /* FeedService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedService.swift; sourceTree = "<group>"; };
+		5D5C83E02A86F10400BB197D /* FeedURLDatabaseTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedURLDatabaseTest.swift; sourceTree = "<group>"; };
 		5D84B6472A78363C0019266D /* AddFeedCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddFeedCollectionViewCell.xib; sourceTree = "<group>"; };
 		5D84B6492A7836910019266D /* AddFeedCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFeedCollectionViewCell.swift; sourceTree = "<group>"; };
 		5D84B64B2A7839240019266D /* FeedCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FeedCollectionViewCell.xib; sourceTree = "<group>"; };
 		5D84B64D2A78392F0019266D /* FeedCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCollectionViewCell.swift; sourceTree = "<group>"; };
-		5D84B6532A7877530019266D /* rss-readerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "rss-readerTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		5D84B6552A7877530019266D /* rss_readerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = rss_readerTests.swift; sourceTree = "<group>"; };
 		5D84B65C2A7943220019266D /* FeedURLDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedURLDatabase.swift; sourceTree = "<group>"; };
 		5D8F738A2A573B4F00CF541C /* RssInfoTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RssInfoTableViewCell.xib; sourceTree = "<group>"; };
 		5D8F738C2A573BA600CF541C /* RssInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RssInfoTableViewCell.swift; sourceTree = "<group>"; };
@@ -61,17 +61,18 @@
 		5D992ECE2A3D39260007EC2C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5D992ED42A3D398D0007EC2C /* ViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ViewController.xib; sourceTree = "<group>"; };
 		5D9C335C2A72C47F00CDFFD5 /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
+		5DF852792A86F0A500760527 /* rss-reader-tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "rss-reader-tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		5D84B6502A7877530019266D /* Frameworks */ = {
+		5D992EBA2A3D39250007EC2C /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		5D992EBA2A3D39250007EC2C /* Frameworks */ = {
+		5DF852762A86F0A500760527 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -112,19 +113,11 @@
 			path = Feed;
 			sourceTree = "<group>";
 		};
-		5D84B6542A7877530019266D /* rss-readerTests */ = {
-			isa = PBXGroup;
-			children = (
-				5D84B6552A7877530019266D /* rss_readerTests.swift */,
-			);
-			path = "rss-readerTests";
-			sourceTree = "<group>";
-		};
 		5D992EB42A3D39250007EC2C = {
 			isa = PBXGroup;
 			children = (
 				5D992EBF2A3D39250007EC2C /* rss-reader */,
-				5D84B6542A7877530019266D /* rss-readerTests */,
+				5DF8527A2A86F0A500760527 /* rss-reader-tests */,
 				5D992EBE2A3D39250007EC2C /* Products */,
 			);
 			sourceTree = "<group>";
@@ -133,7 +126,7 @@
 			isa = PBXGroup;
 			children = (
 				5D992EBD2A3D39250007EC2C /* rss-reader.app */,
-				5D84B6532A7877530019266D /* rss-readerTests.xctest */,
+				5DF852792A86F0A500760527 /* rss-reader-tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -165,27 +158,17 @@
 			path = MainScreen;
 			sourceTree = "<group>";
 		};
+		5DF8527A2A86F0A500760527 /* rss-reader-tests */ = {
+			isa = PBXGroup;
+			children = (
+				5D5C83E02A86F10400BB197D /* FeedURLDatabaseTest.swift */,
+			);
+			path = "rss-reader-tests";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		5D84B6522A7877530019266D /* rss-readerTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 5D84B6592A7877530019266D /* Build configuration list for PBXNativeTarget "rss-readerTests" */;
-			buildPhases = (
-				5D84B64F2A7877530019266D /* Sources */,
-				5D84B6502A7877530019266D /* Frameworks */,
-				5D84B6512A7877530019266D /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				5D84B6582A7877530019266D /* PBXTargetDependency */,
-			);
-			name = "rss-readerTests";
-			productName = "rss-readerTests";
-			productReference = 5D84B6532A7877530019266D /* rss-readerTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 		5D992EBC2A3D39250007EC2C /* rss-reader */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5D992ED12A3D39260007EC2C /* Build configuration list for PBXNativeTarget "rss-reader" */;
@@ -205,6 +188,24 @@
 			productReference = 5D992EBD2A3D39250007EC2C /* rss-reader.app */;
 			productType = "com.apple.product-type.application";
 		};
+		5DF852782A86F0A500760527 /* rss-reader-tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5DF8527F2A86F0A500760527 /* Build configuration list for PBXNativeTarget "rss-reader-tests" */;
+			buildPhases = (
+				5DF852752A86F0A500760527 /* Sources */,
+				5DF852762A86F0A500760527 /* Frameworks */,
+				5DF852772A86F0A500760527 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				5DF8527E2A86F0A500760527 /* PBXTargetDependency */,
+			);
+			name = "rss-reader-tests";
+			productName = "rss-reader-tests";
+			productReference = 5DF852792A86F0A500760527 /* rss-reader-tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -215,12 +216,13 @@
 				LastSwiftUpdateCheck = 1500;
 				LastUpgradeCheck = 1500;
 				TargetAttributes = {
-					5D84B6522A7877530019266D = {
-						CreatedOnToolsVersion = 15.0;
-						TestTargetID = 5D992EBC2A3D39250007EC2C;
-					};
 					5D992EBC2A3D39250007EC2C = {
 						CreatedOnToolsVersion = 15.0;
+					};
+					5DF852782A86F0A500760527 = {
+						CreatedOnToolsVersion = 15.0;
+						LastSwiftMigration = 1500;
+						TestTargetID = 5D992EBC2A3D39250007EC2C;
 					};
 				};
 			};
@@ -240,19 +242,12 @@
 			projectRoot = "";
 			targets = (
 				5D992EBC2A3D39250007EC2C /* rss-reader */,
-				5D84B6522A7877530019266D /* rss-readerTests */,
+				5DF852782A86F0A500760527 /* rss-reader-tests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		5D84B6512A7877530019266D /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		5D992EBB2A3D39250007EC2C /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -267,17 +262,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-/* End PBXResourcesBuildPhase section */
-
-/* Begin PBXSourcesBuildPhase section */
-		5D84B64F2A7877530019266D /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
+		5DF852772A86F0A500760527 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5D84B6562A7877530019266D /* rss_readerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
 		5D992EB92A3D39250007EC2C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -296,13 +290,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		5DF852752A86F0A500760527 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5D5AE97D2A870C1F00A8FD96 /* FeedURLDatabase.swift in Sources */,
+				5D5C83E12A86F10400BB197D /* FeedURLDatabaseTest.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		5D84B6582A7877530019266D /* PBXTargetDependency */ = {
+		5DF8527E2A86F0A500760527 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 5D992EBC2A3D39250007EC2C /* rss-reader */;
-			targetProxy = 5D84B6572A7877530019266D /* PBXContainerItemProxy */;
+			targetProxy = 5DF8527D2A86F0A500760527 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -318,42 +321,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		5D84B65A2A7877530019266D /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = B74GGX94X2;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.heheilik.rss-readerTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/rss-reader.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/rss-reader";
-			};
-			name = Debug;
-		};
-		5D84B65B2A7877530019266D /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = B74GGX94X2;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.heheilik.rss-readerTests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/rss-reader.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/rss-reader";
-			};
-			name = Release;
-		};
 		5D992ECF2A3D39260007EC2C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -527,18 +494,48 @@
 			};
 			name = Release;
 		};
+		5DF852802A86F0A500760527 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = B74GGX94X2;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.heheilik.rss-reader-tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/rss-reader.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/rss-reader";
+			};
+			name = Debug;
+		};
+		5DF852812A86F0A500760527 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = B74GGX94X2;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.heheilik.rss-reader-tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/rss-reader.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/rss-reader";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		5D84B6592A7877530019266D /* Build configuration list for PBXNativeTarget "rss-readerTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				5D84B65A2A7877530019266D /* Debug */,
-				5D84B65B2A7877530019266D /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		5D992EB82A3D39250007EC2C /* Build configuration list for PBXProject "rss-reader" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -553,6 +550,15 @@
 			buildConfigurations = (
 				5D992ED22A3D39260007EC2C /* Debug */,
 				5D992ED32A3D39260007EC2C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5DF8527F2A86F0A500760527 /* Build configuration list for PBXNativeTarget "rss-reader-tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5DF852802A86F0A500760527 /* Debug */,
+				5DF852812A86F0A500760527 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

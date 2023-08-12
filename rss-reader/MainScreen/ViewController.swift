@@ -27,7 +27,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         
-        feed = .init(repeating: nil, count: FeedURLDatabase.count)
+        feed = .init(repeating: nil, count: FeedURLDatabase.array.count)
         #warning("Must be recalculated when new feed added.")
         
         feedsCollection.collectionViewLayout = {
@@ -137,7 +137,7 @@ extension ViewController: UICollectionViewDataSource {
         _ collectionView: UICollectionView,
         numberOfItemsInSection section: Int
     ) -> Int {
-        return 1 + FeedURLDatabase.count
+        return 1 + FeedURLDatabase.array.count
     }
     
     func collectionView(
@@ -167,7 +167,7 @@ extension ViewController: UICollectionViewDataSource {
             fatalError("Failed to dequeue (ViewController.feedCollection).")
         }
         
-        cell.updateContentsWith(FeedURLDatabase.nameAt(indexPath.row - 1) ?? "[error]")
+        cell.updateContentsWith(FeedURLDatabase.array[indexPath.row - 1].name)
         cell.isSelected = false
         
         return cell
@@ -235,7 +235,7 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
         guard let activeFeedIndex else {
             return
         }
-        feedService.prepareFeed(withURL: URL(string: FeedURLDatabase.urlAt(indexPath.row - 1)!)!) { feed in
+        feedService.prepareFeed(withURL: FeedURLDatabase.array[indexPath.row - 1].url) { feed in
             guard let activeFeedIndex = self.activeFeedIndex else {
                 return
             }
@@ -312,8 +312,8 @@ extension ViewController: UICollectionViewDropDelegate {
             }
     
             collectionView.performBatchUpdates {
-                let element = FeedURLDatabase.remove(at: sourceIndexPath.row - 1)
-                FeedURLDatabase.insert(element, at: destinationIndexPath.row - 1)
+                let element = FeedURLDatabase.array.remove(at: sourceIndexPath.row - 1)
+                FeedURLDatabase.array.insert(element, at: destinationIndexPath.row - 1)
                 collectionView.moveItem(at: sourceIndexPath, to: destinationIndexPath)
             }
             coordinator.drop(item.dragItem, toItemAt: destinationIndexPath)
