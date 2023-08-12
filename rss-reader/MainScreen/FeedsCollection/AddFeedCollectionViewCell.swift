@@ -11,8 +11,4 @@ class AddFeedCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var plusButton: UIButton!
     
-    override func prepareForReuse() {
-        plusButton.removeTarget(nil, action: nil, for: .touchUpInside)
-    }
-    
 }

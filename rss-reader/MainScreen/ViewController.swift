@@ -53,23 +53,6 @@ class ViewController: UIViewController {
         )
     }
     
-    
-    // MARK: - feedsCollections actions
-    
-    @objc
-    func plusButtonTouchUpInside() {
-        let addFeedViewController = {
-            let controller = AddFeedViewController()
-            controller.sheetPresentationController?.detents = [.medium()]
-            controller.saveDataCallback = { name, url in
-                FeedURLDatabase.array.append((name, url))
-                self.feedsCollection.reloadData()
-            }
-            return controller
-        }()
-        present(addFeedViewController, animated: true)
-    }
-    
 }
 
 extension ViewController: UITableViewDataSource {
@@ -139,11 +122,16 @@ extension ViewController: UICollectionViewDataSource {
                 fatalError("Failed to dequeue (ViewController.feedCollection).")
             }
             
-            cell.plusButton.addTarget(
-                self,
-                action: #selector(plusButtonTouchUpInside),
-                for: .touchUpInside
-            )
+            let plusButtonAction = UIAction { _ in
+                let addFeedViewController = AddFeedViewController()
+                addFeedViewController.sheetPresentationController?.detents = [.medium()]
+                addFeedViewController.saveDataCallback = { name, url in
+                    FeedURLDatabase.array.append((name, url))
+                    self.feedsCollection.reloadData()
+                }
+                self.present(addFeedViewController, animated: true)
+            }
+            cell.plusButton.addAction(plusButtonAction, for: .touchUpInside)
             return cell
         }
         
@@ -156,6 +144,7 @@ extension ViewController: UICollectionViewDataSource {
         
         cell.updateContentsWith(FeedURLDatabase.array[indexPath.row - 1].name)
         cell.isSelected = false
+        #warning("Rewrite selection behaviour.")
         
         return cell
     }
