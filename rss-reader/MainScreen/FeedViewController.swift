@@ -52,7 +52,7 @@ extension FeedViewController: UITableViewDataSource {
         numberOfRowsInSection section: Int
     ) -> Int {
         guard let section = SectionIndex.init(rawValue: section) else {
-            fatalError("Section is invalid.")
+            fatalError("Section \(section) is invalid.")
         }
         
         switch section {

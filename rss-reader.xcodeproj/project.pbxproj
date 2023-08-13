@@ -127,6 +127,17 @@
 			path = Feed;
 			sourceTree = "<group>";
 		};
+		5D58835D2A888D0E008DD2EE /* FeedsList */ = {
+			isa = PBXGroup;
+			children = (
+				5D9B405A2A8856BB00F9724A /* FeedsListViewController.swift */,
+				5D368EDD2A8856F40068E6F3 /* FeedsListViewController.xib */,
+				5D4C15AC2A885C5C00FA1565 /* FeedsListViewModel.swift */,
+				5D1B95642A7CEB0800AA63ED /* FeedsListCollectionViewCells */,
+			);
+			path = FeedsList;
+			sourceTree = "<group>";
+		};
 		5D992EB42A3D39250007EC2C = {
 			isa = PBXGroup;
 			children = (
@@ -166,10 +177,7 @@
 				5D992ED42A3D398D0007EC2C /* FeedViewController.xib */,
 				5D5F40872A8852C400F84327 /* FeedViewModel.swift */,
 				5D1B95632A7CEAF400AA63ED /* FeedTableViewCells */,
-				5D9B405A2A8856BB00F9724A /* FeedsListViewController.swift */,
-				5D368EDD2A8856F40068E6F3 /* FeedsListViewController.xib */,
-				5D4C15AC2A885C5C00FA1565 /* FeedsListViewModel.swift */,
-				5D1B95642A7CEB0800AA63ED /* FeedsListCollectionViewCells */,
+				5D58835D2A888D0E008DD2EE /* FeedsList */,
 				5D1B95672A7F2C0100AA63ED /* AddFeedViewController.swift */,
 				5D1B95652A7F2BFA00AA63ED /* AddFeedViewController.xib */,
 			);

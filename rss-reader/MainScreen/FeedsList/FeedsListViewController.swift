@@ -13,6 +13,16 @@ class FeedsListViewController: UIViewController {
     
     @IBOutlet weak var collectionView: UICollectionView!
     
+    enum SectionIndex: Int {
+        case plusButton = 0
+        case feeds = 1
+    }
+    
+    enum CellIdentifier {
+        static let plusButton = "AddFeedCollectionViewCell"
+        static let feed = "FeedCollectionViewCell"
+    }
+    
     override var view: UIView! {
         didSet {
             collectionView.collectionViewLayout = {
@@ -27,12 +37,12 @@ class FeedsListViewController: UIViewController {
             collectionView.dropDelegate = self
             
             collectionView.register(
-                UINib(nibName: "AddFeedCollectionViewCell", bundle: nil),
-                forCellWithReuseIdentifier: "AddFeedCollectionViewCell"
+                UINib(nibName: CellIdentifier.plusButton, bundle: nil),
+                forCellWithReuseIdentifier: CellIdentifier.plusButton
             )
             collectionView.register(
-                UINib(nibName: "FeedCollectionViewCell", bundle: nil),
-                forCellWithReuseIdentifier: "FeedCollectionViewCell"
+                UINib(nibName: CellIdentifier.feed, bundle: nil),
+                forCellWithReuseIdentifier: CellIdentifier.feed
             )
         }
     }
@@ -41,50 +51,58 @@ class FeedsListViewController: UIViewController {
 
 extension FeedsListViewController: UICollectionViewDataSource {
     
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        2
+    }
+    
     func collectionView(
         _ collectionView: UICollectionView,
         numberOfItemsInSection section: Int
     ) -> Int {
-        return 1 + FeedURLDatabase.array.count
+        guard let section = SectionIndex.init(rawValue: section) else {
+            fatalError("Section \(section) is invalid.")
+        }
+        
+        switch section {
+        case .plusButton:
+            return 1
+        case .feeds:
+            return viewModel.feedsCount
+        }
     }
     
     func collectionView(
         _ collectionView: UICollectionView,
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
-        if indexPath.row == 0 {
+        guard let section = SectionIndex.init(rawValue: indexPath.section) else {
+            fatalError("Section \(indexPath.section) is invalid.")
+        }
+        
+        switch section {
+        #warning("Add action for Plus Button in FeedsList.")
+        case .plusButton:
             guard let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: "AddFeedCollectionViewCell",
+                withReuseIdentifier: CellIdentifier.plusButton,
                 for: indexPath
             ) as? AddFeedCollectionViewCell else {
-                fatalError("Failed to dequeue (ViewController.feedCollection).")
+                fatalError("Failed to dequeue (\(CellIdentifier.plusButton)).")
+            }
+            return cell
+            
+        case .feeds:
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: CellIdentifier.feed,
+                for: indexPath
+            ) as? FeedCollectionViewCell else {
+                fatalError("Failed to dequeue (\(CellIdentifier.feed)).")
             }
             
-//            let plusButtonAction = UIAction { _ in
-//                let addFeedViewController = AddFeedViewController()
-//                addFeedViewController.sheetPresentationController?.detents = [.medium()]
-//                addFeedViewController.saveDataCallback = { name, url in
-//                    FeedURLDatabase.array.append((name, url))
-//                    self.collectionView.reloadData()
-//                }
-//                self.present(addFeedViewController, animated: true)
-//            }
-//            cell.plusButton.addAction(plusButtonAction, for: .touchUpInside)
+            cell.updateContentsWith(viewModel.feedNameFor(row: indexPath.row))
+            cell.isSelected = false
+            #warning("Rewrite selection behaviour.")
             return cell
         }
-        
-        guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: "FeedCollectionViewCell",
-            for: indexPath
-        ) as? FeedCollectionViewCell else {
-            fatalError("Failed to dequeue (ViewController.feedCollection).")
-        }
-        
-        cell.updateContentsWith(FeedURLDatabase.array[indexPath.row - 1].name)
-        cell.isSelected = false
-        #warning("Rewrite selection behaviour.")
-        
-        return cell
     }
     
 }
@@ -111,10 +129,11 @@ extension FeedsListViewController: UICollectionViewDelegateFlowLayout {
         
         let plusSize = CGSize(width: contentHeight, height: contentHeight)
         
-        if indexPath.row == 0 {
+        if indexPath.section == SectionIndex.plusButton.rawValue {
             return plusSize
         }
         
+        #warning("Recalculate cell layout.")
         return CGSize(
             width: (contentWidth - plusSize.width - inset.left - 3 * spacing) / 2.5,
             height: contentHeight
@@ -126,7 +145,15 @@ extension FeedsListViewController: UICollectionViewDelegateFlowLayout {
         layout collectionViewLayout: UICollectionViewLayout,
         insetForSectionAt section: Int
     ) -> UIEdgeInsets {
-        UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8)
+        guard let section = SectionIndex(rawValue: section) else {
+             fatalError("Section \(section) is invalid.")
+        }
+        switch section {
+        case .plusButton:
+            return UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 0)
+        case .feeds:
+            return UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8)
+        }
     }
     
     func collectionView(
@@ -138,10 +165,18 @@ extension FeedsListViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        return indexPath.row != 0 && !(collectionView.cellForItem(at: indexPath)?.isSelected ?? true)
+        guard let section = SectionIndex(rawValue: indexPath.section) else {
+            fatalError("Section \(indexPath.section) is invalid.")
+        }
+        switch section {
+        case .plusButton:
+            return false
+        case .feeds:
+            return !(collectionView.indexPathsForSelectedItems?.contains(indexPath) ?? false)
+        }
     }
     
-    #warning("Rewrite")
+    #warning("Rewrite item selection actions.")
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("Item selected. \(indexPath)")
     }
@@ -155,21 +190,25 @@ extension FeedsListViewController: UICollectionViewDragDelegate {
         itemsForBeginning session: UIDragSession,
         at indexPath: IndexPath
     ) -> [UIDragItem] {
-        if indexPath.row == 0 {
-            return []
+        guard let section = SectionIndex(rawValue: indexPath.section) else {
+            fatalError("Section \(indexPath.section) is invalid.")
         }
         
-        let data = indexPath.row - 1
+        switch section {
+        case .plusButton:
+            return []
+        case .feeds:
+            let data = indexPath.row
+            let objProvider = NSItemProvider(
+                item: NSNumber(value: data),
+                typeIdentifier: "feedIndex"
+            )
+            let item = UIDragItem(itemProvider: objProvider)
+            item.localObject = data
+            
+            return [item]
+        }
         
-        let objProvider = NSItemProvider(
-            item: NSNumber(value: data),
-            typeIdentifier: "feedIndex"
-        )
-        
-        let item = UIDragItem(itemProvider: objProvider)
-        item.localObject = data
-        
-        return [item]
     }
     
 }
@@ -189,7 +228,7 @@ extension FeedsListViewController: UICollectionViewDropDelegate {
         withDestinationIndexPath destinationIndexPath: IndexPath?
     ) -> UICollectionViewDropProposal {
         let operation: UIDropOperation = {
-            if let destinationIndexPath, destinationIndexPath.row != 0 {
+            if let destinationIndexPath, destinationIndexPath.section != SectionIndex.plusButton.rawValue {
                 return .move
             } else {
                 return .forbidden
@@ -211,8 +250,11 @@ extension FeedsListViewController: UICollectionViewDropDelegate {
             }
     
             collectionView.performBatchUpdates {
-                let element = FeedURLDatabase.array.remove(at: sourceIndexPath.row - 1)
-                FeedURLDatabase.array.insert(element, at: destinationIndexPath.row - 1)
+                viewModel.collectionView(
+                    collectionView,
+                    movesItemFrom: sourceIndexPath,
+                    to: destinationIndexPath
+                )
                 collectionView.moveItem(at: sourceIndexPath, to: destinationIndexPath)
             }
             coordinator.drop(item.dragItem, toItemAt: destinationIndexPath)
