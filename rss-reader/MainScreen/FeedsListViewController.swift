@@ -1,107 +1,45 @@
 //
-//  ViewController.swift
+//  FeedsListViewController.swift
 //  rss-reader
 //
-//  Created by Heorhi Heilik on 17.06.23.
+//  Created by Heorhi Heilik on 13.08.23.
 //
 
 import UIKit
 
-class ViewController: UIViewController {
+class FeedsListViewController: UIViewController {
     
-    private let feedService = FeedService()
+    let viewModel = FeedsListViewModel()
     
-    private var feed: [Feed?] = []
-    private var activeFeedIndex: Int?  // TODO: remove active feed index
+    @IBOutlet weak var collectionView: UICollectionView!
     
-    @IBOutlet weak var feedTitle: UILabel!
-    @IBOutlet weak var feedsCollection: UICollectionView!
-    @IBOutlet weak var entriesTable: UITableView!
-    
-    
-    // MARK: - Lifecycle
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor = .white
-        
-        feed = .init(repeating: nil, count: FeedURLDatabase.array.count)
-        #warning("Must be recalculated when new feed added.")
-        
-        feedsCollection.collectionViewLayout = {
-            let layout = UICollectionViewFlowLayout()
-            layout.scrollDirection = .horizontal
-            return layout
-        }()
-        feedsCollection.delegate = self
-        feedsCollection.dataSource = self
-        feedsCollection.dragDelegate = self
-        feedsCollection.dropDelegate = self
-        feedsCollection.register(
-            UINib(nibName: "AddFeedCollectionViewCell", bundle: nil),
-            forCellWithReuseIdentifier: "AddFeedCollectionViewCell"
-        )
-        feedsCollection.register(
-            UINib(nibName: "FeedCollectionViewCell", bundle: nil),
-            forCellWithReuseIdentifier: "FeedCollectionViewCell"
-        )
-        
-        entriesTable.dataSource = self
-        entriesTable.register(
-            UINib(nibName: "RssInfoTableViewCell", bundle: nil),
-            forCellReuseIdentifier: "RssInfoTableViewCell"
-        )
-    }
-    
-}
-
-extension ViewController: UITableViewDataSource {
-    
-    // MARK: - entriesTable Data Source
-    
-    func tableView(
-        _ tableView: UITableView,
-        numberOfRowsInSection section: Int
-    ) -> Int {
-        if let activeFeedIndex {
-            return feed[activeFeedIndex]?.entry.count ?? 0
-        }
-        return 0
-        
-    }
-    
-    func tableView(
-        _ tableView: UITableView,
-        cellForRowAt indexPath: IndexPath
-    ) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(
-            withIdentifier: "RssInfoTableViewCell",
-            for: indexPath
-        ) as? RssInfoTableViewCell else {
-            fatalError("Failed to dequeue (ViewController.entriesTable).")
-        }
-        
-        if let activeFeedIndex, let entry = feed[activeFeedIndex]?.entry[indexPath.row] {
-            cell.updateContentsWith(entry)
-        } else {
-            let emptyEntry = Entry(
-                title: "No data available.",
-                author: "-",
-                updated: "-",
-                id: "-",
-                content: ""
+    override var view: UIView! {
+        didSet {
+            collectionView.collectionViewLayout = {
+                let layout = UICollectionViewFlowLayout()
+                layout.scrollDirection = .horizontal
+                return layout
+            }()
+            
+            collectionView.delegate = self
+            collectionView.dataSource = self
+            collectionView.dragDelegate = self
+            collectionView.dropDelegate = self
+            
+            collectionView.register(
+                UINib(nibName: "AddFeedCollectionViewCell", bundle: nil),
+                forCellWithReuseIdentifier: "AddFeedCollectionViewCell"
             )
-            cell.updateContentsWith(emptyEntry)
+            collectionView.register(
+                UINib(nibName: "FeedCollectionViewCell", bundle: nil),
+                forCellWithReuseIdentifier: "FeedCollectionViewCell"
+            )
         }
-        
-        return cell
     }
     
 }
 
-extension ViewController: UICollectionViewDataSource {
-    
-    // MARK: - feedsCollection Data Source
+extension FeedsListViewController: UICollectionViewDataSource {
     
     func collectionView(
         _ collectionView: UICollectionView,
@@ -122,16 +60,16 @@ extension ViewController: UICollectionViewDataSource {
                 fatalError("Failed to dequeue (ViewController.feedCollection).")
             }
             
-            let plusButtonAction = UIAction { _ in
-                let addFeedViewController = AddFeedViewController()
-                addFeedViewController.sheetPresentationController?.detents = [.medium()]
-                addFeedViewController.saveDataCallback = { name, url in
-                    FeedURLDatabase.array.append((name, url))
-                    self.feedsCollection.reloadData()
-                }
-                self.present(addFeedViewController, animated: true)
-            }
-            cell.plusButton.addAction(plusButtonAction, for: .touchUpInside)
+//            let plusButtonAction = UIAction { _ in
+//                let addFeedViewController = AddFeedViewController()
+//                addFeedViewController.sheetPresentationController?.detents = [.medium()]
+//                addFeedViewController.saveDataCallback = { name, url in
+//                    FeedURLDatabase.array.append((name, url))
+//                    self.collectionView.reloadData()
+//                }
+//                self.present(addFeedViewController, animated: true)
+//            }
+//            cell.plusButton.addAction(plusButtonAction, for: .touchUpInside)
             return cell
         }
         
@@ -151,9 +89,7 @@ extension ViewController: UICollectionViewDataSource {
     
 }
 
-extension ViewController: UICollectionViewDelegateFlowLayout {
-    
-    // MARK: - feedsCollection Delegate
+extension FeedsListViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(
         _ collectionView: UICollectionView,
@@ -207,25 +143,12 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
     
     #warning("Rewrite")
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        activeFeedIndex = indexPath.row - 1
-        guard let activeFeedIndex else {
-            return
-        }
-        feedService.prepareFeed(withURL: FeedURLDatabase.array[indexPath.row - 1].url) { feed in
-            guard let activeFeedIndex = self.activeFeedIndex else {
-                return
-            }
-            self.feed[activeFeedIndex] = feed
-            DispatchQueue.main.async { [self] in
-                feedTitle.text = self.feed[activeFeedIndex]?.title.trimmingCharacters(in: .whitespacesAndNewlines) ?? "[feed-title]"
-                entriesTable.reloadData()
-            }
-        }
+        print("Item selected. \(indexPath)")
     }
     
 }
 
-extension ViewController: UICollectionViewDragDelegate {
+extension FeedsListViewController: UICollectionViewDragDelegate {
     
     func collectionView(
         _ collectionView: UICollectionView,
@@ -251,7 +174,7 @@ extension ViewController: UICollectionViewDragDelegate {
     
 }
 
-extension ViewController: UICollectionViewDropDelegate {
+extension FeedsListViewController: UICollectionViewDropDelegate {
     
     func collectionView(
         _ collectionView: UICollectionView,
