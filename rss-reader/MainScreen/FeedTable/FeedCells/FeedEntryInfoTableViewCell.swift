@@ -1,5 +1,5 @@
 //
-//  RssInfoTableViewCell.swift
+//  FeedEntryInfoTableViewCell.swift
 //  rss-reader
 //
 //  Created by Heorhi Heilik on 6.07.23.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class RssInfoTableViewCell: UITableViewCell {
+class FeedEntryInfoTableViewCell: UITableViewCell {
     
     @IBOutlet private weak var title: UILabel!
     @IBOutlet private weak var author: UILabel!

@@ -90,7 +90,7 @@ extension FeedViewController: UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(
                 withIdentifier: CellIdentifier.feedEntry,
                 for: indexPath
-            ) as? RssInfoTableViewCell else {
+            ) as? FeedEntryInfoTableViewCell else {
                 fatalError("Failed to dequeue \(CellIdentifier.feedsList)")
             }
             
