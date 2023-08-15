@@ -86,6 +86,28 @@ extension FeedViewController: UITableViewDataSource {
             ) as? FeedsListTableViewCell else {
                 fatalError("Failed to dequeue \(CellIdentifier.feedsList)")
             }
+            
+            cell.collectionViewController.onDragAndDropStarted = {
+                print("dnd started")
+                self.entriesTable.performBatchUpdates {
+                    self.feedState.isDeleteActive = true
+                    self.entriesTable.insertSections(IndexSet(integer: 1), with: .top)
+                }
+            }
+            cell.collectionViewController.onDragAndDropFinished = {
+                print("dnd finished")
+                self.entriesTable.performBatchUpdates {
+                    self.feedState.isDeleteActive = false
+                    self.entriesTable.deleteSections(IndexSet(integer: 1), with: .top)
+                }
+            }
+            
+            cell.collectionViewController.plusButtonUIAction = UIAction { _ in
+                let addFeedViewController = AddFeedViewController()
+                addFeedViewController.sheetPresentationController?.detents = [.medium()]
+                self.present(addFeedViewController, animated: true)
+            }
+            
             return cell
             
         case .trashIcon:

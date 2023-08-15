@@ -47,6 +47,10 @@ class FeedsListViewController: UIViewController {
         }
     }
     
+    var onDragAndDropStarted: () -> Void = {}
+    var onDragAndDropFinished: () -> Void = {}
+    var plusButtonUIAction = UIAction { _ in }
+    
 }
 
 extension FeedsListViewController: UICollectionViewDataSource {
@@ -80,7 +84,6 @@ extension FeedsListViewController: UICollectionViewDataSource {
         }
         
         switch section {
-        #warning("Add action for Plus Button in FeedsList.")
         case .plusButton:
             guard let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: CellIdentifier.plusButton,
@@ -88,6 +91,7 @@ extension FeedsListViewController: UICollectionViewDataSource {
             ) as? AddFeedCollectionViewCell else {
                 fatalError("Failed to dequeue (\(CellIdentifier.plusButton)).")
             }
+            cell.plusButton.addAction(plusButtonUIAction, for: .touchUpInside)
             return cell
             
         case .feeds:
@@ -217,6 +221,14 @@ extension FeedsListViewController: UICollectionViewDragDelegate {
             return [item]
         }
         
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, dragSessionWillBegin session: UIDragSession) {
+        onDragAndDropStarted()
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, dragSessionDidEnd session: UIDragSession) {
+        onDragAndDropFinished()
     }
     
 }

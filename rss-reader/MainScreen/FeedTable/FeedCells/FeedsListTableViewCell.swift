@@ -9,7 +9,7 @@ import UIKit
 
 class FeedsListTableViewCell: UITableViewCell {
     
-    private let collectionViewController = FeedsListViewController()
+    let collectionViewController = FeedsListViewController()
     
     override func awakeFromNib() {
         super.awakeFromNib()
