@@ -7,10 +7,11 @@
 
 import Foundation
 
-#warning("Create cache.")
 struct FeedURLDatabase {
     
     typealias StringWithUrl = (name: String, url: URL)
+    
+    private static var cache: [StringWithUrl]? = nil
     
     private enum UserDefaultsAccessKey {
         static let names = "names"
@@ -19,6 +20,10 @@ struct FeedURLDatabase {
     
     static var array: [StringWithUrl] {
         get {
+            if let cache {
+                return cache
+            }
+            
             guard
                 let nameArray = UserDefaults.standard.value(forKey: UserDefaultsAccessKey.names) as? [String],
                 let urlArray = UserDefaults.standard.value(forKey: UserDefaultsAccessKey.urls) as? [String]
@@ -30,9 +35,13 @@ struct FeedURLDatabase {
             for index in nameArray.indices {
                 result.append((nameArray[index], URL(string: urlArray[index])!))
             }
+            
+            cache = result
             return result
         }
         set {
+            cache = newValue
+            
             var nameArray: [String] = .init(repeating: "", count: newValue.count)
             var urlArray: [String] = .init(repeating: "", count: newValue.count)
             for index in newValue.indices {

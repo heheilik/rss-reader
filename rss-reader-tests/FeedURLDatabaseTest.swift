@@ -16,6 +16,7 @@ final class FeedURLDatabaseTest: XCTestCase {
     ]
     
     func testArrayProperty() throws {
+        FeedURLDatabase.array = []
         FeedURLDatabase.array = testArray
         XCTAssert(testArray.elementsEqual(FeedURLDatabase.array, by: ==))
     }
