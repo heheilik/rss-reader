@@ -7,6 +7,7 @@
 
 import UIKit
 
+#warning("Create cache for FeedURLDatabase.")
 class FeedsListViewModel {
     
     var feedsCount: Int {

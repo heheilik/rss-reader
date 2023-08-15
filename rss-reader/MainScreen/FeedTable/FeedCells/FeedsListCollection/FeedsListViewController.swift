@@ -99,8 +99,6 @@ extension FeedsListViewController: UICollectionViewDataSource {
             }
             
             cell.updateContentsWith(viewModel.feedNameFor(row: indexPath.row))
-            cell.isSelected = false
-            #warning("Rewrite selection behaviour.")
             return cell
         }
     }
@@ -150,9 +148,19 @@ extension FeedsListViewController: UICollectionViewDelegateFlowLayout {
         }
         switch section {
         case .plusButton:
-            return UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 0)
+            return UIEdgeInsets(
+                top: 0,
+                left: 8,
+                bottom: 0,
+                right: 0
+            )
         case .feeds:
-            return UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8)
+            return UIEdgeInsets(
+                top: 0,
+                left: 8,
+                bottom: 0,
+                right: 8
+            )
         }
     }
     

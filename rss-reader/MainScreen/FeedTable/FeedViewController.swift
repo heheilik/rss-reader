@@ -21,8 +21,10 @@ class FeedViewController: UIViewController {
 
     enum CellIdentifier {
         static let feedsList = "FeedsListTableViewCell"
+        static let trashIcon = "TrashIconTableViewCell"
         static let feedEntry = "RssInfoTableViewCell"
     }
+    
     
     
     override func viewDidLoad() {
@@ -32,6 +34,10 @@ class FeedViewController: UIViewController {
         entriesTable.register(
             UINib(nibName: CellIdentifier.feedsList, bundle: nil),
             forCellReuseIdentifier: CellIdentifier.feedsList
+        )
+        entriesTable.register(
+            UINib(nibName: CellIdentifier.trashIcon, bundle: nil),
+            forCellReuseIdentifier: CellIdentifier.trashIcon
         )
         entriesTable.register(
             UINib(nibName: CellIdentifier.feedEntry, bundle: nil),
@@ -59,7 +65,7 @@ extension FeedViewController: UITableViewDataSource {
         case .feedsList:
             return 1
         case .trashIcon:
-            return 0
+            return 1
         case .feedEntries:
             return 0  // TODO: use DataSource here
         }
@@ -84,14 +90,20 @@ extension FeedViewController: UITableViewDataSource {
             return cell
             
         case .trashIcon:
-            fatalError("TrashIcon isn't implemented.")
+            guard let cell = tableView.dequeueReusableCell(
+                withIdentifier: CellIdentifier.trashIcon,
+                for: indexPath
+            ) as? TrashIconTableViewCell else {
+                fatalError("Failed to dequeue \(CellIdentifier.trashIcon)")
+            }
+            return cell
             
         case .feedEntries:
             guard let cell = tableView.dequeueReusableCell(
                 withIdentifier: CellIdentifier.feedEntry,
                 for: indexPath
             ) as? FeedEntryInfoTableViewCell else {
-                fatalError("Failed to dequeue \(CellIdentifier.feedsList)")
+                fatalError("Failed to dequeue \(CellIdentifier.feedEntry)")
             }
             
             let emptyEntry = Entry(
@@ -110,14 +122,19 @@ extension FeedViewController: UITableViewDataSource {
 }
 
 extension FeedViewController: UITableViewDelegate {
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         guard let section = SectionIndex.init(rawValue: indexPath.section) else {
             fatalError("Section is invalid.")
         }
-        if section == .feedsList {
-            return 64
-        } else {
-            return 0
+        switch section {
+        case .feedsList:
+            return TableSizeConstant.feedsListHeight + TableSizeConstant.sectionBottomInset
+        case .trashIcon:
+            return TableSizeConstant.trashIconHeight + TableSizeConstant.sectionBottomInset
+        case .feedEntries:
+            return 0  // TODO: make dynamic
         }
     }
+    
 }

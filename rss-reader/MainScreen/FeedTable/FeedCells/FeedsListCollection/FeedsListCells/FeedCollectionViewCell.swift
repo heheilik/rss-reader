@@ -15,14 +15,21 @@ class FeedCollectionViewCell: UICollectionViewCell {
         title.text = text.trimmingCharacters(in: .whitespacesAndNewlines)
     }
     
+    override func awakeFromNib() {
+        contentView.layer.borderColor = CellAppearance.cellColor.cgColor
+        contentView.layer.borderWidth = CellAppearance.borderWidth
+        contentView.layer.cornerRadius = CellAppearance.cornerRadius
+        title.textColor = CellAppearance.cellColor
+    }
+    
     override var isSelected: Bool {
         didSet {
             if isSelected {
-                contentView.layer.borderColor = UIColor.systemGray.cgColor
-                title.textColor = UIColor.systemGray
+                contentView.layer.borderColor = CellAppearance.cellColorSelected.cgColor
+                title.textColor = CellAppearance.cellColorSelected
             } else {
-                contentView.layer.borderColor = UIColor.systemBlue.cgColor
-                title.textColor = UIColor.systemBlue
+                contentView.layer.borderColor = CellAppearance.cellColor.cgColor
+                title.textColor = CellAppearance.cellColor
             }
         }
     }

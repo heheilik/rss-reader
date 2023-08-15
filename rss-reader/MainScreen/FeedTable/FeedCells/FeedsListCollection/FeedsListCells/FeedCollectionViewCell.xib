@@ -30,14 +30,6 @@
                     <constraint firstAttribute="trailing" secondItem="mPj-Ik-N0C" secondAttribute="trailing" id="VsA-d0-f4x"/>
                     <constraint firstItem="mPj-Ik-N0C" firstAttribute="centerY" secondItem="rIc-Y3-dzl" secondAttribute="centerY" id="gT9-go-v3x"/>
                 </constraints>
-                <userDefinedRuntimeAttributes>
-                    <userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth">
-                        <integer key="value" value="3"/>
-                    </userDefinedRuntimeAttribute>
-                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                        <integer key="value" value="5"/>
-                    </userDefinedRuntimeAttribute>
-                </userDefinedRuntimeAttributes>
             </collectionViewCellContentView>
             <size key="customSize" width="220" height="167"/>
             <connections>
