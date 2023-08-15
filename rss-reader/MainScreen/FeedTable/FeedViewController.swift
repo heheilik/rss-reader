@@ -10,22 +10,15 @@ import UIKit
 class FeedViewController: UIViewController {
     
     private var viewModel = FeedViewModel()
+    private var feedState = FeedScreenState()
     
     @IBOutlet weak var entriesTable: UITableView!
-    
-    enum SectionIndex: Int {
-        case feedsList = 0
-        case trashIcon
-        case feedEntries
-    }
 
     enum CellIdentifier {
         static let feedsList = "FeedsListTableViewCell"
         static let trashIcon = "TrashIconTableViewCell"
         static let feedEntry = "RssInfoTableViewCell"
     }
-    
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,14 +43,17 @@ class FeedViewController: UIViewController {
 extension FeedViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        2
+        feedState.numberOfSections
     }
     
     func tableView(
         _ tableView: UITableView,
         numberOfRowsInSection section: Int
     ) -> Int {
-        guard let section = SectionIndex.init(rawValue: section) else {
+        guard let section = FeedScreenState.TableSection(
+            index: section,
+            isDeleteActive: feedState.isDeleteActive
+        ) else {
             fatalError("Section \(section) is invalid.")
         }
         
@@ -75,8 +71,11 @@ extension FeedViewController: UITableViewDataSource {
         _ tableView: UITableView,
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
-        guard let section = SectionIndex.init(rawValue: indexPath.section) else {
-            fatalError("Section is invalid.")
+        guard let section = FeedScreenState.TableSection(
+            index: indexPath.section,
+            isDeleteActive: feedState.isDeleteActive
+        ) else {
+            fatalError("Section \(indexPath.section) is invalid.")
         }
         
         switch section {
@@ -124,9 +123,13 @@ extension FeedViewController: UITableViewDataSource {
 extension FeedViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        guard let section = SectionIndex.init(rawValue: indexPath.section) else {
-            fatalError("Section is invalid.")
+        guard let section = FeedScreenState.TableSection(
+            index: indexPath.section,
+            isDeleteActive: feedState.isDeleteActive
+        ) else {
+            fatalError("Section \(indexPath.section) is invalid.")
         }
+        
         switch section {
         case .feedsList:
             return TableSizeConstant.feedsListHeight + TableSizeConstant.sectionBottomInset
