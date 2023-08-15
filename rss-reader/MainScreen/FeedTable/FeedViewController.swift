@@ -105,6 +105,9 @@ extension FeedViewController: UITableViewDataSource {
             cell.collectionViewController.plusButtonUIAction = UIAction { _ in
                 let addFeedViewController = AddFeedViewController()
                 addFeedViewController.sheetPresentationController?.detents = [.medium()]
+                addFeedViewController.saveDataCallback = { name, url in
+                    self.viewModel.addNewFeed(name: name, url: url)
+                }
                 self.present(addFeedViewController, animated: true)
             }
             

@@ -20,7 +20,6 @@
 		5D58835C2A885D7C008DD2EE /* FeedsListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D58835A2A885D7B008DD2EE /* FeedsListTableViewCell.xib */; };
 		5D5AE97D2A870C1F00A8FD96 /* FeedURLDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D84B65C2A7943220019266D /* FeedURLDatabase.swift */; };
 		5D5C83E12A86F10400BB197D /* FeedURLDatabaseTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D5C83E02A86F10400BB197D /* FeedURLDatabaseTest.swift */; };
-		5D5F13FE2A88909C000F39AB /* AddFeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D5F13FD2A88909B000F39AB /* AddFeedViewModel.swift */; };
 		5D5F40882A8852C400F84327 /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D5F40872A8852C400F84327 /* FeedViewModel.swift */; };
 		5D84B6482A78363C0019266D /* AddFeedCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D84B6472A78363C0019266D /* AddFeedCollectionViewCell.xib */; };
 		5D84B64A2A7836910019266D /* AddFeedCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D84B6492A7836910019266D /* AddFeedCollectionViewCell.swift */; };
@@ -63,7 +62,6 @@
 		5D5883592A885D7B008DD2EE /* FeedsListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedsListTableViewCell.swift; sourceTree = "<group>"; };
 		5D58835A2A885D7B008DD2EE /* FeedsListTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FeedsListTableViewCell.xib; sourceTree = "<group>"; };
 		5D5C83E02A86F10400BB197D /* FeedURLDatabaseTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedURLDatabaseTest.swift; sourceTree = "<group>"; };
-		5D5F13FD2A88909B000F39AB /* AddFeedViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddFeedViewModel.swift; sourceTree = "<group>"; };
 		5D5F40872A8852C400F84327 /* FeedViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedViewModel.swift; sourceTree = "<group>"; };
 		5D84B6472A78363C0019266D /* AddFeedCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddFeedCollectionViewCell.xib; sourceTree = "<group>"; };
 		5D84B6492A7836910019266D /* AddFeedCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFeedCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -168,7 +166,6 @@
 			children = (
 				5D1B95672A7F2C0100AA63ED /* AddFeedViewController.swift */,
 				5D1B95652A7F2BFA00AA63ED /* AddFeedViewController.xib */,
-				5D5F13FD2A88909B000F39AB /* AddFeedViewModel.swift */,
 			);
 			path = AddFeed;
 			sourceTree = "<group>";
@@ -349,7 +346,6 @@
 				5D9C335D2A72C47F00CDFFD5 /* Parser.swift in Sources */,
 				5D58835B2A885D7C008DD2EE /* FeedsListTableViewCell.swift in Sources */,
 				5D84B64E2A78392F0019266D /* FeedCollectionViewCell.swift in Sources */,
-				5D5F13FE2A88909C000F39AB /* AddFeedViewModel.swift in Sources */,
 				5D84B65D2A7943220019266D /* FeedURLDatabase.swift in Sources */,
 				5D4C15AD2A885C5C00FA1565 /* FeedsListViewModel.swift in Sources */,
 				5D992EC32A3D39250007EC2C /* SceneDelegate.swift in Sources */,

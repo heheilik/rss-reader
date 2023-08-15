@@ -7,20 +7,21 @@
 
 import Foundation
 
+#warning("Create cache.")
 struct FeedURLDatabase {
     
     typealias StringWithUrl = (name: String, url: URL)
     
-    private enum UserDefaultsAccessKey: String {
-        case names
-        case urls
+    private enum UserDefaultsAccessKey {
+        static let names = "names"
+        static let urls = "urls"
     }
     
     static var array: [StringWithUrl] {
         get {
             guard
-                let nameArray = UserDefaults.standard.value(forKey: UserDefaultsAccessKey.names.rawValue) as? [String],
-                let urlArray = UserDefaults.standard.value(forKey: UserDefaultsAccessKey.urls.rawValue) as? [String]
+                let nameArray = UserDefaults.standard.value(forKey: UserDefaultsAccessKey.names) as? [String],
+                let urlArray = UserDefaults.standard.value(forKey: UserDefaultsAccessKey.urls) as? [String]
             else {
                 return []
             }
@@ -39,8 +40,8 @@ struct FeedURLDatabase {
                 urlArray[index] = newValue[index].url.absoluteString
             }
             
-            UserDefaults.standard.setValue(nameArray, forKey: UserDefaultsAccessKey.names.rawValue)
-            UserDefaults.standard.setValue(urlArray, forKey: UserDefaultsAccessKey.urls.rawValue)
+            UserDefaults.standard.setValue(nameArray, forKey: UserDefaultsAccessKey.names)
+            UserDefaults.standard.setValue(urlArray, forKey: UserDefaultsAccessKey.urls)
         }
     }
 

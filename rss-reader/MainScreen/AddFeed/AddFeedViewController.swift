@@ -19,7 +19,7 @@ class AddFeedViewController: UIViewController {
     }
     
     @IBAction func saveButtonTouchUpInside(_ sender: Any) {
-        let data: FieldsData
+        let data: (name: String, url: URL)
         do {
             data = try retrieveDataFromFields()
         } catch let error as DataFieldError {
@@ -36,8 +36,6 @@ class AddFeedViewController: UIViewController {
         dismiss(animated: true)
     }
     
-    
-    private typealias FieldsData = (name: String, url: URL)
                     
     private enum DataFieldError: Error {
         case emptyName

@@ -16,4 +16,9 @@ class FeedViewModel {
         feed = .init(repeating: nil, count: FeedURLDatabase.array.count)
     }
     
+    func addNewFeed(name: String, url: URL) {
+        FeedURLDatabase.array.append((name, url))
+        feed.append(nil)
+    }
+    
 }
