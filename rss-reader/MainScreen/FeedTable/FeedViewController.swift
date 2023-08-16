@@ -201,7 +201,15 @@ extension FeedViewController: UITableViewDelegate {
         case .startScreen:
             fallthrough
         case .loadingScreen:
-            return tableView.bounds.height - TableSizeConstant.feedsListHeight - TableSizeConstant.sectionBottomInset
+            if feedState.isDeleteActive {
+                return tableView.bounds.height
+                - TableSizeConstant.feedsListHeight
+                - TableSizeConstant.sectionBottomInset
+                - TableSizeConstant.trashIconHeight
+                - TableSizeConstant.sectionBottomInset
+            } else {
+                return tableView.bounds.height - TableSizeConstant.feedsListHeight - TableSizeConstant.sectionBottomInset
+            }
         case .feedEntries:
             return 0  // TODO: make dynamic
         }
