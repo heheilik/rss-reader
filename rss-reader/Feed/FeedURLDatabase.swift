@@ -9,16 +9,14 @@ import Foundation
 
 struct FeedURLDatabase {
     
-    typealias StringWithUrl = (name: String, url: URL)
-    
-    private static var cache: [StringWithUrl]? = nil
+    private static var cache: [FeedSource]? = nil
     
     private enum UserDefaultsAccessKey {
         static let names = "names"
         static let urls = "urls"
     }
     
-    static var array: [StringWithUrl] {
+    static var array: [FeedSource] {
         get {
             if let cache {
                 return cache
@@ -31,9 +29,12 @@ struct FeedURLDatabase {
                 return []
             }
             
-            var result = [StringWithUrl]()
+            var result = [FeedSource]()
             for index in nameArray.indices {
-                result.append((nameArray[index], URL(string: urlArray[index])!))
+                result.append(FeedSource(
+                    name: nameArray[index],
+                    url: URL(string: urlArray[index])!
+                ))
             }
             
             cache = result

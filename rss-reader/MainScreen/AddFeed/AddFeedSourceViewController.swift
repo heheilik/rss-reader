@@ -1,5 +1,5 @@
 //
-//  AddFeedViewController.swift
+//  AddFeedSourceViewController.swift
 //  rss-reader
 //
 //  Created by Heorhi Heilik on 6.08.23.
@@ -7,9 +7,9 @@
 
 import UIKit
 
-class AddFeedViewController: UIViewController {
+class AddFeedSourceViewController: UIViewController {
     
-    var saveDataCallback: ((String, URL) -> Void)?
+    var saveDataCallback: ((FeedSource) -> Void)?
     
     @IBOutlet weak var nameField: UITextField!
     @IBOutlet weak var urlField: UITextField!
@@ -19,9 +19,9 @@ class AddFeedViewController: UIViewController {
     }
     
     @IBAction func saveButtonTouchUpInside(_ sender: Any) {
-        let data: (name: String, url: URL)
+        let feedSource: FeedSource
         do {
-            data = try retrieveDataFromFields()
+            feedSource = try retrieveDataFromFields()
         } catch let error as DataFieldError {
             generateAlert(forErrorType: error)
             return
@@ -31,7 +31,7 @@ class AddFeedViewController: UIViewController {
         }
         
         if let callback = saveDataCallback {
-            callback(data.name, data.url)
+            callback(feedSource)
         }
         dismiss(animated: true)
     }
@@ -43,7 +43,7 @@ class AddFeedViewController: UIViewController {
         case incorrectUrl
     }
     
-    private func retrieveDataFromFields() throws -> (name: String, url: URL) {
+    private func retrieveDataFromFields() throws -> FeedSource {
         guard let name = nameField.text, name.count != 0 else {
             throw DataFieldError.emptyName
         }
@@ -59,7 +59,7 @@ class AddFeedViewController: UIViewController {
             throw DataFieldError.incorrectUrl
         }
         
-        return (name, url)
+        return FeedSource(name: name, url: url)
     }
     
     private func generateAlert(forErrorType errorType: DataFieldError) {

@@ -1,5 +1,5 @@
 //
-//  FeedCollectionViewCell.swift
+//  FeedSourceCollectionViewCell.swift
 //  rss-reader
 //
 //  Created by Heorhi Heilik on 31.07.23.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class FeedCollectionViewCell: UICollectionViewCell {
+class FeedSourceCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var title: UILabel!
     

@@ -1,5 +1,5 @@
 //
-//  FeedsListViewController.swift
+//  FeedSourcesListViewController.swift
 //  rss-reader
 //
 //  Created by Heorhi Heilik on 13.08.23.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class FeedsListViewController: UIViewController {
+class FeedSourcesListViewController: UIViewController {
     
     let viewModel = FeedsListViewModel()
     
@@ -19,56 +19,83 @@ class FeedsListViewController: UIViewController {
     }
     
     enum CellIdentifier {
-        static let plusButton = "AddFeedCollectionViewCell"
-        static let feed = "FeedCollectionViewCell"
+        static let plusButton = "AddFeedSourceCollectionViewCell"
+        static let feed = "FeedSourceCollectionViewCell"
     }
     
     override var view: UIView! {
         didSet {
-            collectionView.collectionViewLayout = {
-                let layout = UICollectionViewFlowLayout()
-                layout.scrollDirection = .horizontal
-                return layout
-            }()
-            
-            collectionView.delegate = self
-            collectionView.dataSource = self
-            collectionView.dragDelegate = self
-            collectionView.dropDelegate = self
-            
-            collectionView.register(
-                UINib(nibName: CellIdentifier.plusButton, bundle: nil),
-                forCellWithReuseIdentifier: CellIdentifier.plusButton
-            )
-            collectionView.register(
-                UINib(nibName: CellIdentifier.feed, bundle: nil),
-                forCellWithReuseIdentifier: CellIdentifier.feed
-            )
-            
-            onDeleteDropSucceed = { feedIndex in
-                DispatchQueue.main.async {
-                    self.collectionView.performBatchUpdates {
-                        let indexPath = IndexPath(row: Int(truncating: feedIndex), section: SectionIndex.feeds.rawValue)
-                        self.viewModel.collectionView(
-                            self.collectionView,
-                            deletesItemAt: indexPath
-                        )
-                        self.collectionView.deleteItems(at: [indexPath])
-                    }
-                }
-            }
+            configureCollectionView()
+            setCallbacks()
         }
     }
     
+    func configureCollectionView() {
+        collectionView.collectionViewLayout = {
+            let layout = UICollectionViewFlowLayout()
+            layout.scrollDirection = .horizontal
+            return layout
+        }()
+        
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.dragDelegate = self
+        collectionView.dropDelegate = self
+        
+        collectionView.register(
+            UINib(nibName: CellIdentifier.plusButton, bundle: nil),
+            forCellWithReuseIdentifier: CellIdentifier.plusButton
+        )
+        collectionView.register(
+            UINib(nibName: CellIdentifier.feed, bundle: nil),
+            forCellWithReuseIdentifier: CellIdentifier.feed
+        )
+    }
+    
+    func setCallbacks() {
+        onDeleteDropSucceeded = { feedIndex in
+            DispatchQueue.main.async {
+                self.collectionView.performBatchUpdates {
+                    let indexPath = IndexPath(
+                        row: Int(truncating: feedIndex),
+                        section: SectionIndex.feeds.rawValue
+                    )
+                    self.viewModel.collectionView(
+                        self.collectionView,
+                        willDeleteItemsAt: [indexPath]
+                    )
+                    self.collectionView.deleteItems(at: [indexPath])
+                }
+            }
+        }
+        
+        addFeedSourceCallback = { feedSource in
+            self.collectionView.performBatchUpdates {
+                let indexPath = IndexPath(
+                    row: self.viewModel.feedsCount,
+                    section: SectionIndex.feeds.rawValue
+                )
+                self.viewModel.collectionView(
+                    self.collectionView,
+                    willInsertItem: feedSource,
+                    at: indexPath
+                )
+                self.collectionView.insertItems(at: [indexPath])
+            }
+        }
+        
+    }
+    
+    private var addFeedSourceCallback: (FeedSource) -> Void = { _ in }
+    
     var onDragAndDropStarted: () -> Void = {}
     var onDragAndDropFinished: () -> Void = {}
-    var plusButtonUIAction = UIAction { _ in }
     
-    private(set) var onDeleteDropSucceed: (NSNumber) -> Void = { _ in }
+    private(set) var onDeleteDropSucceeded: (NSNumber) -> Void = { _ in }
     
 }
 
-extension FeedsListViewController: UICollectionViewDataSource {
+extension FeedSourcesListViewController: UICollectionViewDataSource {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         2
@@ -103,9 +130,17 @@ extension FeedsListViewController: UICollectionViewDataSource {
             guard let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: CellIdentifier.plusButton,
                 for: indexPath
-            ) as? AddFeedCollectionViewCell else {
+            ) as? AddFeedSourceCollectionViewCell else {
                 fatalError("Failed to dequeue (\(CellIdentifier.plusButton)).")
             }
+            
+            let plusButtonUIAction = UIAction { _ in
+                let addFeedViewController = AddFeedSourceViewController()
+                addFeedViewController.sheetPresentationController?.detents = [.medium()]
+                addFeedViewController.saveDataCallback = self.addFeedSourceCallback
+                self.present(addFeedViewController, animated: true)
+            }
+            
             cell.plusButton.addAction(plusButtonUIAction, for: .touchUpInside)
             return cell
             
@@ -113,18 +148,18 @@ extension FeedsListViewController: UICollectionViewDataSource {
             guard let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: CellIdentifier.feed,
                 for: indexPath
-            ) as? FeedCollectionViewCell else {
+            ) as? FeedSourceCollectionViewCell else {
                 fatalError("Failed to dequeue (\(CellIdentifier.feed)).")
             }
             
-            cell.updateContentsWith(viewModel.feedNameFor(row: indexPath.row))
+            cell.updateContentsWith(viewModel.feedName(for: indexPath))
             return cell
         }
     }
     
 }
 
-extension FeedsListViewController: UICollectionViewDelegateFlowLayout {
+extension FeedSourcesListViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(
         _ collectionView: UICollectionView,
@@ -210,7 +245,7 @@ extension FeedsListViewController: UICollectionViewDelegateFlowLayout {
     
 }
 
-extension FeedsListViewController: UICollectionViewDragDelegate {
+extension FeedSourcesListViewController: UICollectionViewDragDelegate {
     
     func collectionView(
         _ collectionView: UICollectionView,
@@ -248,7 +283,7 @@ extension FeedsListViewController: UICollectionViewDragDelegate {
     
 }
 
-extension FeedsListViewController: UICollectionViewDropDelegate {
+extension FeedSourcesListViewController: UICollectionViewDropDelegate {
     
     func collectionView(
         _ collectionView: UICollectionView,
@@ -287,7 +322,7 @@ extension FeedsListViewController: UICollectionViewDropDelegate {
             collectionView.performBatchUpdates {
                 viewModel.collectionView(
                     collectionView,
-                    movesItemFrom: sourceIndexPath,
+                    willMoveItemAt: sourceIndexPath,
                     to: destinationIndexPath
                 )
                 collectionView.moveItem(at: sourceIndexPath, to: destinationIndexPath)

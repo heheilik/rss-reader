@@ -9,7 +9,7 @@ import UIKit
 
 class TrashImageDropDelegate: NSObject {
     
-    var onDeleteDropSucceed: (NSNumber) -> Void = { _ in }
+    var onDeleteDropSucceeded: (NSNumber) -> Void = { _ in }
     
 }
 
@@ -39,7 +39,7 @@ extension TrashImageDropDelegate: UIDropInteractionDelegate {
                     This view can accept items only with \(DragDropTypeIdentifier.feedCell) type identifier.
                 """)
             }
-            onDeleteDropSucceed(feedIndex)
+            onDeleteDropSucceeded(feedIndex)
         }
     }
     

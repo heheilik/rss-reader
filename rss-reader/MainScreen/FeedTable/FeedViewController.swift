@@ -15,9 +15,9 @@ class FeedViewController: UIViewController {
     @IBOutlet weak var entriesTable: UITableView!
     
     enum CellIdentifier {
-        static let feedsList = "FeedsListTableViewCell"
+        static let feedsList = "FeedSourcesListTableViewCell"
         static let trashIcon = "TrashIconTableViewCell"
-        static let feedEntry = "RssInfoTableViewCell"
+        static let feedEntry = "FeedEntryInfoTableViewCell"
     }
     
     private let trashImageDropDelegate = TrashImageDropDelegate()
@@ -85,34 +85,10 @@ extension FeedViewController: UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(
                 withIdentifier: CellIdentifier.feedsList,
                 for: indexPath
-            ) as? FeedsListTableViewCell else {
+            ) as? FeedSourcesListTableViewCell else {
                 fatalError("Failed to dequeue \(CellIdentifier.feedsList)")
             }
-            
-            cell.collectionViewController.onDragAndDropStarted = {
-                self.entriesTable.performBatchUpdates {
-                    self.feedState.isDeleteActive = true
-                    self.entriesTable.insertSections(IndexSet(integer: 1), with: .top)
-                }
-            }
-            cell.collectionViewController.onDragAndDropFinished = {
-                self.entriesTable.performBatchUpdates {
-                    self.feedState.isDeleteActive = false
-                    self.entriesTable.deleteSections(IndexSet(integer: 1), with: .top)
-                }
-            }
-            trashImageDropDelegate.onDeleteDropSucceed = cell.collectionViewController.onDeleteDropSucceed
-            
-            cell.collectionViewController.plusButtonUIAction = UIAction { _ in
-                let addFeedViewController = AddFeedViewController()
-                addFeedViewController.sheetPresentationController?.detents = [.medium()]
-                addFeedViewController.saveDataCallback = { name, url in
-                    self.viewModel.addNewFeed(name: name, url: url)
-                }
-                self.present(addFeedViewController, animated: true)
-            }
-            
-            return cell
+            return configureFeedsListCell(cell)
             
         case .trashIcon:
             guard let cell = tableView.dequeueReusableCell(
@@ -121,8 +97,7 @@ extension FeedViewController: UITableViewDataSource {
             ) as? TrashIconTableViewCell else {
                 fatalError("Failed to dequeue \(CellIdentifier.trashIcon)")
             }
-            cell.trashImageDropDelegate = trashImageDropDelegate
-            return cell
+            return configureTrashIconCell(cell)
             
         case .feedEntries:
             guard let cell = tableView.dequeueReusableCell(
@@ -131,18 +106,44 @@ extension FeedViewController: UITableViewDataSource {
             ) as? FeedEntryInfoTableViewCell else {
                 fatalError("Failed to dequeue \(CellIdentifier.feedEntry)")
             }
-            
-            let emptyEntry = Entry(
-                title: "No data available.",
-                author: "-",
-                updated: "-",
-                id: "-",
-                content: ""
-            )
-            cell.updateContentsWith(emptyEntry)
-            return cell
+            return configureFeedEntryCell(cell)
         }
         
+    }
+    
+    func configureFeedsListCell(_ cell: FeedSourcesListTableViewCell) -> FeedSourcesListTableViewCell {
+        cell.viewController.onDragAndDropStarted = {
+            self.entriesTable.performBatchUpdates {
+                self.feedState.isDeleteActive = true
+                self.entriesTable.insertSections(IndexSet(integer: 1), with: .top)
+            }
+        }
+        cell.viewController.onDragAndDropFinished = {
+            self.entriesTable.performBatchUpdates {
+                self.feedState.isDeleteActive = false
+                self.entriesTable.deleteSections(IndexSet(integer: 1), with: .top)
+            }
+        }
+        trashImageDropDelegate.onDeleteDropSucceeded = cell.viewController.onDeleteDropSucceeded
+        
+        return cell
+    }
+    
+    func configureTrashIconCell(_ cell: TrashIconTableViewCell) -> TrashIconTableViewCell {
+        cell.trashImageDropDelegate = trashImageDropDelegate
+        return cell
+    }
+    
+    func configureFeedEntryCell(_ cell: FeedEntryInfoTableViewCell) -> FeedEntryInfoTableViewCell {
+        let emptyEntry = Entry(
+            title: "No data available.",
+            author: "-",
+            updated: "-",
+            id: "-",
+            content: ""
+        )
+        cell.updateContentsWith(emptyEntry)
+        return cell
     }
     
 }

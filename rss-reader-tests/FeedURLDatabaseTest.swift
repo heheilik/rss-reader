@@ -10,9 +10,9 @@ import XCTest
 final class FeedURLDatabaseTest: XCTestCase {
     
     let testArray = [
-        ("Swift Feed", URL(string: "https://www.swift.org/atom.xml")!),
-        ("YouTube", URL(string: "https://www.youtube.com")!),
-        ("Google", URL(string: "https://www.google.com")!)
+        FeedSource(name: "Swift Feed", url: URL(string: "https://www.swift.org/atom.xml")!),
+        FeedSource(name: "YouTube", url: URL(string: "https://www.youtube.com")!),
+        FeedSource(name: "Google", url: URL(string: "https://www.google.com")!)
     ]
     
     func testArrayProperty() throws {
