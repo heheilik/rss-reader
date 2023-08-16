@@ -17,6 +17,7 @@ class FeedsListTableViewCell: UITableViewCell {
             nibName: "FeedsListViewController",
             bundle: nil
         ).instantiate(withOwner: collectionViewController)
+        #warning("Check necessity.")
         contentView.addSubview(collectionViewController.view)
     }
     

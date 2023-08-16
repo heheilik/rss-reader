@@ -13,12 +13,14 @@ class FeedViewController: UIViewController {
     private var feedState = FeedScreenState()
     
     @IBOutlet weak var entriesTable: UITableView!
-
+    
     enum CellIdentifier {
         static let feedsList = "FeedsListTableViewCell"
         static let trashIcon = "TrashIconTableViewCell"
         static let feedEntry = "RssInfoTableViewCell"
     }
+    
+    private let trashImageDropDelegate = TrashImageDropDelegate()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -88,19 +90,18 @@ extension FeedViewController: UITableViewDataSource {
             }
             
             cell.collectionViewController.onDragAndDropStarted = {
-                print("dnd started")
                 self.entriesTable.performBatchUpdates {
                     self.feedState.isDeleteActive = true
                     self.entriesTable.insertSections(IndexSet(integer: 1), with: .top)
                 }
             }
             cell.collectionViewController.onDragAndDropFinished = {
-                print("dnd finished")
                 self.entriesTable.performBatchUpdates {
                     self.feedState.isDeleteActive = false
                     self.entriesTable.deleteSections(IndexSet(integer: 1), with: .top)
                 }
             }
+            trashImageDropDelegate.onDeleteDropSucceed = cell.collectionViewController.onDeleteDropSucceed
             
             cell.collectionViewController.plusButtonUIAction = UIAction { _ in
                 let addFeedViewController = AddFeedViewController()
@@ -120,6 +121,7 @@ extension FeedViewController: UITableViewDataSource {
             ) as? TrashIconTableViewCell else {
                 fatalError("Failed to dequeue \(CellIdentifier.trashIcon)")
             }
+            cell.trashImageDropDelegate = trashImageDropDelegate
             return cell
             
         case .feedEntries:

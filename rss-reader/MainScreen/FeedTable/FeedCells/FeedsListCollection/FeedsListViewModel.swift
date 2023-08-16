@@ -17,6 +17,9 @@ class FeedsListViewModel {
         return FeedURLDatabase.array[row].name
     }
     
+    
+    // MARK: - DragDrop operations
+    
     func collectionView(
         _ collectionView: UICollectionView,
         movesItemFrom source: IndexPath,
@@ -24,6 +27,14 @@ class FeedsListViewModel {
     ) {
         let element = FeedURLDatabase.array.remove(at: source.row)
         FeedURLDatabase.array.insert(element, at: destination.row)
+    }
+    
+    func collectionView(
+        _ collectionView: UICollectionView,
+        deletesItemAt indexPath: IndexPath
+    ) {
+        FeedURLDatabase.array.remove(at: indexPath.row)
+        #warning("set update for FeedViewModel")
     }
     
 }

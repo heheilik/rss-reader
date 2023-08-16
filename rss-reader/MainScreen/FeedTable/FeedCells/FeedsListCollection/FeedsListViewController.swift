@@ -44,12 +44,27 @@ class FeedsListViewController: UIViewController {
                 UINib(nibName: CellIdentifier.feed, bundle: nil),
                 forCellWithReuseIdentifier: CellIdentifier.feed
             )
+            
+            onDeleteDropSucceed = { feedIndex in
+                DispatchQueue.main.async {
+                    self.collectionView.performBatchUpdates {
+                        let indexPath = IndexPath(row: Int(truncating: feedIndex), section: SectionIndex.feeds.rawValue)
+                        self.viewModel.collectionView(
+                            self.collectionView,
+                            deletesItemAt: indexPath
+                        )
+                        self.collectionView.deleteItems(at: [indexPath])
+                    }
+                }
+            }
         }
     }
     
     var onDragAndDropStarted: () -> Void = {}
     var onDragAndDropFinished: () -> Void = {}
     var plusButtonUIAction = UIAction { _ in }
+    
+    private(set) var onDeleteDropSucceed: (NSNumber) -> Void = { _ in }
     
 }
 
@@ -213,7 +228,7 @@ extension FeedsListViewController: UICollectionViewDragDelegate {
             let data = indexPath.row
             let objProvider = NSItemProvider(
                 item: NSNumber(value: data),
-                typeIdentifier: "feedIndex"
+                typeIdentifier: DragDropTypeIdentifier.feedCell
             )
             let item = UIDragItem(itemProvider: objProvider)
             item.localObject = data
@@ -239,7 +254,7 @@ extension FeedsListViewController: UICollectionViewDropDelegate {
         _ collectionView: UICollectionView,
         canHandle session: UIDropSession
     ) -> Bool {
-        session.hasItemsConforming(toTypeIdentifiers: ["feedIndex"])
+        session.hasItemsConforming(toTypeIdentifiers: [DragDropTypeIdentifier.feedCell])
     }
     
     func collectionView(
