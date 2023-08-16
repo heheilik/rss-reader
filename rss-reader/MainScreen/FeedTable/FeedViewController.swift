@@ -230,20 +230,26 @@ extension FeedViewController: UITableViewDelegate {
         case .startScreen:
             fallthrough
         case .loadingScreen:
-            if feedState.isDeleteActive {
-                return tableView.bounds.height
-                - TableSizeConstant.feedsListHeight
-                - TableSizeConstant.sectionBottomInset
-                - TableSizeConstant.trashIconHeight
-                - TableSizeConstant.sectionBottomInset
-            } else {
-                return tableView.bounds.height
-                - TableSizeConstant.feedsListHeight
-                - TableSizeConstant.sectionBottomInset
-            }
+            return tableContentHeight(totalHeight: tableView.bounds.height)
         case .feedEntries:
             return 0  // TODO: make dynamic
         }
+    }
+    
+    func tableContentHeight(totalHeight: CGFloat) -> CGFloat {
+        var result = totalHeight
+        result -= feedsListTotalHeight()
+        if feedState.isDeleteActive {
+            result -= trashIconTotalHeight()
+        }
+        return result
+    }
+    
+    func feedsListTotalHeight() -> CGFloat {
+        TableSizeConstant.feedsListHeight + TableSizeConstant.sectionBottomInset
+    }
+    func trashIconTotalHeight() -> CGFloat {
+        TableSizeConstant.trashIconHeight + TableSizeConstant.sectionBottomInset
     }
     
 }
