@@ -50,6 +50,8 @@ class FeedSourcesListViewController: UIViewController {
             UINib(nibName: CellIdentifier.feed, bundle: nil),
             forCellWithReuseIdentifier: CellIdentifier.feed
         )
+        
+        collectionView.allowsMultipleSelection = true
     }
     
     func setCallbacks() {
@@ -92,6 +94,9 @@ class FeedSourcesListViewController: UIViewController {
     var onDragAndDropFinished: () -> Void = {}
     
     private(set) var onDeleteDropSucceeded: (NSNumber) -> Void = { _ in }
+    
+    var onCellsSelected: ([IndexPath]?) -> Void = { _ in }
+    var onCellsDeselected: ([IndexPath]?) -> Void = { _ in }
     
 }
 
@@ -234,13 +239,19 @@ extension FeedSourcesListViewController: UICollectionViewDelegateFlowLayout {
         case .plusButton:
             return false
         case .feeds:
-            return !(collectionView.indexPathsForSelectedItems?.contains(indexPath) ?? false)
+            return true
         }
     }
     
     #warning("Rewrite item selection actions.")
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("Item selected. \(indexPath)")
+        onCellsSelected(collectionView.indexPathsForSelectedItems)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        print("Item deselected. \(indexPath)")
+        onCellsDeselected(collectionView.indexPathsForSelectedItems)
     }
     
 }

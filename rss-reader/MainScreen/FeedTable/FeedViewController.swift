@@ -160,6 +160,35 @@ extension FeedViewController: UITableViewDataSource {
         }
         trashImageDropDelegate.onDeleteDropSucceeded = cell.viewController.onDeleteDropSucceeded
         
+        cell.viewController.onCellsSelected = { indexPaths in
+            guard let indexPaths, !indexPaths.isEmpty else {
+                return
+            }
+            guard self.feedState.state != .loading else {
+                return
+            }
+            
+            self.entriesTable.performBatchUpdates {
+                self.entriesTable.deleteSections(IndexSet(integer: self.feedState.numberOfSections - 1), with: .fade)
+                self.feedState.state = .loading
+                self.entriesTable.insertSections(IndexSet(integer: self.feedState.numberOfSections - 1), with: .fade)
+            }
+        }
+        cell.viewController.onCellsDeselected = { indexPaths in
+            guard indexPaths == nil || (indexPaths != nil && indexPaths!.isEmpty) else {
+                return
+            }
+            guard self.feedState.state != .start else {
+                return
+            }
+            
+            self.entriesTable.performBatchUpdates {
+                self.entriesTable.deleteSections(IndexSet(integer: self.feedState.numberOfSections - 1), with: .fade)
+                self.feedState.state = .start
+                self.entriesTable.insertSections(IndexSet(integer: self.feedState.numberOfSections - 1), with: .fade)
+            }
+        }
+        
         return cell
     }
     
@@ -208,7 +237,9 @@ extension FeedViewController: UITableViewDelegate {
                 - TableSizeConstant.trashIconHeight
                 - TableSizeConstant.sectionBottomInset
             } else {
-                return tableView.bounds.height - TableSizeConstant.feedsListHeight - TableSizeConstant.sectionBottomInset
+                return tableView.bounds.height
+                - TableSizeConstant.feedsListHeight
+                - TableSizeConstant.sectionBottomInset
             }
         case .feedEntries:
             return 0  // TODO: make dynamic
