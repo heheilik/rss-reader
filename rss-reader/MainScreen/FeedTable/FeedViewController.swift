@@ -17,6 +17,8 @@ class FeedViewController: UIViewController {
     enum CellIdentifier {
         static let feedsList = "FeedSourcesListTableViewCell"
         static let trashIcon = "TrashIconTableViewCell"
+        static let startScreen = "StartTableViewCell"
+        static let loadingScreen = "LoadingTableViewCell"
         static let feedEntry = "FeedEntryInfoTableViewCell"
     }
     
@@ -33,6 +35,14 @@ class FeedViewController: UIViewController {
         entriesTable.register(
             UINib(nibName: CellIdentifier.trashIcon, bundle: nil),
             forCellReuseIdentifier: CellIdentifier.trashIcon
+        )
+        entriesTable.register(
+            UINib(nibName: CellIdentifier.startScreen, bundle: nil),
+            forCellReuseIdentifier: CellIdentifier.startScreen
+        )
+        entriesTable.register(
+            UINib(nibName: CellIdentifier.loadingScreen, bundle: nil),
+            forCellReuseIdentifier: CellIdentifier.loadingScreen
         )
         entriesTable.register(
             UINib(nibName: CellIdentifier.feedEntry, bundle: nil),
@@ -54,6 +64,7 @@ extension FeedViewController: UITableViewDataSource {
     ) -> Int {
         guard let section = FeedScreenState.TableSection(
             index: section,
+            state: feedState.state,
             isDeleteActive: feedState.isDeleteActive
         ) else {
             fatalError("Section \(section) is invalid.")
@@ -63,6 +74,10 @@ extension FeedViewController: UITableViewDataSource {
         case .feedsList:
             return 1
         case .trashIcon:
+            return 1
+        case .startScreen:
+            return 1
+        case .loadingScreen:
             return 1
         case .feedEntries:
             return 0  // TODO: use DataSource here
@@ -75,6 +90,7 @@ extension FeedViewController: UITableViewDataSource {
     ) -> UITableViewCell {
         guard let section = FeedScreenState.TableSection(
             index: indexPath.section,
+            state: feedState.state,
             isDeleteActive: feedState.isDeleteActive
         ) else {
             fatalError("Section \(indexPath.section) is invalid.")
@@ -98,6 +114,24 @@ extension FeedViewController: UITableViewDataSource {
                 fatalError("Failed to dequeue \(CellIdentifier.trashIcon)")
             }
             return configureTrashIconCell(cell)
+            
+        case .startScreen:
+            guard let cell = tableView.dequeueReusableCell(
+                withIdentifier: CellIdentifier.startScreen,
+                for: indexPath
+            ) as? StartTableViewCell else {
+                fatalError("Failed to dequeue \(CellIdentifier.startScreen)")
+            }
+            return cell
+            
+        case .loadingScreen:
+            guard let cell = tableView.dequeueReusableCell(
+                withIdentifier: CellIdentifier.loadingScreen,
+                for: indexPath
+            ) as? LoadingTableViewCell else {
+                fatalError("Failed to dequeue \(CellIdentifier.loadingScreen)")
+            }
+            return cell
             
         case .feedEntries:
             guard let cell = tableView.dequeueReusableCell(
@@ -153,6 +187,7 @@ extension FeedViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         guard let section = FeedScreenState.TableSection(
             index: indexPath.section,
+            state: feedState.state,
             isDeleteActive: feedState.isDeleteActive
         ) else {
             fatalError("Section \(indexPath.section) is invalid.")
@@ -163,6 +198,10 @@ extension FeedViewController: UITableViewDelegate {
             return TableSizeConstant.feedsListHeight + TableSizeConstant.sectionBottomInset
         case .trashIcon:
             return TableSizeConstant.trashIconHeight + TableSizeConstant.sectionBottomInset
+        case .startScreen:
+            fallthrough
+        case .loadingScreen:
+            return tableView.bounds.height - TableSizeConstant.feedsListHeight - TableSizeConstant.sectionBottomInset
         case .feedEntries:
             return 0  // TODO: make dynamic
         }

@@ -26,6 +26,7 @@ class TrashIconTableViewCell: UITableViewCell {
         trashImageBorderView.layer.borderColor = CellAppearance.trashColor.cgColor
         trashImageBorderView.layer.borderWidth = CellAppearance.borderWidth
         trashImageBorderView.layer.cornerRadius = CellAppearance.cornerRadius
+        selectionStyle = .none
     }
     
     override func awakeFromNib() {

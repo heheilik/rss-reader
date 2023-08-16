@@ -23,9 +23,11 @@ struct FeedScreenState {
     enum TableSection {
         case feedsList
         case trashIcon
+        case startScreen
+        case loadingScreen
         case feedEntries
         
-        init?(index: Int, isDeleteActive: Bool) {
+        init?(index: Int, state: State, isDeleteActive: Bool) {
             if isDeleteActive {
                 switch index {
                 case 0:
@@ -33,7 +35,14 @@ struct FeedScreenState {
                 case 1:
                     self = .trashIcon
                 case 2:
-                    self = .feedEntries
+                    switch state {
+                    case .start:
+                        self = .startScreen
+                    case .loading:
+                        self = .loadingScreen
+                    case .showing:
+                        self = .feedEntries
+                    }
                 default:
                     return nil
                 }
@@ -42,7 +51,14 @@ struct FeedScreenState {
                 case 0:
                     self = .feedsList
                 case 1:
-                    self = .feedEntries
+                    switch state {
+                    case .start:
+                        self = .startScreen
+                    case .loading:
+                        self = .loadingScreen
+                    case .showing:
+                        self = .feedEntries
+                    }
                 default:
                     return nil
                 }
