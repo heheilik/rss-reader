@@ -55,18 +55,22 @@ class FeedSourcesListViewController: UIViewController {
     }
     
     func setCallbacks() {
-        onDeleteDropSucceeded = { feedIndex in
+        onDeleteDropSucceeded = { indicesToDelete in
             DispatchQueue.main.async {
                 self.collectionView.performBatchUpdates {
-                    let indexPath = IndexPath(
-                        row: Int(truncating: feedIndex),
-                        section: SectionIndex.feeds.rawValue
-                    )
+                    var indexPathsToDelete: [IndexPath] = []
+                    for index in indicesToDelete {
+                        let indexPath = IndexPath(
+                            row: Int(truncating: index),
+                            section: SectionIndex.feeds.rawValue
+                        )
+                        indexPathsToDelete.append(indexPath)
+                    }
                     self.viewModel.collectionView(
                         self.collectionView,
-                        willDeleteItemsAt: [indexPath]
+                        willDeleteItemsAt: indexPathsToDelete
                     )
-                    self.collectionView.deleteItems(at: [indexPath])
+                    self.collectionView.deleteItems(at: indexPathsToDelete)
                 }
             }
         }
@@ -85,7 +89,6 @@ class FeedSourcesListViewController: UIViewController {
                 self.collectionView.insertItems(at: [indexPath])
             }
         }
-        
     }
     
     private var addFeedSourceCallback: (FeedSource) -> Void = { _ in }
@@ -93,7 +96,7 @@ class FeedSourcesListViewController: UIViewController {
     var onDragAndDropStarted: () -> Void = {}
     var onDragAndDropFinished: () -> Void = {}
     
-    private(set) var onDeleteDropSucceeded: (NSNumber) -> Void = { _ in }
+    private(set) var onDeleteDropSucceeded: ([NSNumber]) -> Void = { _ in }
     
     var onCellsSelected: ([IndexPath]?) -> Void = { _ in }
     var onCellsDeselected: ([IndexPath]?) -> Void = { _ in }
