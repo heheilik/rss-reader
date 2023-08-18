@@ -7,16 +7,16 @@
 
 import UIKit
 
+enum FeedSourcesSectionIndex: Int {
+    case plusButton = 0
+    case feeds = 1
+}
+
 class FeedSourcesListViewController: UIViewController {
     
     let viewModel = FeedsListViewModel()
     
     @IBOutlet weak var collectionView: UICollectionView!
-    
-    enum SectionIndex: Int {
-        case plusButton = 0
-        case feeds = 1
-    }
     
     enum CellIdentifier {
         static let plusButton = "AddFeedSourceCollectionViewCell"
@@ -39,8 +39,6 @@ class FeedSourcesListViewController: UIViewController {
         
         collectionView.delegate = self
         collectionView.dataSource = self
-        collectionView.dragDelegate = self
-        collectionView.dropDelegate = self
         
         collectionView.register(
             UINib(nibName: CellIdentifier.plusButton, bundle: nil),
@@ -55,31 +53,11 @@ class FeedSourcesListViewController: UIViewController {
     }
     
     func setCallbacks() {
-        onDeleteDropSucceeded = { indicesToDelete in
-            DispatchQueue.main.async {
-                self.collectionView.performBatchUpdates {
-                    var indexPathsToDelete: [IndexPath] = []
-                    for index in indicesToDelete {
-                        let indexPath = IndexPath(
-                            row: Int(truncating: index),
-                            section: SectionIndex.feeds.rawValue
-                        )
-                        indexPathsToDelete.append(indexPath)
-                    }
-                    self.viewModel.collectionView(
-                        self.collectionView,
-                        willDeleteItemsAt: indexPathsToDelete
-                    )
-                    self.collectionView.deleteItems(at: indexPathsToDelete)
-                }
-            }
-        }
-        
         addFeedSourceCallback = { feedSource in
             self.collectionView.performBatchUpdates {
                 let indexPath = IndexPath(
                     row: self.viewModel.feedsCount,
-                    section: SectionIndex.feeds.rawValue
+                    section: FeedSourcesSectionIndex.feeds.rawValue
                 )
                 self.viewModel.collectionView(
                     self.collectionView,
@@ -93,17 +71,15 @@ class FeedSourcesListViewController: UIViewController {
     
     private var addFeedSourceCallback: (FeedSource) -> Void = { _ in }
     
-    var onDragAndDropStarted: () -> Void = {}
-    var onDragAndDropFinished: () -> Void = {}
-    
-    private(set) var onDeleteDropSucceeded: ([NSNumber]) -> Void = { _ in }
-    
     var onCellSelectionArrayChanged: ([IndexPath]?) -> Void = { _ in }
     
 }
 
 extension FeedSourcesListViewController: UICollectionViewDataSource {
     
+    // MARK: - Data Source
+    
+    #warning("Create a constant.")
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         2
     }
@@ -112,7 +88,7 @@ extension FeedSourcesListViewController: UICollectionViewDataSource {
         _ collectionView: UICollectionView,
         numberOfItemsInSection section: Int
     ) -> Int {
-        guard let section = SectionIndex.init(rawValue: section) else {
+        guard let section = FeedSourcesSectionIndex.init(rawValue: section) else {
             fatalError("Section \(section) is invalid.")
         }
         
@@ -128,7 +104,7 @@ extension FeedSourcesListViewController: UICollectionViewDataSource {
         _ collectionView: UICollectionView,
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
-        guard let section = SectionIndex.init(rawValue: indexPath.section) else {
+        guard let section = FeedSourcesSectionIndex.init(rawValue: indexPath.section) else {
             fatalError("Section \(indexPath.section) is invalid.")
         }
         
@@ -168,6 +144,8 @@ extension FeedSourcesListViewController: UICollectionViewDataSource {
 
 extension FeedSourcesListViewController: UICollectionViewDelegateFlowLayout {
     
+    // MARK: - Size Calculations
+    
     func collectionView(
         _ collectionView: UICollectionView,
         layout collectionViewLayout: UICollectionViewLayout,
@@ -188,7 +166,7 @@ extension FeedSourcesListViewController: UICollectionViewDelegateFlowLayout {
         
         let plusSize = CGSize(width: contentHeight, height: contentHeight)
         
-        if indexPath.section == SectionIndex.plusButton.rawValue {
+        if indexPath.section == FeedSourcesSectionIndex.plusButton.rawValue {
             return plusSize
         }
         
@@ -204,7 +182,7 @@ extension FeedSourcesListViewController: UICollectionViewDelegateFlowLayout {
         layout collectionViewLayout: UICollectionViewLayout,
         insetForSectionAt section: Int
     ) -> UIEdgeInsets {
-        guard let section = SectionIndex(rawValue: section) else {
+        guard let section = FeedSourcesSectionIndex(rawValue: section) else {
              fatalError("Section \(section) is invalid.")
         }
         switch section {
@@ -233,8 +211,14 @@ extension FeedSourcesListViewController: UICollectionViewDelegateFlowLayout {
         8
     }
     
-    func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        guard let section = SectionIndex(rawValue: indexPath.section) else {
+    
+    // MARK: - Selection
+    
+    func collectionView(
+        _ collectionView: UICollectionView,
+        shouldSelectItemAt indexPath: IndexPath
+    ) -> Bool {
+        guard let section = FeedSourcesSectionIndex(rawValue: indexPath.section) else {
             fatalError("Section \(indexPath.section) is invalid.")
         }
         switch section {
@@ -245,101 +229,60 @@ extension FeedSourcesListViewController: UICollectionViewDelegateFlowLayout {
         }
     }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("Item selected. \(indexPath)")
-        onCellSelectionArrayChanged(collectionView.indexPathsForSelectedItems)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-        print("Item deselected. \(indexPath)")
-        onCellSelectionArrayChanged(collectionView.indexPathsForSelectedItems)
-    }
-    
-}
-
-extension FeedSourcesListViewController: UICollectionViewDragDelegate {
-    
     func collectionView(
         _ collectionView: UICollectionView,
-        itemsForBeginning session: UIDragSession,
-        at indexPath: IndexPath
-    ) -> [UIDragItem] {
-        guard let section = SectionIndex(rawValue: indexPath.section) else {
-            fatalError("Section \(indexPath.section) is invalid.")
-        }
-        
-        switch section {
-        case .plusButton:
-            return []
-        case .feeds:
-            let data = indexPath.row
-            let objProvider = NSItemProvider(
-                item: NSNumber(value: data),
-                typeIdentifier: DragDropTypeIdentifier.feedCell
-            )
-            let item = UIDragItem(itemProvider: objProvider)
-            item.localObject = data
-            
-            return [item]
-        }
-        
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, dragSessionWillBegin session: UIDragSession) {
-        onDragAndDropStarted()
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, dragSessionDidEnd session: UIDragSession) {
-        onDragAndDropFinished()
-    }
-    
-}
-
-extension FeedSourcesListViewController: UICollectionViewDropDelegate {
-    
-    func collectionView(
-        _ collectionView: UICollectionView,
-        canHandle session: UIDropSession
-    ) -> Bool {
-        session.hasItemsConforming(toTypeIdentifiers: [DragDropTypeIdentifier.feedCell])
-    }
-    
-    func collectionView(
-        _ collectionView: UICollectionView,
-        dropSessionDidUpdate session: UIDropSession,
-        withDestinationIndexPath destinationIndexPath: IndexPath?
-    ) -> UICollectionViewDropProposal {
-        let operation: UIDropOperation = {
-            if let destinationIndexPath, destinationIndexPath.section != SectionIndex.plusButton.rawValue {
-                return .move
-            } else {
-                return .forbidden
-            }
-        }()
-        return UICollectionViewDropProposal(operation: operation, intent: .insertAtDestinationIndexPath)
-    }
-    
-    func collectionView(
-        _ collectionView: UICollectionView,
-        performDropWith coordinator: UICollectionViewDropCoordinator
+        didSelectItemAt indexPath: IndexPath
     ) {
-        for item in coordinator.items {
-            guard
-                let sourceIndexPath = item.sourceIndexPath,
-                let destinationIndexPath = coordinator.destinationIndexPath
-            else {
-                continue
-            }
+        onCellSelectionArrayChanged(collectionView.indexPathsForSelectedItems)
+    }
     
-            collectionView.performBatchUpdates {
-                viewModel.collectionView(
-                    collectionView,
-                    willMoveItemAt: sourceIndexPath,
-                    to: destinationIndexPath
+    func collectionView(
+        _ collectionView: UICollectionView,
+        didDeselectItemAt indexPath: IndexPath
+    ) {
+        onCellSelectionArrayChanged(collectionView.indexPathsForSelectedItems)
+    }
+    
+    func collectionView(
+        _ collectionView: UICollectionView,
+        didEndDisplaying cell: UICollectionViewCell,
+        forItemAt indexPath: IndexPath
+    ) {
+        onCellSelectionArrayChanged(collectionView.indexPathsForSelectedItems)
+    }
+    
+}
+
+extension FeedSourcesListViewController: FeedSourcesDragDropResponder {
+    
+    func onItemMoved(from source: IndexPath, to destination: IndexPath) {
+        collectionView.performBatchUpdates {
+            viewModel.collectionView(
+                collectionView,
+                willMoveItemAt: source,
+                to: destination
+            )
+            collectionView.moveItem(at: source, to: destination)
+        }
+    }
+    
+    func onItemsDeleted(withIndices indices: [NSNumber]) {
+        var indexPathsToDelete = [IndexPath]()
+        for index in indices {
+            let indexPath = IndexPath(
+                row: index.intValue,
+                section: FeedSourcesSectionIndex.feeds.rawValue
+            )
+            indexPathsToDelete.append(indexPath)
+        }
+        DispatchQueue.main.async {
+            self.collectionView.performBatchUpdates {
+                self.viewModel.collectionView(
+                    self.collectionView,
+                    willDeleteItemsAt: indexPathsToDelete
                 )
-                collectionView.moveItem(at: sourceIndexPath, to: destinationIndexPath)
+                self.collectionView.deleteItems(at: indexPathsToDelete)
             }
-            coordinator.drop(item.dragItem, toItemAt: destinationIndexPath)
         }
     }
     

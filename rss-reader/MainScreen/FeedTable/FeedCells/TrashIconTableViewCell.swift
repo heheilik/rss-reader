@@ -12,7 +12,7 @@ class TrashIconTableViewCell: UITableViewCell {
     @IBOutlet weak var trashImageView: UIImageView!
     @IBOutlet weak var trashImageBorderView: UIView!
     
-    var trashImageDropDelegate: TrashImageDropDelegate? {
+    var trashImageDropDelegate: FeedDragDropController? {
         didSet {
             trashImageBorderView.interactions = []
             if let trashImageDropDelegate {
@@ -21,16 +21,16 @@ class TrashIconTableViewCell: UITableViewCell {
         }
     }
     
+    override func awakeFromNib() {
+        configureAppearance()
+    }
+    
     private func configureAppearance() {
         trashImageView.tintColor = CellAppearance.trashColor
         trashImageBorderView.layer.borderColor = CellAppearance.trashColor.cgColor
         trashImageBorderView.layer.borderWidth = CellAppearance.borderWidth
         trashImageBorderView.layer.cornerRadius = CellAppearance.cornerRadius
         selectionStyle = .none
-    }
-    
-    override func awakeFromNib() {
-        configureAppearance()
     }
     
 }

@@ -12,6 +12,8 @@ class FeedViewController: UIViewController {
     private var viewModel = FeedViewModel()
     private var feedState = FeedScreenState()
     
+    private var feedDragDropController = FeedDragDropController()
+    
     @IBOutlet weak var entriesTable: UITableView!
     
     enum CellIdentifier {
@@ -21,8 +23,6 @@ class FeedViewController: UIViewController {
         static let loadingScreen = "LoadingTableViewCell"
         static let feedEntry = "FeedEntryInfoTableViewCell"
     }
-    
-    private let trashImageDropDelegate = TrashImageDropDelegate()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,6 +48,8 @@ class FeedViewController: UIViewController {
             UINib(nibName: CellIdentifier.feedEntry, bundle: nil),
             forCellReuseIdentifier: CellIdentifier.feedEntry
         )
+        
+        feedDragDropController.feed = self
     }
     
 }
@@ -146,19 +148,9 @@ extension FeedViewController: UITableViewDataSource {
     }
     
     func configureFeedsListCell(_ cell: FeedSourcesListTableViewCell) -> FeedSourcesListTableViewCell {
-        cell.viewController.onDragAndDropStarted = {
-            self.entriesTable.performBatchUpdates {
-                self.feedState.isDeleteActive = true
-                self.entriesTable.insertSections(IndexSet(integer: 1), with: .top)
-            }
-        }
-        cell.viewController.onDragAndDropFinished = {
-            self.entriesTable.performBatchUpdates {
-                self.feedState.isDeleteActive = false
-                self.entriesTable.deleteSections(IndexSet(integer: 1), with: .top)
-            }
-        }
-        trashImageDropDelegate.onDeleteDropSucceeded = cell.viewController.onDeleteDropSucceeded
+        cell.viewController.collectionView.dragDelegate = feedDragDropController
+        cell.viewController.collectionView.dropDelegate = feedDragDropController
+        feedDragDropController.feedSources = cell.viewController
         
         cell.viewController.onCellSelectionArrayChanged = { indexPaths in
             switch self.feedState.state {
@@ -191,7 +183,7 @@ extension FeedViewController: UITableViewDataSource {
     }
     
     func configureTrashIconCell(_ cell: TrashIconTableViewCell) -> TrashIconTableViewCell {
-        cell.trashImageDropDelegate = trashImageDropDelegate
+        cell.trashImageDropDelegate = feedDragDropController
         return cell
     }
     
@@ -248,6 +240,24 @@ extension FeedViewController: UITableViewDelegate {
     }
     func trashIconTotalHeight() -> CGFloat {
         TableSizeConstant.trashIconHeight + TableSizeConstant.sectionBottomInset
+    }
+    
+}
+
+extension FeedViewController: FeedDragDropResponder {
+    
+    func onDragDropStarted() {
+        entriesTable.performBatchUpdates {
+            self.feedState.isDeleteActive = true
+            self.entriesTable.insertSections(IndexSet(integer: 1), with: .top)
+        }
+    }
+    
+    func onDragDropFinished() {
+        entriesTable.performBatchUpdates {
+            self.feedState.isDeleteActive = false
+            self.entriesTable.deleteSections(IndexSet(integer: 1), with: .top)
+        }
     }
     
 }

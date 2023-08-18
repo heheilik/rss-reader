@@ -20,9 +20,9 @@
 		5D58835C2A885D7C008DD2EE /* FeedSourcesListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D58835A2A885D7B008DD2EE /* FeedSourcesListTableViewCell.xib */; };
 		5D5AE97D2A870C1F00A8FD96 /* FeedURLDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D84B65C2A7943220019266D /* FeedURLDatabase.swift */; };
 		5D5C83E12A86F10400BB197D /* FeedURLDatabaseTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D5C83E02A86F10400BB197D /* FeedURLDatabaseTest.swift */; };
-		5D5F13592A8C644E00094120 /* TrashImageDropDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D5F13582A8C644E00094120 /* TrashImageDropDelegate.swift */; };
 		5D5F135B2A8C91B400094120 /* FeedSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D5F135A2A8C91B400094120 /* FeedSource.swift */; };
 		5D5F40882A8852C400F84327 /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D5F40872A8852C400F84327 /* FeedViewModel.swift */; };
+		5D63C78F2A8FD09B003F051B /* FeedDragDropController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D63C78E2A8FD09B003F051B /* FeedDragDropController.swift */; };
 		5D6D71572A8CBFCB00D1B5F5 /* StartTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D6D71562A8CBFCB00D1B5F5 /* StartTableViewCell.swift */; };
 		5D6D71592A8CBFD300D1B5F5 /* StartTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D6D71582A8CBFD300D1B5F5 /* StartTableViewCell.xib */; };
 		5D6D715B2A8CC05500D1B5F5 /* LoadingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D6D715A2A8CC05500D1B5F5 /* LoadingTableViewCell.swift */; };
@@ -44,7 +44,6 @@
 		5D9B405B2A8856BB00F9724A /* FeedSourcesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D9B405A2A8856BB00F9724A /* FeedSourcesListViewController.swift */; };
 		5D9C335D2A72C47F00CDFFD5 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D9C335C2A72C47F00CDFFD5 /* Parser.swift */; };
 		5DD8603C2A8BBBBD005AF3FB /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DD8603B2A8BBBBD005AF3FB /* Constants.swift */; };
-		5DECE6172A8C574F0016E5E0 /* DragDropTypeIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DECE6162A8C574F0016E5E0 /* DragDropTypeIdentifier.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,9 +69,9 @@
 		5D5883592A885D7B008DD2EE /* FeedSourcesListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedSourcesListTableViewCell.swift; sourceTree = "<group>"; };
 		5D58835A2A885D7B008DD2EE /* FeedSourcesListTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FeedSourcesListTableViewCell.xib; sourceTree = "<group>"; };
 		5D5C83E02A86F10400BB197D /* FeedURLDatabaseTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedURLDatabaseTest.swift; sourceTree = "<group>"; };
-		5D5F13582A8C644E00094120 /* TrashImageDropDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrashImageDropDelegate.swift; sourceTree = "<group>"; };
 		5D5F135A2A8C91B400094120 /* FeedSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedSource.swift; sourceTree = "<group>"; };
 		5D5F40872A8852C400F84327 /* FeedViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedViewModel.swift; sourceTree = "<group>"; };
+		5D63C78E2A8FD09B003F051B /* FeedDragDropController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedDragDropController.swift; sourceTree = "<group>"; };
 		5D6D71562A8CBFCB00D1B5F5 /* StartTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartTableViewCell.swift; sourceTree = "<group>"; };
 		5D6D71582A8CBFD300D1B5F5 /* StartTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StartTableViewCell.xib; sourceTree = "<group>"; };
 		5D6D715A2A8CC05500D1B5F5 /* LoadingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingTableViewCell.swift; sourceTree = "<group>"; };
@@ -95,7 +94,6 @@
 		5D9B405A2A8856BB00F9724A /* FeedSourcesListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedSourcesListViewController.swift; sourceTree = "<group>"; };
 		5D9C335C2A72C47F00CDFFD5 /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
 		5DD8603B2A8BBBBD005AF3FB /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		5DECE6162A8C574F0016E5E0 /* DragDropTypeIdentifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DragDropTypeIdentifier.swift; sourceTree = "<group>"; };
 		5DF852792A86F0A500760527 /* rss-reader-tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "rss-reader-tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -177,7 +175,7 @@
 				5D992ED42A3D398D0007EC2C /* FeedViewController.xib */,
 				5D0811432A8BC755005D5821 /* FeedScreenState.swift */,
 				5D5F40872A8852C400F84327 /* FeedViewModel.swift */,
-				5D5F13582A8C644E00094120 /* TrashImageDropDelegate.swift */,
+				5D63C78E2A8FD09B003F051B /* FeedDragDropController.swift */,
 				5D1B95632A7CEAF400AA63ED /* FeedCells */,
 			);
 			path = FeedTable;
@@ -216,7 +214,6 @@
 				5D992EC02A3D39250007EC2C /* AppDelegate.swift */,
 				5D992EC22A3D39250007EC2C /* SceneDelegate.swift */,
 				5DD8603B2A8BBBBD005AF3FB /* Constants.swift */,
-				5DECE6162A8C574F0016E5E0 /* DragDropTypeIdentifier.swift */,
 				5D9C335F2A74916900CDFFD5 /* MainScreen */,
 				5D30D53B2A6E15CE0003DA1F /* Feed */,
 				5D992EC92A3D39260007EC2C /* Assets.xcassets */,
@@ -360,7 +357,6 @@
 				5D1B95682A7F2C0100AA63ED /* AddFeedSourceViewController.swift in Sources */,
 				5DD8603C2A8BBBBD005AF3FB /* Constants.swift in Sources */,
 				5D992EC52A3D39250007EC2C /* FeedViewController.swift in Sources */,
-				5DECE6172A8C574F0016E5E0 /* DragDropTypeIdentifier.swift in Sources */,
 				5D5F40882A8852C400F84327 /* FeedViewModel.swift in Sources */,
 				5D6D715B2A8CC05500D1B5F5 /* LoadingTableViewCell.swift in Sources */,
 				5D30D53A2A6E158E0003DA1F /* Feed.swift in Sources */,
@@ -375,8 +371,8 @@
 				5D84B65D2A7943220019266D /* FeedURLDatabase.swift in Sources */,
 				5D4C15AD2A885C5C00FA1565 /* FeedSourcesListViewModel.swift in Sources */,
 				5D6D71572A8CBFCB00D1B5F5 /* StartTableViewCell.swift in Sources */,
+				5D63C78F2A8FD09B003F051B /* FeedDragDropController.swift in Sources */,
 				5D992EC32A3D39250007EC2C /* SceneDelegate.swift in Sources */,
-				5D5F13592A8C644E00094120 /* TrashImageDropDelegate.swift in Sources */,
 				5D84B64A2A7836910019266D /* AddFeedSourceCollectionViewCell.swift in Sources */,
 				5D5F135B2A8C91B400094120 /* FeedSource.swift in Sources */,
 				5D8F738D2A573BA600CF541C /* FeedEntryInfoTableViewCell.swift in Sources */,
