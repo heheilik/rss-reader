@@ -98,8 +98,7 @@ class FeedSourcesListViewController: UIViewController {
     
     private(set) var onDeleteDropSucceeded: ([NSNumber]) -> Void = { _ in }
     
-    var onCellsSelected: ([IndexPath]?) -> Void = { _ in }
-    var onCellsDeselected: ([IndexPath]?) -> Void = { _ in }
+    var onCellSelectionArrayChanged: ([IndexPath]?) -> Void = { _ in }
     
 }
 
@@ -246,15 +245,14 @@ extension FeedSourcesListViewController: UICollectionViewDelegateFlowLayout {
         }
     }
     
-    #warning("Rewrite item selection actions.")
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("Item selected. \(indexPath)")
-        onCellsSelected(collectionView.indexPathsForSelectedItems)
+        onCellSelectionArrayChanged(collectionView.indexPathsForSelectedItems)
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         print("Item deselected. \(indexPath)")
-        onCellsDeselected(collectionView.indexPathsForSelectedItems)
+        onCellSelectionArrayChanged(collectionView.indexPathsForSelectedItems)
     }
     
 }

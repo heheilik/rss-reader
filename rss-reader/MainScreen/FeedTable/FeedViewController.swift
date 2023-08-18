@@ -160,32 +160,30 @@ extension FeedViewController: UITableViewDataSource {
         }
         trashImageDropDelegate.onDeleteDropSucceeded = cell.viewController.onDeleteDropSucceeded
         
-        cell.viewController.onCellsSelected = { indexPaths in
-            guard let indexPaths, !indexPaths.isEmpty else {
-                return
-            }
-            guard self.feedState.state != .loading else {
-                return
-            }
-            
-            self.entriesTable.performBatchUpdates {
-                self.entriesTable.deleteSections(IndexSet(integer: self.feedState.numberOfSections - 1), with: .fade)
-                self.feedState.state = .loading
-                self.entriesTable.insertSections(IndexSet(integer: self.feedState.numberOfSections - 1), with: .fade)
-            }
-        }
-        cell.viewController.onCellsDeselected = { indexPaths in
-            guard indexPaths == nil || (indexPaths != nil && indexPaths!.isEmpty) else {
-                return
-            }
-            guard self.feedState.state != .start else {
-                return
-            }
-            
-            self.entriesTable.performBatchUpdates {
-                self.entriesTable.deleteSections(IndexSet(integer: self.feedState.numberOfSections - 1), with: .fade)
-                self.feedState.state = .start
-                self.entriesTable.insertSections(IndexSet(integer: self.feedState.numberOfSections - 1), with: .fade)
+        cell.viewController.onCellSelectionArrayChanged = { indexPaths in
+            switch self.feedState.state {
+            case .start:
+                guard let indexPaths, !indexPaths.isEmpty else {
+                    return
+                }
+                self.entriesTable.performBatchUpdates {
+                    self.entriesTable.deleteSections(IndexSet(integer: self.feedState.numberOfSections - 1), with: .fade)
+                    self.feedState.state = .loading
+                    self.entriesTable.insertSections(IndexSet(integer: self.feedState.numberOfSections - 1), with: .fade)
+                }
+                
+            case .loading:
+                guard indexPaths == nil || (indexPaths != nil && indexPaths!.isEmpty) else {
+                    return
+                }
+                self.entriesTable.performBatchUpdates {
+                    self.entriesTable.deleteSections(IndexSet(integer: self.feedState.numberOfSections - 1), with: .fade)
+                    self.feedState.state = .start
+                    self.entriesTable.insertSections(IndexSet(integer: self.feedState.numberOfSections - 1), with: .fade)
+                }
+                
+            case .showing:
+                fatalError("showing not implemented")
             }
         }
         
