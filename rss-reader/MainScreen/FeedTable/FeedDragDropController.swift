@@ -1,5 +1,5 @@
 //
-//  FeedViewDragDropController.swift
+//  FeedDragDropController.swift
 //  rss-reader
 //
 //  Created by Heorhi Heilik on 18.08.23.
@@ -11,22 +11,51 @@ enum DragDropTypeIdentifier {
     static let feedCell = "Feed Cell"
 }
 
-
 class FeedDragDropController: NSObject {
     
-    var feed: FeedDragDropResponder?
-    var feedSources: FeedSourcesDragDropResponder?
+    var observers: [String: FeedDragDropObserver] = [:]
+    
+    func sendEvent(_ event: EventType) {
+        switch event {
+        case .dragDropStarted:
+            for observer in observers.values {
+                observer.onDragDropStarted()
+            }
+        case .dragDropEnded:
+            for observer in observers.values {
+                observer.onDragDropEnded()
+            }
+        case .itemMoved(let source, let destination):
+            for observer in observers.values {
+                observer.onItemMoved(from: source, to: destination)
+            }
+        case .itemsDeleted(let indicesToDelete):
+            for observer in observers.values {
+                observer.onItemsDeleted(withIndices: indicesToDelete)
+            }
+        }
+    }
     
 }
 
-protocol FeedDragDropResponder {
-    func onDragDropStarted()
-    func onDragDropFinished()
+enum EventType {
+    case dragDropStarted
+    case dragDropEnded
+    case itemMoved(IndexPath, IndexPath)
+    case itemsDeleted([NSNumber])
 }
 
-protocol FeedSourcesDragDropResponder {
+protocol FeedDragDropObserver {
+    func onDragDropStarted()
+    func onDragDropEnded()
     func onItemMoved(from source: IndexPath, to destination: IndexPath)
     func onItemsDeleted(withIndices indices: [NSNumber])
+}
+extension FeedDragDropObserver {
+    func onDragDropStarted() {}
+    func onDragDropEnded() {}
+    func onItemMoved(from source: IndexPath, to destination: IndexPath) {}
+    func onItemsDeleted(withIndices indices: [NSNumber]) {}
 }
 
 extension FeedDragDropController: UICollectionViewDragDelegate {
@@ -58,11 +87,11 @@ extension FeedDragDropController: UICollectionViewDragDelegate {
     }
     
     func collectionView(_ collectionView: UICollectionView, dragSessionWillBegin session: UIDragSession) {
-        feed?.onDragDropStarted()
+        sendEvent(.dragDropStarted)
     }
     
     func collectionView(_ collectionView: UICollectionView, dragSessionDidEnd session: UIDragSession) {
-        feed?.onDragDropFinished()
+        sendEvent(.dragDropEnded)
     }
     
 }
@@ -121,7 +150,7 @@ extension FeedDragDropController: UICollectionViewDropDelegate {
             return
         }
         
-        feedSources?.onItemMoved(from: sourceIndexPath, to: destinationIndexPath)
+        sendEvent(.itemMoved(sourceIndexPath, destinationIndexPath))
         coordinator.drop(item.dragItem, toItemAt: destinationIndexPath)
     }
     
@@ -156,7 +185,7 @@ extension FeedDragDropController: UIDropInteractionDelegate {
             }
             indicesToDelete.append(localObject)
         }
-        feedSources?.onItemsDeleted(withIndices: indicesToDelete)
+        sendEvent(.itemsDeleted(indicesToDelete))
     }
     
 }

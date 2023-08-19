@@ -13,6 +13,7 @@ class FeedViewController: UIViewController {
     private var feedState = FeedScreenState()
     
     private var feedDragDropController = FeedDragDropController()
+    static let feedDragDropObserverIdentifier = "Feed"
     
     @IBOutlet weak var entriesTable: UITableView!
     
@@ -49,7 +50,7 @@ class FeedViewController: UIViewController {
             forCellReuseIdentifier: CellIdentifier.feedEntry
         )
         
-        feedDragDropController.feed = self
+        feedDragDropController.observers[Self.feedDragDropObserverIdentifier] = self
     }
     
 }
@@ -150,7 +151,7 @@ extension FeedViewController: UITableViewDataSource {
     func configureFeedsListCell(_ cell: FeedSourcesListTableViewCell) -> FeedSourcesListTableViewCell {
         cell.viewController.collectionView.dragDelegate = feedDragDropController
         cell.viewController.collectionView.dropDelegate = feedDragDropController
-        feedDragDropController.feedSources = cell.viewController
+        feedDragDropController.observers[FeedSourcesListViewController.feedDragDropObserverIdentifier] = cell.viewController
         
         cell.viewController.onCellSelectionArrayChanged = { indexPaths in
             switch self.feedState.state {
@@ -244,7 +245,7 @@ extension FeedViewController: UITableViewDelegate {
     
 }
 
-extension FeedViewController: FeedDragDropResponder {
+extension FeedViewController: FeedDragDropObserver {
     
     func onDragDropStarted() {
         entriesTable.performBatchUpdates {
@@ -253,7 +254,7 @@ extension FeedViewController: FeedDragDropResponder {
         }
     }
     
-    func onDragDropFinished() {
+    func onDragDropEnded() {
         entriesTable.performBatchUpdates {
             self.feedState.isDeleteActive = false
             self.entriesTable.deleteSections(IndexSet(integer: 1), with: .top)

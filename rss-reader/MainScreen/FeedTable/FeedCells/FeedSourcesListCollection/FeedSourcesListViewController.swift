@@ -16,6 +16,8 @@ class FeedSourcesListViewController: UIViewController {
     
     let viewModel = FeedsListViewModel()
     
+    static let feedDragDropObserverIdentifier = "FeedSources"
+    
     @IBOutlet weak var collectionView: UICollectionView!
     
     enum CellIdentifier {
@@ -253,7 +255,7 @@ extension FeedSourcesListViewController: UICollectionViewDelegateFlowLayout {
     
 }
 
-extension FeedSourcesListViewController: FeedSourcesDragDropResponder {
+extension FeedSourcesListViewController: FeedDragDropObserver {
     
     func onItemMoved(from source: IndexPath, to destination: IndexPath) {
         collectionView.performBatchUpdates {
