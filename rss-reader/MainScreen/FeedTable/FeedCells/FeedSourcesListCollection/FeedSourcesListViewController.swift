@@ -12,6 +12,10 @@ enum FeedSourcesSectionIndex: Int {
     case feeds = 1
 }
 
+protocol FeedSourcesSelectionResponder {
+    func onCellSelectionArrayProbablyChanged(selectionArray: [IndexPath]?)
+}
+
 class FeedSourcesListViewController: UIViewController {
     
     let viewModel = FeedsListViewModel()
@@ -53,7 +57,7 @@ class FeedSourcesListViewController: UIViewController {
         collectionView.allowsMultipleSelection = true
     }
     
-    var onCellSelectionArrayChanged: ([IndexPath]?) -> Void = { _ in }
+    var selectionResponder: FeedSourcesSelectionResponder?
     
 }
 
@@ -228,14 +232,14 @@ extension FeedSourcesListViewController: UICollectionViewDelegateFlowLayout {
         _ collectionView: UICollectionView,
         didSelectItemAt indexPath: IndexPath
     ) {
-        onCellSelectionArrayChanged(collectionView.indexPathsForSelectedItems)
+        selectionResponder?.onCellSelectionArrayProbablyChanged(selectionArray: collectionView.indexPathsForSelectedItems)
     }
     
     func collectionView(
         _ collectionView: UICollectionView,
         didDeselectItemAt indexPath: IndexPath
     ) {
-        onCellSelectionArrayChanged(collectionView.indexPathsForSelectedItems)
+        selectionResponder?.onCellSelectionArrayProbablyChanged(selectionArray: collectionView.indexPathsForSelectedItems)
     }
     
     func collectionView(
@@ -243,7 +247,7 @@ extension FeedSourcesListViewController: UICollectionViewDelegateFlowLayout {
         didEndDisplaying cell: UICollectionViewCell,
         forItemAt indexPath: IndexPath
     ) {
-        onCellSelectionArrayChanged(collectionView.indexPathsForSelectedItems)
+        selectionResponder?.onCellSelectionArrayProbablyChanged(selectionArray: collectionView.indexPathsForSelectedItems)
     }
     
 }

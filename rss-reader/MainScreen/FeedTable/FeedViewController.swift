@@ -153,32 +153,7 @@ extension FeedViewController: UITableViewDataSource {
         cell.viewController.collectionView.dropDelegate = feedDragDropController
         feedDragDropController.observers[FeedSourcesListViewController.feedDragDropObserverIdentifier] = cell.viewController
         
-        cell.viewController.onCellSelectionArrayChanged = { indexPaths in
-            switch self.feedState.state {
-            case .start:
-                guard let indexPaths, !indexPaths.isEmpty else {
-                    return
-                }
-                self.entriesTable.performBatchUpdates {
-                    self.entriesTable.deleteSections(IndexSet(integer: self.feedState.numberOfSections - 1), with: .fade)
-                    self.feedState.state = .loading
-                    self.entriesTable.insertSections(IndexSet(integer: self.feedState.numberOfSections - 1), with: .fade)
-                }
-                
-            case .loading:
-                guard indexPaths == nil || (indexPaths != nil && indexPaths!.isEmpty) else {
-                    return
-                }
-                self.entriesTable.performBatchUpdates {
-                    self.entriesTable.deleteSections(IndexSet(integer: self.feedState.numberOfSections - 1), with: .fade)
-                    self.feedState.state = .start
-                    self.entriesTable.insertSections(IndexSet(integer: self.feedState.numberOfSections - 1), with: .fade)
-                }
-                
-            case .showing:
-                fatalError("showing not implemented")
-            }
-        }
+        cell.viewController.selectionResponder = self
         
         return cell
     }
@@ -260,6 +235,37 @@ extension FeedViewController: FeedDragDropObserver {
         entriesTable.performBatchUpdates {
             self.feedState.isDeleteActive = false
             self.entriesTable.deleteSections(IndexSet(integer: 1), with: .top)
+        }
+    }
+    
+}
+
+extension FeedViewController: FeedSourcesSelectionResponder {
+    
+    func onCellSelectionArrayProbablyChanged(selectionArray: [IndexPath]?) {
+        switch self.feedState.state {
+        case .start:
+            guard let selectionArray, !selectionArray.isEmpty else {
+                return
+            }
+            self.entriesTable.performBatchUpdates {
+                self.entriesTable.deleteSections(IndexSet(integer: self.feedState.numberOfSections - 1), with: .fade)
+                self.feedState.state = .loading
+                self.entriesTable.insertSections(IndexSet(integer: self.feedState.numberOfSections - 1), with: .fade)
+            }
+            
+        case .loading:
+            guard selectionArray == nil || (selectionArray != nil && selectionArray!.isEmpty) else {
+                return
+            }
+            self.entriesTable.performBatchUpdates {
+                self.entriesTable.deleteSections(IndexSet(integer: self.feedState.numberOfSections - 1), with: .fade)
+                self.feedState.state = .start
+                self.entriesTable.insertSections(IndexSet(integer: self.feedState.numberOfSections - 1), with: .fade)
+            }
+            
+        case .showing:
+            fatalError("showing not implemented")
         }
     }
     
