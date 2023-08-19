@@ -28,7 +28,6 @@ class FeedSourcesListViewController: UIViewController {
     override var view: UIView! {
         didSet {
             configureCollectionView()
-            setCallbacks()
         }
     }
     
@@ -53,25 +52,6 @@ class FeedSourcesListViewController: UIViewController {
         
         collectionView.allowsMultipleSelection = true
     }
-    
-    func setCallbacks() {
-        addFeedSourceCallback = { feedSource in
-            self.collectionView.performBatchUpdates {
-                let indexPath = IndexPath(
-                    row: self.viewModel.feedsCount,
-                    section: FeedSourcesSectionIndex.feeds.rawValue
-                )
-                self.viewModel.collectionView(
-                    self.collectionView,
-                    willInsertItem: feedSource,
-                    at: indexPath
-                )
-                self.collectionView.insertItems(at: [indexPath])
-            }
-        }
-    }
-    
-    private var addFeedSourceCallback: (FeedSource) -> Void = { _ in }
     
     var onCellSelectionArrayChanged: ([IndexPath]?) -> Void = { _ in }
     
@@ -120,10 +100,23 @@ extension FeedSourcesListViewController: UICollectionViewDataSource {
             }
             
             let plusButtonUIAction = UIAction { _ in
-                let addFeedViewController = AddFeedSourceViewController()
-                addFeedViewController.sheetPresentationController?.detents = [.medium()]
-                addFeedViewController.saveDataCallback = self.addFeedSourceCallback
-                self.present(addFeedViewController, animated: true)
+                let addFeedSourceViewController = AddFeedSourceViewController()
+                addFeedSourceViewController.sheetPresentationController?.detents = [.medium()]
+                addFeedSourceViewController.saveDataCallback = { feedSource in
+                    self.collectionView.performBatchUpdates {
+                        let indexPath = IndexPath(
+                            row: self.viewModel.feedsCount,
+                            section: FeedSourcesSectionIndex.feeds.rawValue
+                        )
+                        self.viewModel.collectionView(
+                            self.collectionView,
+                            willInsertItem: feedSource,
+                            at: indexPath
+                        )
+                        self.collectionView.insertItems(at: [indexPath])
+                    }
+                }
+                self.present(addFeedSourceViewController, animated: true)
             }
             
             cell.plusButton.addAction(plusButtonUIAction, for: .touchUpInside)
