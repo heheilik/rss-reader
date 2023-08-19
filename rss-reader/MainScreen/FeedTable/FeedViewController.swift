@@ -190,13 +190,15 @@ extension FeedViewController: UITableViewDataSource {
     
     func configureFeedEntryCell(_ cell: FeedEntryInfoTableViewCell) -> FeedEntryInfoTableViewCell {
         let emptyEntry = Entry(
-            title: "No data available.",
-            author: "-",
-            updated: "-",
-            id: "-",
+            header: Entry.Header(
+                title: "No data available.",
+                author: "-",
+                updated: "-",
+                id: "-"
+            ),
             content: ""
         )
-        cell.updateContentsWith(emptyEntry)
+        cell.updateContentsWith(emptyEntry.header)
         return cell
     }
     

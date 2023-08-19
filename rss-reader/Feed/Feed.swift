@@ -6,16 +6,28 @@
 //
 
 struct Feed {
-    let title: String
-    let updated: String
-    let id: String
+    
+    struct Header {
+        let title: String
+        let updated: String
+        let id: String
+    }
+    
+    let header: Header
     let entry: [Entry]
+    
 }
 
 struct Entry {
-    let title: String
-    let author: String
-    let updated: String
-    let id: String
+    
+    struct Header {
+        let title: String
+        let author: String
+        let updated: String
+        let id: String
+    }
+    
+    let header: Header
     let content: String
+    
 }

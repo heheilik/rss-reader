@@ -14,7 +14,7 @@ class FeedEntryInfoTableViewCell: UITableViewCell {
     @IBOutlet private weak var updated: UILabel!
     @IBOutlet private weak var id: UILabel!
     
-    func updateContentsWith(_ entry: Entry) {
+    func updateContentsWith(_ entry: Entry.Header) {
         title.text = entry.title.trimmingCharacters(in: .whitespacesAndNewlines)
         author.text = entry.author.trimmingCharacters(in: .whitespacesAndNewlines)
         updated.text = entry.updated.trimmingCharacters(in: .whitespacesAndNewlines)

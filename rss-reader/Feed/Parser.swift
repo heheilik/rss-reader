@@ -90,10 +90,12 @@ extension Parser: XMLParserDelegate {
                 fatalError("Required key was deleted from entryData dictionary.")
             }
             entries.append(Entry(
-                title: entryData[.title] ?? "[error]",
-                author: entryData[.author] ?? "[error]",
-                updated: entryData[.updated] ?? "[error]",
-                id: entryData[.id] ?? "[error]",
+                header: Entry.Header(
+                    title: entryData[.title] ?? "[error]",
+                    author: entryData[.author] ?? "[error]",
+                    updated: entryData[.updated] ?? "[error]",
+                    id: entryData[.id] ?? "[error]"
+                ),
                 content: entryData[.content] ?? "[error]"
             ))
         }
@@ -137,9 +139,11 @@ extension Parser: XMLParserDelegate {
             fatalError("Required key was deleted from feedData dictionary.")
         }
         feed = Feed(
-            title: feedData[.title] ?? "[error]",
-            updated: feedData[.updated] ?? "[error]",
-            id: feedData[.id] ?? "[error]",
+            header: Feed.Header(
+                title: feedData[.title] ?? "[error]",
+                updated: feedData[.updated] ?? "[error]",
+                id: feedData[.id] ?? "[error]"
+            ),
             entry: entries
         )
     }
