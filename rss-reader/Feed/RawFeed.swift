@@ -1,11 +1,11 @@
 //
-//  Feed.swift
+//  RawFeed.swift
 //  rss-reader
 //
 //  Created by Heorhi Heilik on 24.07.23.
 //
 
-struct Feed {
+struct RawFeed {
     
     struct Header {
         let title: String
@@ -14,11 +14,11 @@ struct Feed {
     }
     
     let header: Header
-    let entries: [Entry]
+    let entries: [RawEntry]
     
 }
 
-struct Entry {
+struct RawEntry {
     
     struct Header {
         let title: String

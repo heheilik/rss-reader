@@ -92,7 +92,7 @@ extension FeedViewController: UITableViewDataSource {
         case .loadingScreen:
             return 1
         case .feedEntries:
-            return viewModel.feedToPresent.count
+            return viewModel.entryHeadersToPresent.count
         }
     }
     
@@ -176,7 +176,7 @@ extension FeedViewController: UITableViewDataSource {
         _ cell: FeedEntryInfoTableViewCell,
         forIndexPath indexPath: IndexPath
     ) -> FeedEntryInfoTableViewCell {
-        cell.updateContentsWith(viewModel.feedToPresent[indexPath.row])
+        cell.updateContentsWith(viewModel.entryHeadersToPresent[indexPath.row])
         return cell
     }
     
@@ -258,7 +258,7 @@ extension FeedViewController: FeedSourcesSelectionResponder {
             changeEntriesTableState(to: .start)
             return
         }
-        guard !viewModel.feedToPresent.isEmpty else {
+        guard !viewModel.entryHeadersToPresent.isEmpty else {
             changeEntriesTableState(to: .loading)
             return
         }

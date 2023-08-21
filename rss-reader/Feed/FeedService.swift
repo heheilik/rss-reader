@@ -17,7 +17,7 @@ final class FeedService {
     
     func prepareFeed(
         withURL url: URL,
-        completion: @escaping (Feed?) -> Void
+        completion: @escaping (RawFeed?) -> Void
     ) -> URLSessionDataTask {
         let downloadTask = urlSession.dataTask(with: url) { data, response, error in
             guard error == nil else {
