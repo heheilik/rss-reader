@@ -14,11 +14,18 @@ class FeedEntryInfoTableViewCell: UITableViewCell {
     @IBOutlet private weak var updated: UILabel!
     @IBOutlet private weak var id: UILabel!
     
-    func updateContentsWith(_ entryHeader: Entry.Header) {
-        title.text = entryHeader.title.trimmingCharacters(in: .whitespacesAndNewlines)
-        author.text = entryHeader.author.trimmingCharacters(in: .whitespacesAndNewlines)
-        updated.text = entryHeader.updated.trimmingCharacters(in: .whitespacesAndNewlines)
-        id.text = entryHeader.id.trimmingCharacters(in: .whitespacesAndNewlines)
+    let dateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .medium
+        return dateFormatter
+    }()
+    
+    
+    func updateContentsWith(_ entryHeader: FormattedEntry.Header) {
+        title.text = entryHeader.title
+        author.text = entryHeader.author
+        updated.text = dateFormatter.string(from: entryHeader.updated)
+        id.text = entryHeader.id
     }
     
 }

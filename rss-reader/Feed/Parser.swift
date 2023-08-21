@@ -19,7 +19,7 @@ final class Parser: NSObject {
         }
     }
     
-    func parse(_ data: Data, completion: @escaping (Feed?) -> Void) {
+    func parse(_ data: Data, completion: @escaping (RawFeed?) -> Void) {
         DispatchQueue.global().async {
             let parser = XMLParser(data: data)
             parser.delegate = self
@@ -44,8 +44,8 @@ final class Parser: NSObject {
     private var entryData: [TrackedElement: String] = [:]
     private let entryDataRequiredKeys: Set<TrackedElement> = [.title, .author, .updated, .id, .content]
     
-    private var entries: [Entry] = []
-    private var feed: Feed?
+    private var entries: [RawEntry] = []
+    private var feed: RawFeed?
     
 }
 
@@ -89,8 +89,8 @@ extension Parser: XMLParserDelegate {
             guard Set(entryData.keys) == entryDataRequiredKeys else {
                 fatalError("Required key was deleted from entryData dictionary.")
             }
-            entries.append(Entry(
-                header: Entry.Header(
+            entries.append(RawEntry(
+                header: RawEntry.Header(
                     title: entryData[.title] ?? "[error]",
                     author: entryData[.author] ?? "[error]",
                     updated: entryData[.updated] ?? "[error]",
@@ -138,8 +138,8 @@ extension Parser: XMLParserDelegate {
         guard Set(feedData.keys) == feedDataRequiredKeys else {
             fatalError("Required key was deleted from feedData dictionary.")
         }
-        feed = Feed(
-            header: Feed.Header(
+        feed = RawFeed(
+            header: RawFeed.Header(
                 title: feedData[.title] ?? "[error]",
                 updated: feedData[.updated] ?? "[error]",
                 id: feedData[.id] ?? "[error]"

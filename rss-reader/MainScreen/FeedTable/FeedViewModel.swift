@@ -18,13 +18,15 @@ class FeedViewModel {
     private let feedService = FeedService()
     private var tasks: [URL: URLSessionDataTask] = [:]
     
-    private var feeds: [URL: Feed?] = [:]
-    private(set) var entryHeaders: [URL: [Entry.Header]] = [:]
+    private var feeds: [URL: RawFeed?] = [:]
+    private(set) var entryHeaders: [URL: [FormattedEntry.Header]] = [:]
     private(set) var feedStatuses: [URL: FeedStatus] = [:]
     
-    private(set) var feedToPresent: [Entry.Header] = []
+    private(set) var entryHeadersToPresent: [FormattedEntry.Header] = []
     
     var onFeedDownloaded: () -> Void = {}
+    
+    private let timeFormatter = FeedTimeFormatter()
     
     private func prepareFeed(forUrl url: URL) {
         feedStatuses[url] = .loading
@@ -35,9 +37,12 @@ class FeedViewModel {
             }
             
             self.feeds[url] = feed
-            var entryHeadersArray = [Entry.Header]()
+            
+            var entryHeadersArray = [FormattedEntry.Header]()
             for entry in feed.entries {
-                entryHeadersArray.append(entry.header)
+                if let formattedEntry = self.formattedEntry(from: entry) {
+                    entryHeadersArray.append(formattedEntry.header)
+                }
             }
             self.entryHeaders[url] = entryHeadersArray
             
@@ -71,7 +76,7 @@ class FeedViewModel {
     }
     
     func updateFeedToPresent(for selectionArray: [IndexPath]) {
-        feedToPresent = []
+        entryHeadersToPresent = []
         for indexPath in selectionArray {
             let index = indexPath.row
             let currentUrl = FeedURLDatabase.array[index].url
@@ -84,9 +89,29 @@ class FeedViewModel {
             case .loading:
                 break
             case .ready:
-                feedToPresent.append(contentsOf: entryHeaders[currentUrl] ?? [])
+                guard let headers = entryHeaders[currentUrl] else {
+                    break
+                }
+                entryHeadersToPresent.append(contentsOf: headers)
             }
         }
+        
+        entryHeadersToPresent.sort(by: { $0.updated > $1.updated })
+    }
+    
+    func formattedEntry(from rawEntry: RawEntry) -> FormattedEntry? {
+        guard let date = timeFormatter.date(from: rawEntry.header.updated) else {
+            return nil
+        }
+        return FormattedEntry(
+            header: FormattedEntry.Header(
+                title: rawEntry.header.title.trimmingCharacters(in: .whitespacesAndNewlines),
+                author: rawEntry.header.author.trimmingCharacters(in: .whitespacesAndNewlines),
+                updated: date,
+                id: rawEntry.header.id.trimmingCharacters(in: .whitespacesAndNewlines)
+            ),
+            content: rawEntry.content
+        )
     }
     
 }
