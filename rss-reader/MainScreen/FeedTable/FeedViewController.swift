@@ -203,7 +203,7 @@ extension FeedViewController: UITableViewDelegate {
         case .loadingScreen:
             return tableContentHeight(totalHeight: tableView.bounds.height)
         case .feedEntries:
-            return 150;  #warning("Make dynamic.")
+            return UITableView.automaticDimension
         }
     }
     
