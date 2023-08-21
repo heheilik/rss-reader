@@ -17,6 +17,8 @@ class FeedViewController: UIViewController {
     
     @IBOutlet weak var entriesTable: UITableView!
     
+    var selectionArray: [IndexPath] = []
+    
     enum CellIdentifier {
         static let feedsList = "FeedSourcesListTableViewCell"
         static let trashIcon = "TrashIconTableViewCell"
@@ -54,8 +56,8 @@ class FeedViewController: UIViewController {
         
         viewModel.onFeedDownloaded = {
             DispatchQueue.main.async {
-                self.viewModel.updateFeedToPresent()
-                self.configureEntriesTable(self.viewModel.selectionArray)
+                self.viewModel.updateFeedToPresent(for: self.selectionArray)
+                self.configureEntriesTable(self.selectionArray)
             }
         }
     }
@@ -244,9 +246,9 @@ extension FeedViewController: FeedDragDropObserver {
 extension FeedViewController: FeedSourcesSelectionResponder {
     
     func onCellSelectionArrayProbablyChanged(selectionArray: [IndexPath]) {
-        viewModel.selectionArray = selectionArray
-        viewModel.prepareFeeds()
-        viewModel.updateFeedToPresent()
+        self.selectionArray = selectionArray
+        viewModel.prepareFeeds(for: selectionArray)
+        viewModel.updateFeedToPresent(for: selectionArray)
         
         configureEntriesTable(selectionArray)
     }

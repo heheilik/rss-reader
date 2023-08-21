@@ -11,9 +11,8 @@ class FeedViewModel {
     
     enum FeedStatus {
         case empty
-        case downloading
+        case loading
         case ready
-        case deleted
     }
     
     private let feedService = FeedService()
@@ -27,10 +26,8 @@ class FeedViewModel {
     
     var onFeedDownloaded: () -> Void = {}
     
-    var selectionArray: [IndexPath] = []
-    
     private func prepareFeed(forUrl url: URL) {
-        feedStatuses[url] = .downloading
+        feedStatuses[url] = .loading
         tasks[url] = feedService.prepareFeed(withURL: url) { feed in
             guard let feed else {
                 self.tasks[url] = nil
@@ -51,7 +48,7 @@ class FeedViewModel {
         }
     }
     
-    func prepareFeeds() {
+    func prepareFeeds(for selectionArray: [IndexPath]) {
         for indexPath in selectionArray {
             let index = indexPath.row
             let currentUrl = FeedURLDatabase.array[index].url
@@ -65,10 +62,7 @@ class FeedViewModel {
             case .empty:
                 prepareFeed(forUrl: currentUrl)
                 break
-            case .downloading:
-                break
-            case .deleted:
-                #warning("Process deleted case.")
+            case .loading:
                 break
             case .ready:
                 break
@@ -76,7 +70,7 @@ class FeedViewModel {
         }
     }
     
-    func updateFeedToPresent() {
+    func updateFeedToPresent(for selectionArray: [IndexPath]) {
         feedToPresent = []
         for indexPath in selectionArray {
             let index = indexPath.row
@@ -87,10 +81,7 @@ class FeedViewModel {
             switch status {
             case .empty:
                 break
-            case .downloading:
-                break
-            case .deleted:
-                #warning("Process deleted case.")
+            case .loading:
                 break
             case .ready:
                 feedToPresent.append(contentsOf: entryHeaders[currentUrl] ?? [])
