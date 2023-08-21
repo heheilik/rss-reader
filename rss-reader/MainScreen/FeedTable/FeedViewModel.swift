@@ -26,7 +26,7 @@ class FeedViewModel {
     
     var onFeedDownloaded: () -> Void = {}
     
-    private let timeFormatter = FeedTimeFormatter()
+    private let feedFormatter = FeedFormatter()
     
     private func prepareFeed(forUrl url: URL) {
         feedStatuses[url] = .loading
@@ -40,7 +40,7 @@ class FeedViewModel {
             
             var entryHeadersArray = [FormattedEntry.Header]()
             for entry in feed.entries {
-                if let formattedEntry = self.formattedEntry(from: entry) {
+                if let formattedEntry = self.feedFormatter.formattedEntry(from: entry) {
                     entryHeadersArray.append(formattedEntry.header)
                 }
             }
@@ -97,21 +97,6 @@ class FeedViewModel {
         }
         
         entryHeadersToPresent.sort(by: { $0.updated > $1.updated })
-    }
-    
-    func formattedEntry(from rawEntry: RawEntry) -> FormattedEntry? {
-        guard let date = timeFormatter.date(from: rawEntry.header.updated) else {
-            return nil
-        }
-        return FormattedEntry(
-            header: FormattedEntry.Header(
-                title: rawEntry.header.title.trimmingCharacters(in: .whitespacesAndNewlines),
-                author: rawEntry.header.author.trimmingCharacters(in: .whitespacesAndNewlines),
-                updated: date,
-                id: rawEntry.header.id.trimmingCharacters(in: .whitespacesAndNewlines)
-            ),
-            content: rawEntry.content
-        )
     }
     
 }
