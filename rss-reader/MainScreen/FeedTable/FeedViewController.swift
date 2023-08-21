@@ -51,6 +51,13 @@ class FeedViewController: UIViewController {
         )
         
         feedDragDropController.observers[Self.feedDragDropObserverIdentifier] = self
+        
+        viewModel.onFeedDownloaded = {
+            DispatchQueue.main.async {
+                self.viewModel.updateFeedToPresent()
+                self.configureEntriesTable(self.viewModel.selectionArray)
+            }
+        }
     }
     
 }
@@ -237,29 +244,27 @@ extension FeedViewController: FeedDragDropObserver {
 extension FeedViewController: FeedSourcesSelectionResponder {
     
     func onCellSelectionArrayProbablyChanged(selectionArray: [IndexPath]) {
-        viewModel.prepareFeeds(forIndexPaths: selectionArray)
-        viewModel.updateFeedToPresent(indexPathsToPresent: selectionArray)
+        viewModel.selectionArray = selectionArray
+        viewModel.prepareFeeds()
+        viewModel.updateFeedToPresent()
         
-        configureView(selectionArray)
+        configureEntriesTable(selectionArray)
     }
     
-    func configureView(_ selectionArray: [IndexPath]) {
+    func configureEntriesTable(_ selectionArray: [IndexPath]) {
         guard !selectionArray.isEmpty else {
-            configureTable(accordingToState: .start)
+            changeEntriesTableState(to: .start)
             return
         }
         guard !viewModel.feedToPresent.isEmpty else {
-            configureTable(accordingToState: .loading)
+            changeEntriesTableState(to: .loading)
             return
         }
-        guard feedState.state != .showing else {
-            return
-        }
-        configureTable(accordingToState: .showing)
+        changeEntriesTableState(to: .showing)
     }
     
-    func configureTable(accordingToState state: FeedScreenState.State) {
-        feedState.state = state
+    func changeEntriesTableState(to newState: FeedScreenState.State) {
+        feedState.state = newState
         entriesTable.reloadSections(IndexSet(integer: feedState.numberOfSections - 1), with: .fade)
     }
     

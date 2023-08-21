@@ -263,6 +263,8 @@ extension FeedSourcesListViewController: FeedDragDropObserver {
             )
             collectionView.moveItem(at: source, to: destination)
         }
+        
+        selectionResponder?.onCellSelectionArrayProbablyChanged(selectionArray: collectionView.indexPathsForSelectedItems ?? [])
     }
     
     func onItemsDeleted(withIndices indices: [NSNumber]) {
@@ -283,6 +285,8 @@ extension FeedSourcesListViewController: FeedDragDropObserver {
                 self.collectionView.deleteItems(at: indexPathsToDelete)
             }
         }
+        
+        selectionResponder?.onCellSelectionArrayProbablyChanged(selectionArray: collectionView.indexPathsForSelectedItems ?? [])
     }
     
 }

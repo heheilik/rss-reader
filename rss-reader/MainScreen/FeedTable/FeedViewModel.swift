@@ -16,7 +16,6 @@ class FeedViewModel {
         case deleted
     }
     
-    
     private let feedService = FeedService()
     private var tasks: [URL: URLSessionDataTask] = [:]
     
@@ -26,10 +25,15 @@ class FeedViewModel {
     
     private(set) var feedToPresent: [Entry.Header] = []
     
+    var onFeedDownloaded: () -> Void = {}
+    
+    var selectionArray: [IndexPath] = []
+    
     private func prepareFeed(forUrl url: URL) {
         feedStatuses[url] = .downloading
-        tasks[url] = feedService.prepareFeed( withURL: url ) { feed in
+        tasks[url] = feedService.prepareFeed(withURL: url) { feed in
             guard let feed else {
+                self.tasks[url] = nil
                 return
             }
             
@@ -41,11 +45,14 @@ class FeedViewModel {
             self.entryHeaders[url] = entryHeadersArray
             
             self.feedStatuses[url] = .ready
+            self.tasks[url] = nil
+            
+            self.onFeedDownloaded()
         }
     }
     
-    func prepareFeeds(forIndexPaths indexPaths: [IndexPath]) {
-        for indexPath in indexPaths {
+    func prepareFeeds() {
+        for indexPath in selectionArray {
             let index = indexPath.row
             let currentUrl = FeedURLDatabase.array[index].url
             
@@ -66,13 +73,12 @@ class FeedViewModel {
             case .ready:
                 break
             }
-            
         }
     }
     
-    func updateFeedToPresent(indexPathsToPresent: [IndexPath]) {
+    func updateFeedToPresent() {
         feedToPresent = []
-        for indexPath in indexPathsToPresent {
+        for indexPath in selectionArray {
             let index = indexPath.row
             let currentUrl = FeedURLDatabase.array[index].url
             guard let status = feedStatuses[currentUrl] else {
