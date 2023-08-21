@@ -244,38 +244,18 @@ extension FeedViewController: FeedSourcesSelectionResponder {
     }
     
     func configureView(_ selectionArray: [IndexPath]) {
-        switch self.feedState.state {
-        case .start:
-            guard !selectionArray.isEmpty else {
-                return
-            }
-            if viewModel.feedToPresent.count != 0 {
-                configureTable(accordingToState: .showing)
-            } else {
-                configureTable(accordingToState: .loading)
-            }
-            
-        case .loading:
-            guard !selectionArray.isEmpty else {
-                configureTable(accordingToState: .start)
-                return
-            }
-            guard viewModel.feedToPresent.count != 0 else {
-                return
-            }
-            configureTable(accordingToState: .showing)
-            
-        case .showing:
-            guard !selectionArray.isEmpty else {
-                configureTable(accordingToState: .start)
-                return
-            }
-            
-            guard viewModel.feedToPresent.count != 0 else {
-                configureTable(accordingToState: .loading)
-                return
-            }
+        guard !selectionArray.isEmpty else {
+            configureTable(accordingToState: .start)
+            return
         }
+        guard !viewModel.feedToPresent.isEmpty else {
+            configureTable(accordingToState: .loading)
+            return
+        }
+        guard feedState.state != .showing else {
+            return
+        }
+        configureTable(accordingToState: .showing)
     }
     
     func configureTable(accordingToState state: FeedScreenState.State) {
