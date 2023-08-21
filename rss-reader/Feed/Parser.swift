@@ -144,7 +144,7 @@ extension Parser: XMLParserDelegate {
                 updated: feedData[.updated] ?? "[error]",
                 id: feedData[.id] ?? "[error]"
             ),
-            entry: entries
+            entries: entries
         )
     }
     

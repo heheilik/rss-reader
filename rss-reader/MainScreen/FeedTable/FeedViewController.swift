@@ -83,7 +83,7 @@ extension FeedViewController: UITableViewDataSource {
         case .loadingScreen:
             return 1
         case .feedEntries:
-            return 0  // TODO: use DataSource here
+            return viewModel.feedToPresent.count
         }
     }
     
@@ -143,7 +143,7 @@ extension FeedViewController: UITableViewDataSource {
             ) as? FeedEntryInfoTableViewCell else {
                 fatalError("Failed to dequeue \(CellIdentifier.feedEntry)")
             }
-            return configureFeedEntryCell(cell)
+            return configureFeedEntryCell(cell, forIndexPath: indexPath)
         }
         
     }
@@ -163,14 +163,11 @@ extension FeedViewController: UITableViewDataSource {
         return cell
     }
     
-    func configureFeedEntryCell(_ cell: FeedEntryInfoTableViewCell) -> FeedEntryInfoTableViewCell {
-        let emptyEntryHeader = Entry.Header(
-            title: "No data available.",
-            author: "-",
-            updated: "-",
-            id: "-"
-        )
-        cell.updateContentsWith(emptyEntryHeader)
+    func configureFeedEntryCell(
+        _ cell: FeedEntryInfoTableViewCell,
+        forIndexPath indexPath: IndexPath
+    ) -> FeedEntryInfoTableViewCell {
+        cell.updateContentsWith(viewModel.feedToPresent[indexPath.row])
         return cell
     }
     
@@ -197,7 +194,7 @@ extension FeedViewController: UITableViewDelegate {
         case .loadingScreen:
             return tableContentHeight(totalHeight: tableView.bounds.height)
         case .feedEntries:
-            return 0  // TODO: make dynamic
+            return 150;  #warning("Make dynamic.")
         }
     }
     
@@ -239,31 +236,51 @@ extension FeedViewController: FeedDragDropObserver {
 
 extension FeedViewController: FeedSourcesSelectionResponder {
     
-    func onCellSelectionArrayProbablyChanged(selectionArray: [IndexPath]?) {
+    func onCellSelectionArrayProbablyChanged(selectionArray: [IndexPath]) {
+        viewModel.prepareFeeds(forIndexPaths: selectionArray)
+        viewModel.updateFeedToPresent(indexPathsToPresent: selectionArray)
+        
+        configureView(selectionArray)
+    }
+    
+    func configureView(_ selectionArray: [IndexPath]) {
         switch self.feedState.state {
         case .start:
-            guard let selectionArray, !selectionArray.isEmpty else {
+            guard !selectionArray.isEmpty else {
                 return
             }
-            self.entriesTable.performBatchUpdates {
-                self.entriesTable.deleteSections(IndexSet(integer: self.feedState.numberOfSections - 1), with: .fade)
-                self.feedState.state = .loading
-                self.entriesTable.insertSections(IndexSet(integer: self.feedState.numberOfSections - 1), with: .fade)
+            if viewModel.feedToPresent.count != 0 {
+                configureTable(accordingToState: .showing)
+            } else {
+                configureTable(accordingToState: .loading)
             }
             
         case .loading:
-            guard selectionArray == nil || (selectionArray != nil && selectionArray!.isEmpty) else {
+            guard !selectionArray.isEmpty else {
+                configureTable(accordingToState: .start)
                 return
             }
-            self.entriesTable.performBatchUpdates {
-                self.entriesTable.deleteSections(IndexSet(integer: self.feedState.numberOfSections - 1), with: .fade)
-                self.feedState.state = .start
-                self.entriesTable.insertSections(IndexSet(integer: self.feedState.numberOfSections - 1), with: .fade)
+            guard viewModel.feedToPresent.count != 0 else {
+                return
             }
+            configureTable(accordingToState: .showing)
             
         case .showing:
-            fatalError("showing not implemented")
+            guard !selectionArray.isEmpty else {
+                configureTable(accordingToState: .start)
+                return
+            }
+            
+            guard viewModel.feedToPresent.count != 0 else {
+                configureTable(accordingToState: .loading)
+                return
+            }
         }
+    }
+    
+    func configureTable(accordingToState state: FeedScreenState.State) {
+        feedState.state = state
+        entriesTable.reloadSections(IndexSet(integer: feedState.numberOfSections - 1), with: .fade)
     }
     
 }

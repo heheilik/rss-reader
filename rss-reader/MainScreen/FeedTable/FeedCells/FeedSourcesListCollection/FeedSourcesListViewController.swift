@@ -13,7 +13,7 @@ enum FeedSourcesSectionIndex: Int {
 }
 
 protocol FeedSourcesSelectionResponder {
-    func onCellSelectionArrayProbablyChanged(selectionArray: [IndexPath]?)
+    func onCellSelectionArrayProbablyChanged(selectionArray: [IndexPath])
 }
 
 class FeedSourcesListViewController: UIViewController {
@@ -232,14 +232,14 @@ extension FeedSourcesListViewController: UICollectionViewDelegateFlowLayout {
         _ collectionView: UICollectionView,
         didSelectItemAt indexPath: IndexPath
     ) {
-        selectionResponder?.onCellSelectionArrayProbablyChanged(selectionArray: collectionView.indexPathsForSelectedItems)
+        selectionResponder?.onCellSelectionArrayProbablyChanged(selectionArray: collectionView.indexPathsForSelectedItems ?? [])
     }
     
     func collectionView(
         _ collectionView: UICollectionView,
         didDeselectItemAt indexPath: IndexPath
     ) {
-        selectionResponder?.onCellSelectionArrayProbablyChanged(selectionArray: collectionView.indexPathsForSelectedItems)
+        selectionResponder?.onCellSelectionArrayProbablyChanged(selectionArray: collectionView.indexPathsForSelectedItems ?? [])
     }
     
     func collectionView(
@@ -247,7 +247,7 @@ extension FeedSourcesListViewController: UICollectionViewDelegateFlowLayout {
         didEndDisplaying cell: UICollectionViewCell,
         forItemAt indexPath: IndexPath
     ) {
-        selectionResponder?.onCellSelectionArrayProbablyChanged(selectionArray: collectionView.indexPathsForSelectedItems)
+        selectionResponder?.onCellSelectionArrayProbablyChanged(selectionArray: collectionView.indexPathsForSelectedItems ?? [])
     }
     
 }

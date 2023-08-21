@@ -13,14 +13,12 @@ final class FeedService {
         self.urlSession = urlSession
     }
     
-    let urlSession: URLSession
+    private let urlSession: URLSession
     
-    func prepareFeed(withURL url: URL, completion: @escaping (Feed?) -> Void) {
-//        guard let url = URL(string: url) else {
-//            print("URL is wrong.")
-//            return
-//        }
-        
+    func prepareFeed(
+        withURL url: URL,
+        completion: @escaping (Feed?) -> Void
+    ) -> URLSessionDataTask {
         let downloadTask = urlSession.dataTask(with: url) { data, response, error in
             guard error == nil else {
                 print(error ?? "Unknown error.")
@@ -37,6 +35,7 @@ final class FeedService {
             }
         }
         downloadTask.resume()
+        return downloadTask
     }
     
 }

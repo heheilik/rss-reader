@@ -17,7 +17,6 @@ class FeedsListViewModel {
         return FeedURLDatabase.array[indexPath.row].name
     }
     
-    #warning("Notify FeedViewModel.")
     func collectionView(
         _ collectionView: UICollectionView,
         willInsertItem item: FeedSource,
@@ -26,7 +25,6 @@ class FeedsListViewModel {
         FeedURLDatabase.array.insert(item, at: indexPath.row)
     }
     
-    #warning("Notify FeedViewModel.")
     func collectionView(
         _ collectionView: UICollectionView,
         willMoveItemAt source: IndexPath,
@@ -36,7 +34,6 @@ class FeedsListViewModel {
         FeedURLDatabase.array.insert(element, at: destination.row)
     }
     
-    #warning("Notify FeedViewModel.")
     func collectionView(
         _ collectionView: UICollectionView,
         willDeleteItemsAt indexPaths: [IndexPath]
