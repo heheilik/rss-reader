@@ -50,7 +50,6 @@
                     <constraint firstItem="q3D-hg-2iV" firstAttribute="leading" secondItem="PQw-iY-rd9" secondAttribute="leading" constant="20" symbolic="YES" id="H9R-qf-q3c"/>
                     <constraint firstAttribute="trailing" secondItem="s66-YV-OAw" secondAttribute="trailing" constant="20" symbolic="YES" id="I2B-rv-JCd"/>
                     <constraint firstItem="s66-YV-OAw" firstAttribute="top" secondItem="q3D-hg-2iV" secondAttribute="bottom" constant="8" symbolic="YES" id="NWL-Oe-EqY"/>
-                    <constraint firstAttribute="bottom" secondItem="e6g-MF-WLw" secondAttribute="bottom" constant="20" symbolic="YES" id="OAw-BT-A6C"/>
                     <constraint firstAttribute="trailing" secondItem="e6g-MF-WLw" secondAttribute="trailing" constant="20" symbolic="YES" id="dDn-Ss-RzS"/>
                     <constraint firstAttribute="trailing" secondItem="buo-6g-49c" secondAttribute="trailing" constant="20" symbolic="YES" id="gIh-ss-9jR"/>
                     <constraint firstItem="e6g-MF-WLw" firstAttribute="leading" secondItem="PQw-iY-rd9" secondAttribute="leading" constant="20" symbolic="YES" id="yzp-P5-UgS"/>

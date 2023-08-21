@@ -17,6 +17,8 @@ class FeedViewController: UIViewController {
     
     @IBOutlet weak var entriesTable: UITableView!
     
+    var selectionArray: [IndexPath] = []
+    
     enum CellIdentifier {
         static let feedsList = "FeedSourcesListTableViewCell"
         static let trashIcon = "TrashIconTableViewCell"
@@ -51,6 +53,13 @@ class FeedViewController: UIViewController {
         )
         
         feedDragDropController.observers[Self.feedDragDropObserverIdentifier] = self
+        
+        viewModel.onFeedDownloaded = {
+            DispatchQueue.main.async {
+                self.viewModel.updateFeedToPresent(for: self.selectionArray)
+                self.configureEntriesTable(self.selectionArray)
+            }
+        }
     }
     
 }
@@ -83,7 +92,7 @@ extension FeedViewController: UITableViewDataSource {
         case .loadingScreen:
             return 1
         case .feedEntries:
-            return 0  // TODO: use DataSource here
+            return viewModel.feedToPresent.count
         }
     }
     
@@ -143,7 +152,7 @@ extension FeedViewController: UITableViewDataSource {
             ) as? FeedEntryInfoTableViewCell else {
                 fatalError("Failed to dequeue \(CellIdentifier.feedEntry)")
             }
-            return configureFeedEntryCell(cell)
+            return configureFeedEntryCell(cell, forIndexPath: indexPath)
         }
         
     }
@@ -163,14 +172,11 @@ extension FeedViewController: UITableViewDataSource {
         return cell
     }
     
-    func configureFeedEntryCell(_ cell: FeedEntryInfoTableViewCell) -> FeedEntryInfoTableViewCell {
-        let emptyEntryHeader = Entry.Header(
-            title: "No data available.",
-            author: "-",
-            updated: "-",
-            id: "-"
-        )
-        cell.updateContentsWith(emptyEntryHeader)
+    func configureFeedEntryCell(
+        _ cell: FeedEntryInfoTableViewCell,
+        forIndexPath indexPath: IndexPath
+    ) -> FeedEntryInfoTableViewCell {
+        cell.updateContentsWith(viewModel.feedToPresent[indexPath.row])
         return cell
     }
     
@@ -197,7 +203,7 @@ extension FeedViewController: UITableViewDelegate {
         case .loadingScreen:
             return tableContentHeight(totalHeight: tableView.bounds.height)
         case .feedEntries:
-            return 0  // TODO: make dynamic
+            return 150;  #warning("Make dynamic.")
         }
     }
     
@@ -239,31 +245,29 @@ extension FeedViewController: FeedDragDropObserver {
 
 extension FeedViewController: FeedSourcesSelectionResponder {
     
-    func onCellSelectionArrayProbablyChanged(selectionArray: [IndexPath]?) {
-        switch self.feedState.state {
-        case .start:
-            guard let selectionArray, !selectionArray.isEmpty else {
-                return
-            }
-            self.entriesTable.performBatchUpdates {
-                self.entriesTable.deleteSections(IndexSet(integer: self.feedState.numberOfSections - 1), with: .fade)
-                self.feedState.state = .loading
-                self.entriesTable.insertSections(IndexSet(integer: self.feedState.numberOfSections - 1), with: .fade)
-            }
-            
-        case .loading:
-            guard selectionArray == nil || (selectionArray != nil && selectionArray!.isEmpty) else {
-                return
-            }
-            self.entriesTable.performBatchUpdates {
-                self.entriesTable.deleteSections(IndexSet(integer: self.feedState.numberOfSections - 1), with: .fade)
-                self.feedState.state = .start
-                self.entriesTable.insertSections(IndexSet(integer: self.feedState.numberOfSections - 1), with: .fade)
-            }
-            
-        case .showing:
-            fatalError("showing not implemented")
+    func onCellSelectionArrayProbablyChanged(selectionArray: [IndexPath]) {
+        self.selectionArray = selectionArray
+        viewModel.prepareFeeds(for: selectionArray)
+        viewModel.updateFeedToPresent(for: selectionArray)
+        
+        configureEntriesTable(selectionArray)
+    }
+    
+    func configureEntriesTable(_ selectionArray: [IndexPath]) {
+        guard !selectionArray.isEmpty else {
+            changeEntriesTableState(to: .start)
+            return
         }
+        guard !viewModel.feedToPresent.isEmpty else {
+            changeEntriesTableState(to: .loading)
+            return
+        }
+        changeEntriesTableState(to: .showing)
+    }
+    
+    func changeEntriesTableState(to newState: FeedScreenState.State) {
+        feedState.state = newState
+        entriesTable.reloadSections(IndexSet(integer: feedState.numberOfSections - 1), with: .fade)
     }
     
 }

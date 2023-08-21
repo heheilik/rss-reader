@@ -14,7 +14,7 @@ struct Feed {
     }
     
     let header: Header
-    let entry: [Entry]
+    let entries: [Entry]
     
 }
 
