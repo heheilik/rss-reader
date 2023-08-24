@@ -8,9 +8,9 @@
 import UIKit
 
 class FeedSourcesListTableViewCell: UITableViewCell {
-    
+
     let viewController = FeedSourcesListViewController()
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         UINib(
@@ -19,5 +19,5 @@ class FeedSourcesListTableViewCell: UITableViewCell {
         ).instantiate(withOwner: viewController)
         contentView.addSubview(viewController.view)
     }
-    
+
 }

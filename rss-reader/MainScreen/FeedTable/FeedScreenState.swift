@@ -6,27 +6,27 @@
 //
 
 struct FeedScreenState {
-    
+
     var state = State.start
     var isDeleteActive = false
-    
+
     var numberOfSections: Int {
         isDeleteActive ? 3 : 2
     }
-    
+
     enum State {
         case start
         case loading
         case showing
     }
-    
+
     enum TableSection {
         case feedsList
         case trashIcon
         case startScreen
         case loadingScreen
         case feedEntries
-        
+
         init?(index: Int, state: State, isDeleteActive: Bool) {
             if isDeleteActive {
                 switch index {
@@ -65,5 +65,5 @@ struct FeedScreenState {
             }
         }
     }
-    
+
 }

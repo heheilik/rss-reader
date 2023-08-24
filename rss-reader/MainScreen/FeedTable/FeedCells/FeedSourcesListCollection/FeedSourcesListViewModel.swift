@@ -8,15 +8,15 @@
 import UIKit
 
 class FeedsListViewModel {
-    
+
     var feedsCount: Int {
         FeedURLDatabase.array.count
     }
-    
+
     func feedName(for indexPath: IndexPath) -> String {
         return FeedURLDatabase.array[indexPath.row].name
     }
-    
+
     func collectionView(
         _ collectionView: UICollectionView,
         willInsertItem item: FeedSource,
@@ -24,7 +24,7 @@ class FeedsListViewModel {
     ) {
         FeedURLDatabase.array.insert(item, at: indexPath.row)
     }
-    
+
     func collectionView(
         _ collectionView: UICollectionView,
         willMoveItemAt source: IndexPath,
@@ -33,7 +33,7 @@ class FeedsListViewModel {
         let element = FeedURLDatabase.array.remove(at: source.row)
         FeedURLDatabase.array.insert(element, at: destination.row)
     }
-    
+
     func collectionView(
         _ collectionView: UICollectionView,
         willDeleteItemsAt indexPaths: [IndexPath]
@@ -44,5 +44,5 @@ class FeedsListViewModel {
         }
         FeedURLDatabase.array.remove(atOffsets: set)
     }
-    
+
 }

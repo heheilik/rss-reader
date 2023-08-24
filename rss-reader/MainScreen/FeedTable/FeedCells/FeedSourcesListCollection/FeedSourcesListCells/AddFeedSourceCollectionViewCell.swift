@@ -8,7 +8,7 @@
 import UIKit
 
 class AddFeedSourceCollectionViewCell: UICollectionViewCell {
-    
+
     @IBOutlet weak var plusButton: UIButton!
-    
+
 }

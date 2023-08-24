@@ -8,10 +8,10 @@
 import UIKit
 
 class TrashIconTableViewCell: UITableViewCell {
-    
+
     @IBOutlet weak var trashImageView: UIImageView!
     @IBOutlet weak var trashImageBorderView: UIView!
-    
+
     var trashImageDropDelegate: FeedDragDropController? {
         didSet {
             trashImageBorderView.interactions = []
@@ -20,11 +20,11 @@ class TrashIconTableViewCell: UITableViewCell {
             }
         }
     }
-    
+
     override func awakeFromNib() {
         configureAppearance()
     }
-    
+
     private func configureAppearance() {
         trashImageView.tintColor = CellAppearance.trashColor
         trashImageBorderView.layer.borderColor = CellAppearance.trashColor.cgColor
@@ -32,5 +32,5 @@ class TrashIconTableViewCell: UITableViewCell {
         trashImageBorderView.layer.cornerRadius = CellAppearance.cornerRadius
         selectionStyle = .none
     }
-    
+
 }

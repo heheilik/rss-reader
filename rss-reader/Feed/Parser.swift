@@ -8,7 +8,7 @@
 import UIKit
 
 final class Parser: NSObject {
-    
+
     override init() {
         super.init()
         for key in entryDataRequiredKeys {
@@ -18,7 +18,7 @@ final class Parser: NSObject {
             feedData[key] = ""
         }
     }
-    
+
     func parse(_ data: Data, completion: @escaping (RawFeed?) -> Void) {
         DispatchQueue.global().async {
             let parser = XMLParser(data: data)
@@ -27,7 +27,7 @@ final class Parser: NSObject {
             completion(self.feed)
         }
     }
-    
+
     enum TrackedElement: String {
         case entry
         case content
@@ -36,44 +36,44 @@ final class Parser: NSObject {
         case updated
         case id
     }
-    
+
     private var elementStack: [TrackedElement] = []
-    
+
     private var feedData: [TrackedElement: String] = [:]
     private let feedDataRequiredKeys: Set<TrackedElement> = [.title, .updated, .id]
     private var entryData: [TrackedElement: String] = [:]
     private let entryDataRequiredKeys: Set<TrackedElement> = [.title, .author, .updated, .id, .content]
-    
+
     private var entries: [RawEntry] = []
     private var feed: RawFeed?
-    
+
 }
 
 extension Parser: XMLParserDelegate {
-    
+
     // MARK: - start/end element
-    
+
     func parser(
         _ parser: XMLParser,
         didStartElement elementName: String,
         namespaceURI: String?,
         qualifiedName qName: String?,
-        attributes attributeDict: [String : String] = [:]
+        attributes attributeDict: [String: String] = [:]
     ) {
         let currentElement = TrackedElement(rawValue: elementName)
         guard let currentElement else {
             return
         }
-        
+
         if currentElement == .entry {
             for key in entryData.keys {
                 entryData[key] = ""
             }
         }
-        
+
         elementStack.append(currentElement)
     }
-    
+
     func parser(
         _ parser: XMLParser,
         didEndElement elementName: String,
@@ -84,7 +84,7 @@ extension Parser: XMLParserDelegate {
         guard let currentElement else {
             return
         }
-        
+
         if currentElement == .entry {
             guard Set(entryData.keys) == entryDataRequiredKeys else {
                 fatalError("Required key was deleted from entryData dictionary.")
@@ -99,20 +99,19 @@ extension Parser: XMLParserDelegate {
                 content: entryData[.content] ?? "[error]"
             ))
         }
-        
+
         if elementStack.last == currentElement {
             elementStack.removeLast()
         }
     }
-    
-    
+
     // MARK: - process elements in tag
-    
+
     func parser(_ parser: XMLParser, foundCharacters string: String) {
         guard let currentElement = elementStack.last else {
             return
         }
-        
+
         if elementStack[0] != .entry {
             switch currentElement {
             case .title, .updated, .id:
@@ -122,7 +121,7 @@ extension Parser: XMLParserDelegate {
             }
             return
         }
-        
+
         switch currentElement {
         case .title, .author, .updated, .id, .content:
             entryData[currentElement]?.append(string)
@@ -130,8 +129,7 @@ extension Parser: XMLParserDelegate {
             break
         }
     }
-    
-    
+
     // MARK: - start/end document
 
     func parserDidEndDocument(_ parser: XMLParser) {
@@ -147,5 +145,5 @@ extension Parser: XMLParserDelegate {
             entries: entries
         )
     }
-    
+
 }

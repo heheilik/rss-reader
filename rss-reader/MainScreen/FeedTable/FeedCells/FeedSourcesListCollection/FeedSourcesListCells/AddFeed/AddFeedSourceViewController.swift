@@ -8,16 +8,16 @@
 import UIKit
 
 class AddFeedSourceViewController: UIViewController {
-    
+
     var saveDataCallback: ((FeedSource) -> Void)?
-    
+
     @IBOutlet weak var nameField: UITextField!
     @IBOutlet weak var urlField: UITextField!
-    
+
     @IBAction func cancelButtonTouchUpInside(_ sender: Any) {
         dismiss(animated: true)
     }
-    
+
     @IBAction func saveButtonTouchUpInside(_ sender: Any) {
         let feedSource: FeedSource
         do {
@@ -29,20 +29,19 @@ class AddFeedSourceViewController: UIViewController {
             print("Unexpected error (\(error)).")
             return
         }
-        
+
         if let callback = saveDataCallback {
             callback(feedSource)
         }
         dismiss(animated: true)
     }
-    
-                    
+
     private enum DataFieldError: Error {
         case emptyName
         case emptyUrl
         case incorrectUrl
     }
-    
+
     private func retrieveDataFromFields() throws -> FeedSource {
         guard let name = nameField.text, name.count != 0 else {
             throw DataFieldError.emptyName
@@ -58,13 +57,13 @@ class AddFeedSourceViewController: UIViewController {
         else {
             throw DataFieldError.incorrectUrl
         }
-        
+
         return FeedSource(name: name, url: url)
     }
-    
+
     private func generateAlert(forErrorType errorType: DataFieldError) {
         let alertController: UIAlertController
-        
+
         switch errorType {
         case .emptyName:
             alertController = UIAlertController(
@@ -86,7 +85,7 @@ class AddFeedSourceViewController: UIViewController {
             )
         }
         alertController.addAction(UIAlertAction(title: "OK", style: .default))
-        
+
         present(alertController, animated: true)
     }
 

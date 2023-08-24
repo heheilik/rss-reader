@@ -17,34 +17,34 @@ protocol FeedSourcesSelectionResponder {
 }
 
 class FeedSourcesListViewController: UIViewController {
-    
+
     let viewModel = FeedsListViewModel()
-    
+
     static let feedDragDropObserverIdentifier = "FeedSources"
-    
+
     @IBOutlet weak var collectionView: UICollectionView!
-    
+
     enum CellIdentifier {
         static let plusButton = "AddFeedSourceCollectionViewCell"
         static let feed = "FeedSourceCollectionViewCell"
     }
-    
+
     override var view: UIView! {
         didSet {
             configureCollectionView()
         }
     }
-    
+
     func configureCollectionView() {
         collectionView.collectionViewLayout = {
             let layout = UICollectionViewFlowLayout()
             layout.scrollDirection = .horizontal
             return layout
         }()
-        
+
         collectionView.delegate = self
         collectionView.dataSource = self
-        
+
         collectionView.register(
             UINib(nibName: CellIdentifier.plusButton, bundle: nil),
             forCellWithReuseIdentifier: CellIdentifier.plusButton
@@ -53,23 +53,23 @@ class FeedSourcesListViewController: UIViewController {
             UINib(nibName: CellIdentifier.feed, bundle: nil),
             forCellWithReuseIdentifier: CellIdentifier.feed
         )
-        
+
         collectionView.allowsMultipleSelection = true
     }
-    
+
     var selectionResponder: FeedSourcesSelectionResponder?
-    
+
 }
 
 extension FeedSourcesListViewController: UICollectionViewDataSource {
-    
+
     // MARK: - Data Source
-    
+
     #warning("Create a constant.")
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         2
     }
-    
+
     func collectionView(
         _ collectionView: UICollectionView,
         numberOfItemsInSection section: Int
@@ -77,7 +77,7 @@ extension FeedSourcesListViewController: UICollectionViewDataSource {
         guard let section = FeedSourcesSectionIndex.init(rawValue: section) else {
             fatalError("Section \(section) is invalid.")
         }
-        
+
         switch section {
         case .plusButton:
             return 1
@@ -85,7 +85,7 @@ extension FeedSourcesListViewController: UICollectionViewDataSource {
             return viewModel.feedsCount
         }
     }
-    
+
     func collectionView(
         _ collectionView: UICollectionView,
         cellForItemAt indexPath: IndexPath
@@ -93,7 +93,7 @@ extension FeedSourcesListViewController: UICollectionViewDataSource {
         guard let section = FeedSourcesSectionIndex.init(rawValue: indexPath.section) else {
             fatalError("Section \(indexPath.section) is invalid.")
         }
-        
+
         switch section {
         case .plusButton:
             guard let cell = collectionView.dequeueReusableCell(
@@ -102,7 +102,7 @@ extension FeedSourcesListViewController: UICollectionViewDataSource {
             ) as? AddFeedSourceCollectionViewCell else {
                 fatalError("Failed to dequeue (\(CellIdentifier.plusButton)).")
             }
-            
+
             let plusButtonUIAction = UIAction { _ in
                 let addFeedSourceViewController = AddFeedSourceViewController()
                 addFeedSourceViewController.sheetPresentationController?.detents = [.medium()]
@@ -122,10 +122,10 @@ extension FeedSourcesListViewController: UICollectionViewDataSource {
                 }
                 self.present(addFeedSourceViewController, animated: true)
             }
-            
+
             cell.plusButton.addAction(plusButtonUIAction, for: .touchUpInside)
             return cell
-            
+
         case .feeds:
             guard let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: CellIdentifier.feed,
@@ -133,18 +133,18 @@ extension FeedSourcesListViewController: UICollectionViewDataSource {
             ) as? FeedSourceCollectionViewCell else {
                 fatalError("Failed to dequeue (\(CellIdentifier.feed)).")
             }
-            
+
             cell.updateContentsWith(viewModel.feedName(for: indexPath))
             return cell
         }
     }
-    
+
 }
 
 extension FeedSourcesListViewController: UICollectionViewDelegateFlowLayout {
-    
+
     // MARK: - Size Calculations
-    
+
     func collectionView(
         _ collectionView: UICollectionView,
         layout collectionViewLayout: UICollectionViewLayout,
@@ -162,20 +162,20 @@ extension FeedSourcesListViewController: UICollectionViewDelegateFlowLayout {
         )
         let contentHeight = collectionView.bounds.size.height
         let contentWidth = collectionView.bounds.size.width
-        
+
         let plusSize = CGSize(width: contentHeight, height: contentHeight)
-        
+
         if indexPath.section == FeedSourcesSectionIndex.plusButton.rawValue {
             return plusSize
         }
-        
+
         #warning("Recalculate cell layout.")
         return CGSize(
             width: (contentWidth - plusSize.width - inset.left - 3 * spacing) / 2.5,
             height: contentHeight
         )
     }
-    
+
     func collectionView(
         _ collectionView: UICollectionView,
         layout collectionViewLayout: UICollectionViewLayout,
@@ -201,7 +201,7 @@ extension FeedSourcesListViewController: UICollectionViewDelegateFlowLayout {
             )
         }
     }
-    
+
     func collectionView(
         _ collectionView: UICollectionView,
         layout collectionViewLayout: UICollectionViewLayout,
@@ -209,10 +209,9 @@ extension FeedSourcesListViewController: UICollectionViewDelegateFlowLayout {
     ) -> CGFloat {
         8
     }
-    
-    
+
     // MARK: - Selection
-    
+
     func collectionView(
         _ collectionView: UICollectionView,
         shouldSelectItemAt indexPath: IndexPath
@@ -227,21 +226,21 @@ extension FeedSourcesListViewController: UICollectionViewDelegateFlowLayout {
             return true
         }
     }
-    
+
     func collectionView(
         _ collectionView: UICollectionView,
         didSelectItemAt indexPath: IndexPath
     ) {
         selectionResponder?.onCellSelectionArrayProbablyChanged(selectionArray: collectionView.indexPathsForSelectedItems ?? [])
     }
-    
+
     func collectionView(
         _ collectionView: UICollectionView,
         didDeselectItemAt indexPath: IndexPath
     ) {
         selectionResponder?.onCellSelectionArrayProbablyChanged(selectionArray: collectionView.indexPathsForSelectedItems ?? [])
     }
-    
+
     func collectionView(
         _ collectionView: UICollectionView,
         didEndDisplaying cell: UICollectionViewCell,
@@ -249,11 +248,11 @@ extension FeedSourcesListViewController: UICollectionViewDelegateFlowLayout {
     ) {
         selectionResponder?.onCellSelectionArrayProbablyChanged(selectionArray: collectionView.indexPathsForSelectedItems ?? [])
     }
-    
+
 }
 
 extension FeedSourcesListViewController: FeedDragDropObserver {
-    
+
     func onItemMoved(from source: IndexPath, to destination: IndexPath) {
         collectionView.performBatchUpdates {
             viewModel.collectionView(
@@ -263,10 +262,10 @@ extension FeedSourcesListViewController: FeedDragDropObserver {
             )
             collectionView.moveItem(at: source, to: destination)
         }
-        
+
         selectionResponder?.onCellSelectionArrayProbablyChanged(selectionArray: collectionView.indexPathsForSelectedItems ?? [])
     }
-    
+
     func onItemsDeleted(withIndices indices: [NSNumber]) {
         var indexPathsToDelete = [IndexPath]()
         for index in indices {
@@ -285,8 +284,8 @@ extension FeedSourcesListViewController: FeedDragDropObserver {
                 self.collectionView.deleteItems(at: indexPathsToDelete)
             }
         }
-        
+
         selectionResponder?.onCellSelectionArrayProbablyChanged(selectionArray: collectionView.indexPathsForSelectedItems ?? [])
     }
-    
+
 }
