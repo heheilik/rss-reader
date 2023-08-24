@@ -66,7 +66,6 @@ class FeedViewModel {
             switch status {
             case .empty:
                 prepareFeed(forUrl: currentUrl)
-                break
             case .loading:
                 break
             case .ready:

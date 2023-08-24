@@ -160,7 +160,8 @@ extension FeedViewController: UITableViewDataSource {
     func configureFeedsListCell(_ cell: FeedSourcesListTableViewCell) -> FeedSourcesListTableViewCell {
         cell.viewController.collectionView.dragDelegate = feedDragDropController
         cell.viewController.collectionView.dropDelegate = feedDragDropController
-        feedDragDropController.observers[FeedSourcesListViewController.feedDragDropObserverIdentifier] = cell.viewController
+        let identifier = FeedSourcesListViewController.feedDragDropObserverIdentifier
+        feedDragDropController.observers[identifier] = cell.viewController
 
         cell.viewController.selectionResponder = self
 
@@ -199,7 +200,7 @@ extension FeedViewController: UITableViewDelegate {
         case .trashIcon:
             return TableSizeConstant.trashIconHeight + TableSizeConstant.sectionBottomInset
         case .startScreen:
-            fallthrough
+            return tableContentHeight(totalHeight: tableView.bounds.height)
         case .loadingScreen:
             return tableContentHeight(totalHeight: tableView.bounds.height)
         case .feedEntries:

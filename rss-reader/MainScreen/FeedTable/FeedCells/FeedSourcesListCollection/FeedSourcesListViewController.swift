@@ -65,9 +65,8 @@ extension FeedSourcesListViewController: UICollectionViewDataSource {
 
     // MARK: - Data Source
 
-    #warning("Create a constant.")
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        2
+        2  // TODO: Create constant for this.
     }
 
     func collectionView(
@@ -169,7 +168,6 @@ extension FeedSourcesListViewController: UICollectionViewDelegateFlowLayout {
             return plusSize
         }
 
-        #warning("Recalculate cell layout.")
         return CGSize(
             width: (contentWidth - plusSize.width - inset.left - 3 * spacing) / 2.5,
             height: contentHeight
@@ -231,14 +229,18 @@ extension FeedSourcesListViewController: UICollectionViewDelegateFlowLayout {
         _ collectionView: UICollectionView,
         didSelectItemAt indexPath: IndexPath
     ) {
-        selectionResponder?.onCellSelectionArrayProbablyChanged(selectionArray: collectionView.indexPathsForSelectedItems ?? [])
+        selectionResponder?.onCellSelectionArrayProbablyChanged(
+            selectionArray: collectionView.indexPathsForSelectedItems ?? []
+        )
     }
 
     func collectionView(
         _ collectionView: UICollectionView,
         didDeselectItemAt indexPath: IndexPath
     ) {
-        selectionResponder?.onCellSelectionArrayProbablyChanged(selectionArray: collectionView.indexPathsForSelectedItems ?? [])
+        selectionResponder?.onCellSelectionArrayProbablyChanged(
+            selectionArray: collectionView.indexPathsForSelectedItems ?? []
+        )
     }
 
     func collectionView(
@@ -246,7 +248,9 @@ extension FeedSourcesListViewController: UICollectionViewDelegateFlowLayout {
         didEndDisplaying cell: UICollectionViewCell,
         forItemAt indexPath: IndexPath
     ) {
-        selectionResponder?.onCellSelectionArrayProbablyChanged(selectionArray: collectionView.indexPathsForSelectedItems ?? [])
+        selectionResponder?.onCellSelectionArrayProbablyChanged(
+            selectionArray: collectionView.indexPathsForSelectedItems ?? []
+        )
     }
 
 }
@@ -263,7 +267,9 @@ extension FeedSourcesListViewController: FeedDragDropObserver {
             collectionView.moveItem(at: source, to: destination)
         }
 
-        selectionResponder?.onCellSelectionArrayProbablyChanged(selectionArray: collectionView.indexPathsForSelectedItems ?? [])
+        selectionResponder?.onCellSelectionArrayProbablyChanged(
+            selectionArray: collectionView.indexPathsForSelectedItems ?? []
+        )
     }
 
     func onItemsDeleted(withIndices indices: [NSNumber]) {
@@ -285,7 +291,9 @@ extension FeedSourcesListViewController: FeedDragDropObserver {
             }
         }
 
-        selectionResponder?.onCellSelectionArrayProbablyChanged(selectionArray: collectionView.indexPathsForSelectedItems ?? [])
+        selectionResponder?.onCellSelectionArrayProbablyChanged(
+            selectionArray: collectionView.indexPathsForSelectedItems ?? []
+        )
     }
 
 }

@@ -27,7 +27,7 @@ struct FeedScreenState {
         case loadingScreen
         case feedEntries
 
-        init?(index: Int, state: State, isDeleteActive: Bool) {
+        init?(index: Int, state: State, isDeleteActive: Bool) {  // TODO: Rewrite.
             if isDeleteActive {
                 switch index {
                 case 0:
