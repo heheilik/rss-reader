@@ -8,18 +8,18 @@
 import UIKit
 
 final class FeedService {
-    
+
     init(urlSession: URLSession = .shared) {
         self.urlSession = urlSession
     }
-    
+
     private let urlSession: URLSession
-    
+
     func prepareFeed(
         withURL url: URL,
         completion: @escaping (RawFeed?) -> Void
     ) -> URLSessionDataTask {
-        let downloadTask = urlSession.dataTask(with: url) { data, response, error in
+        let downloadTask = urlSession.dataTask(with: url) { data, _, error in
             guard error == nil else {
                 print(error ?? "Unknown error.")
                 return
@@ -28,7 +28,7 @@ final class FeedService {
                 print("No data downloaded.")
                 return
             }
-            
+
             let parser = Parser()
             parser.parse(data) { feed in
                 completion(feed)
@@ -37,5 +37,5 @@ final class FeedService {
         downloadTask.resume()
         return downloadTask
     }
-    
+
 }

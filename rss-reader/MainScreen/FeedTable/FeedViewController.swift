@@ -8,17 +8,17 @@
 import UIKit
 
 class FeedViewController: UIViewController {
-    
+
     private var viewModel = FeedViewModel()
     private var feedState = FeedScreenState()
-    
+
     private var feedDragDropController = FeedDragDropController()
     static let feedDragDropObserverIdentifier = "Feed"
-    
+
     @IBOutlet weak var entriesTable: UITableView!
-    
+
     var selectionArray: [IndexPath] = []
-    
+
     enum CellIdentifier {
         static let feedsList = "FeedSourcesListTableViewCell"
         static let trashIcon = "TrashIconTableViewCell"
@@ -26,7 +26,7 @@ class FeedViewController: UIViewController {
         static let loadingScreen = "LoadingTableViewCell"
         static let feedEntry = "FeedEntryInfoTableViewCell"
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         entriesTable.dataSource = self
@@ -51,9 +51,9 @@ class FeedViewController: UIViewController {
             UINib(nibName: CellIdentifier.feedEntry, bundle: nil),
             forCellReuseIdentifier: CellIdentifier.feedEntry
         )
-        
+
         feedDragDropController.observers[Self.feedDragDropObserverIdentifier] = self
-        
+
         viewModel.onFeedDownloaded = {
             DispatchQueue.main.async {
                 self.viewModel.updateFeedToPresent(for: self.selectionArray)
@@ -61,15 +61,15 @@ class FeedViewController: UIViewController {
             }
         }
     }
-    
+
 }
 
 extension FeedViewController: UITableViewDataSource {
-    
+
     func numberOfSections(in tableView: UITableView) -> Int {
         feedState.numberOfSections
     }
-    
+
     func tableView(
         _ tableView: UITableView,
         numberOfRowsInSection section: Int
@@ -81,7 +81,7 @@ extension FeedViewController: UITableViewDataSource {
         ) else {
             fatalError("Section \(section) is invalid.")
         }
-        
+
         switch section {
         case .feedsList:
             return 1
@@ -95,7 +95,7 @@ extension FeedViewController: UITableViewDataSource {
             return viewModel.entryHeadersToPresent.count
         }
     }
-    
+
     func tableView(
         _ tableView: UITableView,
         cellForRowAt indexPath: IndexPath
@@ -107,7 +107,7 @@ extension FeedViewController: UITableViewDataSource {
         ) else {
             fatalError("Section \(indexPath.section) is invalid.")
         }
-        
+
         switch section {
         case .feedsList:
             guard let cell = tableView.dequeueReusableCell(
@@ -117,7 +117,7 @@ extension FeedViewController: UITableViewDataSource {
                 fatalError("Failed to dequeue \(CellIdentifier.feedsList)")
             }
             return configureFeedsListCell(cell)
-            
+
         case .trashIcon:
             guard let cell = tableView.dequeueReusableCell(
                 withIdentifier: CellIdentifier.trashIcon,
@@ -126,7 +126,7 @@ extension FeedViewController: UITableViewDataSource {
                 fatalError("Failed to dequeue \(CellIdentifier.trashIcon)")
             }
             return configureTrashIconCell(cell)
-            
+
         case .startScreen:
             guard let cell = tableView.dequeueReusableCell(
                 withIdentifier: CellIdentifier.startScreen,
@@ -135,7 +135,7 @@ extension FeedViewController: UITableViewDataSource {
                 fatalError("Failed to dequeue \(CellIdentifier.startScreen)")
             }
             return cell
-            
+
         case .loadingScreen:
             guard let cell = tableView.dequeueReusableCell(
                 withIdentifier: CellIdentifier.loadingScreen,
@@ -144,7 +144,7 @@ extension FeedViewController: UITableViewDataSource {
                 fatalError("Failed to dequeue \(CellIdentifier.loadingScreen)")
             }
             return cell
-            
+
         case .feedEntries:
             guard let cell = tableView.dequeueReusableCell(
                 withIdentifier: CellIdentifier.feedEntry,
@@ -154,24 +154,25 @@ extension FeedViewController: UITableViewDataSource {
             }
             return configureFeedEntryCell(cell, forIndexPath: indexPath)
         }
-        
+
     }
-    
+
     func configureFeedsListCell(_ cell: FeedSourcesListTableViewCell) -> FeedSourcesListTableViewCell {
         cell.viewController.collectionView.dragDelegate = feedDragDropController
         cell.viewController.collectionView.dropDelegate = feedDragDropController
-        feedDragDropController.observers[FeedSourcesListViewController.feedDragDropObserverIdentifier] = cell.viewController
-        
+        let identifier = FeedSourcesListViewController.feedDragDropObserverIdentifier
+        feedDragDropController.observers[identifier] = cell.viewController
+
         cell.viewController.selectionResponder = self
-        
+
         return cell
     }
-    
+
     func configureTrashIconCell(_ cell: TrashIconTableViewCell) -> TrashIconTableViewCell {
         cell.trashImageDropDelegate = feedDragDropController
         return cell
     }
-    
+
     func configureFeedEntryCell(
         _ cell: FeedEntryInfoTableViewCell,
         forIndexPath indexPath: IndexPath
@@ -179,11 +180,11 @@ extension FeedViewController: UITableViewDataSource {
         cell.updateContentsWith(viewModel.entryHeadersToPresent[indexPath.row])
         return cell
     }
-    
+
 }
 
 extension FeedViewController: UITableViewDelegate {
-    
+
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         guard let section = FeedScreenState.TableSection(
             index: indexPath.section,
@@ -192,21 +193,21 @@ extension FeedViewController: UITableViewDelegate {
         ) else {
             fatalError("Section \(indexPath.section) is invalid.")
         }
-        
+
         switch section {
         case .feedsList:
             return TableSizeConstant.feedsListHeight + TableSizeConstant.sectionBottomInset
         case .trashIcon:
             return TableSizeConstant.trashIconHeight + TableSizeConstant.sectionBottomInset
         case .startScreen:
-            fallthrough
+            return tableContentHeight(totalHeight: tableView.bounds.height)
         case .loadingScreen:
             return tableContentHeight(totalHeight: tableView.bounds.height)
         case .feedEntries:
             return UITableView.automaticDimension
         }
     }
-    
+
     func tableContentHeight(totalHeight: CGFloat) -> CGFloat {
         var result = totalHeight
         result -= feedsListTotalHeight()
@@ -215,44 +216,44 @@ extension FeedViewController: UITableViewDelegate {
         }
         return result
     }
-    
+
     func feedsListTotalHeight() -> CGFloat {
         TableSizeConstant.feedsListHeight + TableSizeConstant.sectionBottomInset
     }
     func trashIconTotalHeight() -> CGFloat {
         TableSizeConstant.trashIconHeight + TableSizeConstant.sectionBottomInset
     }
-    
+
 }
 
 extension FeedViewController: FeedDragDropObserver {
-    
+
     func onDragDropStarted() {
         entriesTable.performBatchUpdates {
             self.feedState.isDeleteActive = true
             self.entriesTable.insertSections(IndexSet(integer: 1), with: .top)
         }
     }
-    
+
     func onDragDropEnded() {
         entriesTable.performBatchUpdates {
             self.feedState.isDeleteActive = false
             self.entriesTable.deleteSections(IndexSet(integer: 1), with: .top)
         }
     }
-    
+
 }
 
 extension FeedViewController: FeedSourcesSelectionResponder {
-    
+
     func onCellSelectionArrayProbablyChanged(selectionArray: [IndexPath]) {
         self.selectionArray = selectionArray
         viewModel.prepareFeeds(for: selectionArray)
         viewModel.updateFeedToPresent(for: selectionArray)
-        
+
         configureEntriesTable(selectionArray)
     }
-    
+
     func configureEntriesTable(_ selectionArray: [IndexPath]) {
         guard !selectionArray.isEmpty else {
             changeEntriesTableState(to: .start)
@@ -264,10 +265,10 @@ extension FeedViewController: FeedSourcesSelectionResponder {
         }
         changeEntriesTableState(to: .showing)
     }
-    
+
     func changeEntriesTableState(to newState: FeedScreenState.State) {
         feedState.state = newState
         entriesTable.reloadSections(IndexSet(integer: feedState.numberOfSections - 1), with: .fade)
     }
-    
+
 }

@@ -8,9 +8,9 @@
 import UIKit
 
 class StartTableViewCell: UITableViewCell {
-    
+
     override func awakeFromNib() {
         selectionStyle = .none
     }
-    
+
 }

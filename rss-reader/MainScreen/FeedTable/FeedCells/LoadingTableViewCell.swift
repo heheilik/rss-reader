@@ -8,9 +8,9 @@
 import UIKit
 
 class LoadingTableViewCell: UITableViewCell {
-    
+
     override func awakeFromNib() {
         selectionStyle = .none
     }
-    
+
 }

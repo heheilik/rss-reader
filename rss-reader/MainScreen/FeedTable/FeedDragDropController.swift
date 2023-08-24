@@ -12,9 +12,9 @@ enum DragDropTypeIdentifier {
 }
 
 class FeedDragDropController: NSObject {
-    
+
     var observers: [String: FeedDragDropObserver] = [:]
-    
+
     func sendEvent(_ event: EventType) {
         switch event {
         case .dragDropStarted:
@@ -35,7 +35,7 @@ class FeedDragDropController: NSObject {
             }
         }
     }
-    
+
 }
 
 enum EventType {
@@ -59,7 +59,7 @@ extension FeedDragDropObserver {
 }
 
 extension FeedDragDropController: UICollectionViewDragDelegate {
-    
+
     func collectionView(
         _ collectionView: UICollectionView,
         itemsForBeginning session: UIDragSession,
@@ -68,7 +68,7 @@ extension FeedDragDropController: UICollectionViewDragDelegate {
         guard let section = FeedSourcesSectionIndex(rawValue: indexPath.section) else {
             fatalError("Section \(indexPath.section) is invalid.")
         }
-        
+
         switch section {
         case .plusButton:
             return []
@@ -80,31 +80,31 @@ extension FeedDragDropController: UICollectionViewDragDelegate {
             )
             let item = UIDragItem(itemProvider: objProvider)
             item.localObject = data
-            
+
             return [item]
         }
-        
+
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, dragSessionWillBegin session: UIDragSession) {
         sendEvent(.dragDropStarted)
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, dragSessionDidEnd session: UIDragSession) {
         sendEvent(.dragDropEnded)
     }
-    
+
 }
 
 extension FeedDragDropController: UICollectionViewDropDelegate {
-    
+
     func collectionView(
         _ collectionView: UICollectionView,
         canHandle session: UIDropSession
     ) -> Bool {
         session.hasItemsConforming(toTypeIdentifiers: [DragDropTypeIdentifier.feedCell])
     }
-    
+
     func collectionView(
         _ collectionView: UICollectionView,
         dropSessionDidUpdate session: UIDropSession,
@@ -114,14 +114,14 @@ extension FeedDragDropController: UICollectionViewDropDelegate {
             guard session.items.count == 1 else {
                 return .forbidden
             }
-            
+
             guard
                 let destinationIndexPath,
                 let section = FeedSourcesSectionIndex(rawValue: destinationIndexPath.section)
             else {
                 return .forbidden
             }
-            
+
             switch section {
             case .plusButton:
                 return .forbidden
@@ -131,7 +131,7 @@ extension FeedDragDropController: UICollectionViewDropDelegate {
         }()
         return UICollectionViewDropProposal(operation: operation, intent: .insertAtDestinationIndexPath)
     }
-    
+
     func collectionView(
         _ collectionView: UICollectionView,
         performDropWith coordinator: UICollectionViewDropCoordinator
@@ -142,36 +142,36 @@ extension FeedDragDropController: UICollectionViewDropDelegate {
         else {
             return
         }
-        
+
         guard
             let sourceIndexPath = item.sourceIndexPath,
             let destinationIndexPath = coordinator.destinationIndexPath
         else {
             return
         }
-        
+
         sendEvent(.itemMoved(sourceIndexPath, destinationIndexPath))
         coordinator.drop(item.dragItem, toItemAt: destinationIndexPath)
     }
-    
+
 }
 
 extension FeedDragDropController: UIDropInteractionDelegate {
-    
+
     func dropInteraction(
         _ interaction: UIDropInteraction,
         canHandle session: UIDropSession
     ) -> Bool {
         session.hasItemsConforming(toTypeIdentifiers: [DragDropTypeIdentifier.feedCell])
     }
-    
+
     func dropInteraction(
         _ interaction: UIDropInteraction,
         sessionDidUpdate session: UIDropSession
     ) -> UIDropProposal {
         UIDropProposal(operation: .move)
     }
-    
+
     func dropInteraction(
         _ interaction: UIDropInteraction,
         performDrop session: UIDropSession
@@ -187,5 +187,5 @@ extension FeedDragDropController: UIDropInteractionDelegate {
         }
         sendEvent(.itemsDeleted(indicesToDelete))
     }
-    
+
 }
