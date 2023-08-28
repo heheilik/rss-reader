@@ -31,7 +31,7 @@ class FeedSourcesSectionController: NSObject {
     let viewController = {
         let viewController = FeedSourcesCollectionViewController()
         UINib(
-            nibName: "FeedSourcesViewController",
+            nibName: "FeedSourcesCollectionViewController",
             bundle: nil
         ).instantiate(withOwner: viewController)
         return viewController

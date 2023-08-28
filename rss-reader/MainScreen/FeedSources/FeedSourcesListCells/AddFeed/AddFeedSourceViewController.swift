@@ -7,8 +7,10 @@
 
 import UIKit
 
-// TODO: move data checking to ViewModel
 class AddFeedSourceViewController: UIViewController {
+
+    private let viewModel = AddFeedSourceViewModel()
+    typealias DataFieldError = AddFeedSourceViewModel.DataFieldError
 
     var saveDataCallback: ((FeedSource) -> Void)?
 
@@ -22,72 +24,23 @@ class AddFeedSourceViewController: UIViewController {
     @IBAction func saveButtonTouchUpInside(_ sender: Any) {
         let feedSource: FeedSource
         do {
-            feedSource = try retrieveDataFromFields()
+            feedSource = try viewModel.createFeedSource(
+                name: nameField.text,
+                urlString: urlField.text
+            )
         } catch let error as DataFieldError {
-            generateAlert(forErrorType: error)
+            let alert = viewModel.generateAlertController(forErrorType: error)
+            present(alert, animated: true)
             return
         } catch {
             print("Unexpected error (\(error)).")
             return
         }
 
-        if let callback = saveDataCallback {
-            callback(feedSource)
+        if let saveDataCallback {
+            saveDataCallback(feedSource)
         }
         dismiss(animated: true)
-    }
-
-    private enum DataFieldError: Error {
-        case emptyName
-        case emptyUrl
-        case incorrectUrl
-    }
-
-    private func retrieveDataFromFields() throws -> FeedSource {
-        guard let name = nameField.text, name.count != 0 else {
-            throw DataFieldError.emptyName
-        }
-        guard let urlString = urlField.text, urlString.count != 0 else {
-            throw DataFieldError.emptyUrl
-        }
-        guard
-            let url = URL(string: urlString),
-            let scheme = url.scheme,
-            scheme == "http" || scheme == "https",
-            url.host() != nil
-        else {
-            throw DataFieldError.incorrectUrl
-        }
-
-        return FeedSource(name: name, url: url)
-    }
-
-    private func generateAlert(forErrorType errorType: DataFieldError) {
-        let alertController: UIAlertController
-
-        switch errorType {
-        case .emptyName:
-            alertController = UIAlertController(
-                title: "Empty Name Field",
-                message: "Please fill in the name of feed.",
-                preferredStyle: .alert
-            )
-        case .emptyUrl:
-            alertController = UIAlertController(
-                title: "Empty URL Field",
-                message: "Please fill in the name of feed.",
-                preferredStyle: .alert
-            )
-        case .incorrectUrl:
-            alertController = UIAlertController(
-                title: "Incorrect URL",
-                message: "Check the correctness of entered URL.",
-                preferredStyle: .alert
-            )
-        }
-        alertController.addAction(UIAlertAction(title: "OK", style: .default))
-
-        present(alertController, animated: true)
     }
 
 }

@@ -15,6 +15,7 @@
 		5D2077D92A9717C500AC17C7 /* EntriesSectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D2077D82A9717C500AC17C7 /* EntriesSectionViewModel.swift */; };
 		5D30D53A2A6E158E0003DA1F /* RawFeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D30D5392A6E158E0003DA1F /* RawFeed.swift */; };
 		5D30D53E2A6E167C0003DA1F /* FeedService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D30D53D2A6E167C0003DA1F /* FeedService.swift */; };
+		5D3562B02A9C4B3B0093340E /* AddFeedSourceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D3562AF2A9C4B3B0093340E /* AddFeedSourceViewModel.swift */; };
 		5D368EDE2A8856F40068E6F3 /* FeedSourcesCollectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D368EDD2A8856F40068E6F3 /* FeedSourcesCollectionViewController.xib */; };
 		5D418FE82A8926D40000B658 /* TrashIconTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D418FE62A8926D40000B658 /* TrashIconTableViewCell.swift */; };
 		5D418FE92A8926D40000B658 /* TrashIconTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D418FE72A8926D40000B658 /* TrashIconTableViewCell.xib */; };
@@ -65,6 +66,7 @@
 		5D2077D82A9717C500AC17C7 /* EntriesSectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntriesSectionViewModel.swift; sourceTree = "<group>"; };
 		5D30D5392A6E158E0003DA1F /* RawFeed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RawFeed.swift; sourceTree = "<group>"; };
 		5D30D53D2A6E167C0003DA1F /* FeedService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedService.swift; sourceTree = "<group>"; };
+		5D3562AF2A9C4B3B0093340E /* AddFeedSourceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFeedSourceViewModel.swift; sourceTree = "<group>"; };
 		5D368EDD2A8856F40068E6F3 /* FeedSourcesCollectionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FeedSourcesCollectionViewController.xib; sourceTree = "<group>"; };
 		5D418FE62A8926D40000B658 /* TrashIconTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrashIconTableViewCell.swift; sourceTree = "<group>"; };
 		5D418FE72A8926D40000B658 /* TrashIconTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TrashIconTableViewCell.xib; sourceTree = "<group>"; };
@@ -176,6 +178,7 @@
 			children = (
 				5D1B95672A7F2C0100AA63ED /* AddFeedSourceViewController.swift */,
 				5D1B95652A7F2BFA00AA63ED /* AddFeedSourceViewController.xib */,
+				5D3562AF2A9C4B3B0093340E /* AddFeedSourceViewModel.swift */,
 			);
 			path = AddFeed;
 			sourceTree = "<group>";
@@ -368,6 +371,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5D1B95682A7F2C0100AA63ED /* AddFeedSourceViewController.swift in Sources */,
+				5D3562B02A9C4B3B0093340E /* AddFeedSourceViewModel.swift in Sources */,
 				5D02A8402A93D0FB008D24FC /* FormattedFeed.swift in Sources */,
 				5D992EC52A3D39250007EC2C /* FeedViewController.swift in Sources */,
 				5D2077D92A9717C500AC17C7 /* EntriesSectionViewModel.swift in Sources */,

@@ -274,7 +274,7 @@ extension FeedSourcesCollectionViewController: UICollectionViewDelegateFlowLayou
 extension FeedSourcesCollectionViewController: FeedDragDropObserver {
 
     var dragDropObserverIdentifier: String {
-        "FeedSourcesViewController"
+        "FeedSourcesCollectionViewController"
     }
 
     func onItemMoved(from source: IndexPath, to destination: IndexPath) {

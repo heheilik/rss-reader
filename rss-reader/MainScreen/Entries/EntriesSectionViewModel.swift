@@ -23,6 +23,7 @@ class EntriesSectionViewModel {
 
     var lastSelectionArray = [IndexPath]()
 
+    // FIXME: State is not changing on download.
     var entriesState = EntriesState.start
 
     private let feedService = FeedService()
