@@ -1,19 +1,29 @@
 //
-//  FeedViewModel.swift
+//  EntriesSectionViewModel.swift
 //  rss-reader
 //
-//  Created by Heorhi Heilik on 13.08.23.
+//  Created by Heorhi Heilik on 24.08.23.
 //
 
 import Foundation
 
-class FeedViewModel {
+enum EntriesState {
+    case start
+    case loading
+    case showing
+}
 
-    enum FeedStatus {
-        case empty
-        case loading
-        case ready
-    }
+enum FeedStatus {
+    case empty
+    case loading
+    case ready
+}
+
+class EntriesSectionViewModel {
+
+    var lastSelectionArray = [IndexPath]()
+
+    var entriesState = EntriesState.start
 
     private let feedService = FeedService()
     private var tasks: [URL: URLSessionDataTask] = [:]
@@ -53,8 +63,10 @@ class FeedViewModel {
         }
     }
 
-    func prepareFeeds(for selectionArray: [IndexPath]) {
-        for indexPath in selectionArray {
+    func prepareFeeds() {
+        reconfigureState()
+
+        for indexPath in lastSelectionArray {
             let index = indexPath.row
             let currentUrl = FeedURLDatabase.array[index].url
 
@@ -74,9 +86,9 @@ class FeedViewModel {
         }
     }
 
-    func updateFeedToPresent(for selectionArray: [IndexPath]) {
+    func updateFeedToPresent() {
         entryHeadersToPresent = []
-        for indexPath in selectionArray {
+        for indexPath in lastSelectionArray {
             let index = indexPath.row
             let currentUrl = FeedURLDatabase.array[index].url
             guard let status = feedStatuses[currentUrl] else {
@@ -96,6 +108,41 @@ class FeedViewModel {
         }
 
         entryHeadersToPresent.sort(by: { $0.updated > $1.updated })
+
+        reconfigureState()
+    }
+
+    func reconfigureState() {
+        guard !lastSelectionArray.isEmpty else {
+            entriesState = .start
+            return
+        }
+        guard !entryHeadersToPresent.isEmpty else {
+            entriesState = .loading
+            return
+        }
+        entriesState = .showing
+    }
+
+    func rowCount(for section: TableSection) -> Int {
+        switch section {
+        case .status:
+            switch entriesState {
+            case .start, .loading:
+                return 1
+            case .showing:
+                return 0
+            }
+        case .entries:
+            switch entriesState {
+            case .showing:
+                return entryHeadersToPresent.count
+            case .start, .loading:
+                return 0
+            }
+        case .feedSources, .trashIcon:
+            fatalError("Section \(section) is not managed by this data source.")
+        }
     }
 
 }

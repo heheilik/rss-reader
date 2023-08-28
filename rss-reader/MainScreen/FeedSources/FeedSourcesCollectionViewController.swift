@@ -1,5 +1,5 @@
 //
-//  FeedSourcesListViewController.swift
+//  FeedSourcesCollectionViewController.swift
 //  rss-reader
 //
 //  Created by Heorhi Heilik on 13.08.23.
@@ -7,20 +7,18 @@
 
 import UIKit
 
-enum FeedSourcesSectionIndex: Int {
+enum FeedSourcesSection: Int, CaseIterable {
     case plusButton = 0
-    case feeds = 1
+    case feeds
 }
 
-protocol FeedSourcesSelectionResponder {
+protocol FeedSourcesSelectionDelegate: AnyObject {
     func onCellSelectionArrayProbablyChanged(selectionArray: [IndexPath])
 }
 
-class FeedSourcesListViewController: UIViewController {
+class FeedSourcesCollectionViewController: UIViewController {
 
-    let viewModel = FeedsListViewModel()
-
-    static let feedDragDropObserverIdentifier = "FeedSources"
+    let viewModel = FeedSourcesCollectionViewModel()
 
     @IBOutlet weak var collectionView: UICollectionView!
 
@@ -57,43 +55,37 @@ class FeedSourcesListViewController: UIViewController {
         collectionView.allowsMultipleSelection = true
     }
 
-    var selectionResponder: FeedSourcesSelectionResponder?
+    weak var selectionDelegate: FeedSourcesSelectionDelegate?
 
 }
 
-extension FeedSourcesListViewController: UICollectionViewDataSource {
+extension FeedSourcesCollectionViewController: UICollectionViewDataSource {
 
     // MARK: - Data Source
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        2  // TODO: Create constant for this.
+        FeedSourcesSection.allCases.count
     }
 
     func collectionView(
         _ collectionView: UICollectionView,
         numberOfItemsInSection section: Int
     ) -> Int {
-        guard let section = FeedSourcesSectionIndex.init(rawValue: section) else {
+        guard let typedSection = FeedSourcesSection.init(rawValue: section) else {
             fatalError("Section \(section) is invalid.")
         }
-
-        switch section {
-        case .plusButton:
-            return 1
-        case .feeds:
-            return viewModel.feedsCount
-        }
+        return viewModel.itemCount(for: typedSection)
     }
 
     func collectionView(
         _ collectionView: UICollectionView,
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
-        guard let section = FeedSourcesSectionIndex.init(rawValue: indexPath.section) else {
+        guard let typedSection = FeedSourcesSection.init(rawValue: indexPath.section) else {
             fatalError("Section \(indexPath.section) is invalid.")
         }
 
-        switch section {
+        switch typedSection {
         case .plusButton:
             guard let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: CellIdentifier.plusButton,
@@ -108,8 +100,8 @@ extension FeedSourcesListViewController: UICollectionViewDataSource {
                 addFeedSourceViewController.saveDataCallback = { feedSource in
                     self.collectionView.performBatchUpdates {
                         let indexPath = IndexPath(
-                            row: self.viewModel.feedsCount,
-                            section: FeedSourcesSectionIndex.feeds.rawValue
+                            row: self.viewModel.itemCount(for: FeedSourcesSection.feeds),
+                            section: FeedSourcesSection.feeds.rawValue
                         )
                         self.viewModel.collectionView(
                             self.collectionView,
@@ -140,7 +132,7 @@ extension FeedSourcesListViewController: UICollectionViewDataSource {
 
 }
 
-extension FeedSourcesListViewController: UICollectionViewDelegateFlowLayout {
+extension FeedSourcesCollectionViewController: UICollectionViewDelegateFlowLayout {
 
     // MARK: - Size Calculations
 
@@ -149,29 +141,15 @@ extension FeedSourcesListViewController: UICollectionViewDelegateFlowLayout {
         layout collectionViewLayout: UICollectionViewLayout,
         sizeForItemAt indexPath: IndexPath
     ) -> CGSize {
-        let inset = self.collectionView(
-            collectionView,
-            layout: collectionViewLayout,
-            insetForSectionAt: indexPath.section
-        )
-        let spacing = self.collectionView(
-            collectionView,
-            layout: collectionViewLayout,
-            minimumInteritemSpacingForSectionAt: indexPath.section
-        )
-        let contentHeight = collectionView.bounds.size.height
-        let contentWidth = collectionView.bounds.size.width
-
-        let plusSize = CGSize(width: contentHeight, height: contentHeight)
-
-        if indexPath.section == FeedSourcesSectionIndex.plusButton.rawValue {
-            return plusSize
+        guard let typedSection = FeedSourcesSection(rawValue: indexPath.section) else {
+            fatalError("Wrong section.")
         }
-
-        return CGSize(
-            width: (contentWidth - plusSize.width - inset.left - 3 * spacing) / 2.5,
-            height: contentHeight
-        )
+        switch typedSection {
+        case .plusButton:
+            return viewModel.plusButtonSize(collectionView: collectionView)
+        case .feeds:
+            return viewModel.feedSourceSize(collectionView: collectionView, amountOfFeedsOnScreen: 3)
+        }
     }
 
     func collectionView(
@@ -179,10 +157,10 @@ extension FeedSourcesListViewController: UICollectionViewDelegateFlowLayout {
         layout collectionViewLayout: UICollectionViewLayout,
         insetForSectionAt section: Int
     ) -> UIEdgeInsets {
-        guard let section = FeedSourcesSectionIndex(rawValue: section) else {
+        guard let typedSection = FeedSourcesSection(rawValue: section) else {
              fatalError("Section \(section) is invalid.")
         }
-        switch section {
+        switch typedSection {
         case .plusButton:
             return UIEdgeInsets(
                 top: 0,
@@ -214,10 +192,10 @@ extension FeedSourcesListViewController: UICollectionViewDelegateFlowLayout {
         _ collectionView: UICollectionView,
         shouldSelectItemAt indexPath: IndexPath
     ) -> Bool {
-        guard let section = FeedSourcesSectionIndex(rawValue: indexPath.section) else {
+        guard let typedSection = FeedSourcesSection(rawValue: indexPath.section) else {
             fatalError("Section \(indexPath.section) is invalid.")
         }
-        switch section {
+        switch typedSection {
         case .plusButton:
             return false
         case .feeds:
@@ -229,7 +207,7 @@ extension FeedSourcesListViewController: UICollectionViewDelegateFlowLayout {
         _ collectionView: UICollectionView,
         didSelectItemAt indexPath: IndexPath
     ) {
-        selectionResponder?.onCellSelectionArrayProbablyChanged(
+        selectionDelegate?.onCellSelectionArrayProbablyChanged(
             selectionArray: collectionView.indexPathsForSelectedItems ?? []
         )
     }
@@ -238,7 +216,7 @@ extension FeedSourcesListViewController: UICollectionViewDelegateFlowLayout {
         _ collectionView: UICollectionView,
         didDeselectItemAt indexPath: IndexPath
     ) {
-        selectionResponder?.onCellSelectionArrayProbablyChanged(
+        selectionDelegate?.onCellSelectionArrayProbablyChanged(
             selectionArray: collectionView.indexPathsForSelectedItems ?? []
         )
     }
@@ -248,14 +226,18 @@ extension FeedSourcesListViewController: UICollectionViewDelegateFlowLayout {
         didEndDisplaying cell: UICollectionViewCell,
         forItemAt indexPath: IndexPath
     ) {
-        selectionResponder?.onCellSelectionArrayProbablyChanged(
+        selectionDelegate?.onCellSelectionArrayProbablyChanged(
             selectionArray: collectionView.indexPathsForSelectedItems ?? []
         )
     }
 
 }
 
-extension FeedSourcesListViewController: FeedDragDropObserver {
+extension FeedSourcesCollectionViewController: FeedDragDropObserver {
+
+    var dragDropObserverIdentifier: String {
+        "FeedSourcesCollectionViewController"
+    }
 
     func onItemMoved(from source: IndexPath, to destination: IndexPath) {
         collectionView.performBatchUpdates {
@@ -267,7 +249,7 @@ extension FeedSourcesListViewController: FeedDragDropObserver {
             collectionView.moveItem(at: source, to: destination)
         }
 
-        selectionResponder?.onCellSelectionArrayProbablyChanged(
+        selectionDelegate?.onCellSelectionArrayProbablyChanged(
             selectionArray: collectionView.indexPathsForSelectedItems ?? []
         )
     }
@@ -277,7 +259,7 @@ extension FeedSourcesListViewController: FeedDragDropObserver {
         for index in indices {
             let indexPath = IndexPath(
                 row: index.intValue,
-                section: FeedSourcesSectionIndex.feeds.rawValue
+                section: FeedSourcesSection.feeds.rawValue
             )
             indexPathsToDelete.append(indexPath)
         }
@@ -291,7 +273,7 @@ extension FeedSourcesListViewController: FeedDragDropObserver {
             }
         }
 
-        selectionResponder?.onCellSelectionArrayProbablyChanged(
+        selectionDelegate?.onCellSelectionArrayProbablyChanged(
             selectionArray: collectionView.indexPathsForSelectedItems ?? []
         )
     }

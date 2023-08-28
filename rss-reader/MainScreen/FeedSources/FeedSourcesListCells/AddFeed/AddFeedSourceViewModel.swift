@@ -1,52 +1,25 @@
 //
-//  AddFeedSourceViewController.swift
+//  AddFeedSourceViewModel.swift
 //  rss-reader
 //
-//  Created by Heorhi Heilik on 6.08.23.
+//  Created by Heorhi Heilik on 28.08.23.
 //
 
 import UIKit
 
-class AddFeedSourceViewController: UIViewController {
+class AddFeedSourceViewModel {
 
-    var saveDataCallback: ((FeedSource) -> Void)?
-
-    @IBOutlet weak var nameField: UITextField!
-    @IBOutlet weak var urlField: UITextField!
-
-    @IBAction func cancelButtonTouchUpInside(_ sender: Any) {
-        dismiss(animated: true)
-    }
-
-    @IBAction func saveButtonTouchUpInside(_ sender: Any) {
-        let feedSource: FeedSource
-        do {
-            feedSource = try retrieveDataFromFields()
-        } catch let error as DataFieldError {
-            generateAlert(forErrorType: error)
-            return
-        } catch {
-            print("Unexpected error (\(error)).")
-            return
-        }
-
-        if let callback = saveDataCallback {
-            callback(feedSource)
-        }
-        dismiss(animated: true)
-    }
-
-    private enum DataFieldError: Error {
+    enum DataFieldError: Error {
         case emptyName
         case emptyUrl
         case incorrectUrl
     }
 
-    private func retrieveDataFromFields() throws -> FeedSource {
-        guard let name = nameField.text, name.count != 0 else {
+    func createFeedSource(name: String?, urlString: String?) throws -> FeedSource {
+        guard let name, name.count != 0 else {
             throw DataFieldError.emptyName
         }
-        guard let urlString = urlField.text, urlString.count != 0 else {
+        guard let urlString, urlString.count != 0 else {
             throw DataFieldError.emptyUrl
         }
         guard
@@ -61,7 +34,7 @@ class AddFeedSourceViewController: UIViewController {
         return FeedSource(name: name, url: url)
     }
 
-    private func generateAlert(forErrorType errorType: DataFieldError) {
+    func generateAlertController(forErrorType errorType: DataFieldError) -> UIAlertController {
         let alertController: UIAlertController
 
         switch errorType {
@@ -86,7 +59,7 @@ class AddFeedSourceViewController: UIViewController {
         }
         alertController.addAction(UIAlertAction(title: "OK", style: .default))
 
-        present(alertController, animated: true)
+        return alertController
     }
 
 }
