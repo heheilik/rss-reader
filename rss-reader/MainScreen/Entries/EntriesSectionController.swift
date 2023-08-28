@@ -1,5 +1,5 @@
 //
-//  EntriesController.swift
+//  EntriesSectionController.swift
 //  rss-reader
 //
 //  Created by Heorhi Heilik on 24.08.23.
@@ -7,9 +7,9 @@
 
 import UIKit
 
-class EntriesController: NSObject {
+class EntriesSectionController: NSObject {
 
-    let viewModel = EntriesViewModel()
+    let viewModel = EntriesSectionViewModel()
 
     private let table: UITableView
 
@@ -17,22 +17,26 @@ class EntriesController: NSObject {
         self.table = table
         super.init()
         viewModel.onFeedDownloaded = {
-            DispatchQueue.main.sync { [self] in
-                viewModel.updateFeedToPresent()
-                table.reloadSections(IndexSet(integer: TableSection.entries.rawValue), with: .fade)
+            DispatchQueue.main.sync {
+                self.viewModel.updateFeedToPresent()
+                self.table.reloadSections(
+                    IndexSet(integer: TableSection.entries.rawValue),
+                    with: .fade
+                )
             }
         }
     }
 
 }
 
-extension EntriesController: UITableViewDataSource {
+extension EntriesSectionController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let typedSection = TableSection(rawValue: section) else {
             fatalError("Wrong section.")
         }
 
+        // TODO: Move to ViewModel.
         switch typedSection {
         case .status:
             switch viewModel.entriesState {
@@ -93,35 +97,36 @@ extension EntriesController: UITableViewDataSource {
 
 }
 
-extension EntriesController: FeedSourcesSelectionDelegate {
+extension EntriesSectionController: FeedSourcesSelectionDelegate {
 
     func onCellSelectionArrayProbablyChanged(selectionArray: [IndexPath]) {
         viewModel.lastSelectionArray = selectionArray
         viewModel.prepareFeeds()
         viewModel.updateFeedToPresent()
 
-        configureEntriesTable()
+        configureEntriesSections()
     }
 
-    func configureEntriesTable() {
+    // TODO: Move to ViewModel.
+    func configureEntriesSections() {
         guard !viewModel.lastSelectionArray.isEmpty else {
-            changeEntriesTableState(to: .start)
+            changeEntriesSectionsState(to: .start)
             return
         }
         guard !viewModel.entryHeadersToPresent.isEmpty else {
-            changeEntriesTableState(to: .loading)
+            changeEntriesSectionsState(to: .loading)
             return
         }
-        changeEntriesTableState(to: .showing)
+        changeEntriesSectionsState(to: .showing)
     }
 
-    func changeEntriesTableState(to newState: EntriesState) {
+    func changeEntriesSectionsState(to newState: EntriesState) {
         table.performBatchUpdates {
             self.viewModel.entriesState = newState
-            table.reloadSections(IndexSet([
-                TableSection.status.rawValue,
-                TableSection.entries.rawValue
-            ]), with: .fade)
+            table.reloadSections(
+                IndexSet([TableSection.status.rawValue, TableSection.entries.rawValue]),
+                with: .fade
+            )
         }
     }
 

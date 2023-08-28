@@ -7,6 +7,7 @@
 
 import UIKit
 
+// TODO: move data checking to ViewModel
 class AddFeedSourceViewController: UIViewController {
 
     var saveDataCallback: ((FeedSource) -> Void)?

@@ -23,8 +23,8 @@ enum CellIdentifier {
 
 class FeedViewController: UIViewController {
 
-    private var feedSourcesController: FeedSourcesController!
-    private var entriesController: EntriesController!
+    private var feedSourcesController: FeedSourcesSectionController!
+    private var entriesController: EntriesSectionController!
 
     private weak var feedSourcesSectionDataSource: UITableViewDataSource?
     private weak var entriesSectionDataSource: UITableViewDataSource?
@@ -34,8 +34,8 @@ class FeedViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        feedSourcesController = FeedSourcesController(table: table)
-        entriesController = EntriesController(table: table)
+        feedSourcesController = FeedSourcesSectionController(table: table)
+        entriesController = EntriesSectionController(table: table)
 
         table.dataSource = self
         feedSourcesSectionDataSource = feedSourcesController
@@ -137,6 +137,7 @@ extension FeedViewController: UITableViewDelegate {
         }
     }
 
+    // TODO: Move to ViewModel.
     func tableContentHeight(totalHeight: CGFloat) -> CGFloat {
         var result = totalHeight
         result -= feedsListTotalHeight()

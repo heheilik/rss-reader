@@ -1,5 +1,5 @@
 //
-//  FeedSourcesViewController.swift
+//  FeedSourcesCollectionViewController.swift
 //  rss-reader
 //
 //  Created by Heorhi Heilik on 13.08.23.
@@ -16,9 +16,9 @@ protocol FeedSourcesSelectionDelegate: AnyObject {
     func onCellSelectionArrayProbablyChanged(selectionArray: [IndexPath])
 }
 
-class FeedSourcesViewController: UIViewController {
+class FeedSourcesCollectionViewController: UIViewController {
 
-    let viewModel = FeedSourcesViewModel()
+    let viewModel = FeedSourcesCollectionViewModel()
 
     @IBOutlet weak var collectionView: UICollectionView!
 
@@ -59,7 +59,7 @@ class FeedSourcesViewController: UIViewController {
 
 }
 
-extension FeedSourcesViewController: UICollectionViewDataSource {
+extension FeedSourcesCollectionViewController: UICollectionViewDataSource {
 
     // MARK: - Data Source
 
@@ -79,7 +79,7 @@ extension FeedSourcesViewController: UICollectionViewDataSource {
         case .plusButton:
             return 1
         case .feeds:
-            return viewModel.feedsCount
+            return viewModel.feedsSourcesCount
         }
     }
 
@@ -106,7 +106,7 @@ extension FeedSourcesViewController: UICollectionViewDataSource {
                 addFeedSourceViewController.saveDataCallback = { feedSource in
                     self.collectionView.performBatchUpdates {
                         let indexPath = IndexPath(
-                            row: self.viewModel.feedsCount,
+                            row: self.viewModel.feedsSourcesCount,
                             section: FeedSourcesSection.feeds.rawValue
                         )
                         self.viewModel.collectionView(
@@ -138,7 +138,7 @@ extension FeedSourcesViewController: UICollectionViewDataSource {
 
 }
 
-extension FeedSourcesViewController: UICollectionViewDelegateFlowLayout {
+extension FeedSourcesCollectionViewController: UICollectionViewDelegateFlowLayout {
 
     // MARK: - Size Calculations
 
@@ -271,7 +271,7 @@ extension FeedSourcesViewController: UICollectionViewDelegateFlowLayout {
 
 }
 
-extension FeedSourcesViewController: FeedDragDropObserver {
+extension FeedSourcesCollectionViewController: FeedDragDropObserver {
 
     var dragDropObserverIdentifier: String {
         "FeedSourcesViewController"

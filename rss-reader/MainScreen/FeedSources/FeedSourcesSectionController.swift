@@ -1,5 +1,5 @@
 //
-//  FeedSourcesController.swift
+//  FeedSourcesSectionController.swift
 //  rss-reader
 //
 //  Created by Heorhi Heilik on 27.08.23.
@@ -15,7 +15,7 @@ enum CellAppearance {
     static let trashColor = UIColor.systemRed
 }
 
-class FeedSourcesController: NSObject {
+class FeedSourcesSectionController: NSObject {
 
     private let table: UITableView
 
@@ -25,11 +25,11 @@ class FeedSourcesController: NSObject {
         feedDragDropController.observers[self.dragDropObserverIdentifier] = self
     }
 
-    // TODO: move to ViewModel
-    private(set) var isDeleteActive = false
+    // TODO: Move to ViewModel.
+    var isDeleteActive = false
 
     let viewController = {
-        let viewController = FeedSourcesViewController()
+        let viewController = FeedSourcesCollectionViewController()
         UINib(
             nibName: "FeedSourcesViewController",
             bundle: nil
@@ -44,7 +44,7 @@ class FeedSourcesController: NSObject {
 
 }
 
-extension FeedSourcesController: UITableViewDataSource {
+extension FeedSourcesSectionController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let typedSection = TableSection(rawValue: section) else {
@@ -55,7 +55,7 @@ extension FeedSourcesController: UITableViewDataSource {
         case .feedSources:
             return 1
         case .trashIcon:
-            return isDeleteActive ? 1 : 0
+            return isDeleteActive ? 1 : 0  // TODO: Move to ViewModel.
         case .status, .entries:
             fatalError("Section \(typedSection) is not managed by this data source.")
         }
@@ -98,16 +98,9 @@ extension FeedSourcesController: UITableViewDataSource {
         }
     }
 
-//    func configureFeedsListCell(_ cell: FeedSourcesListTableViewCell) -> FeedSourcesListTableViewCell {
-//
-//        cell.viewController.selectionResponder = self
-//
-//        return cell
-//    }
-
 }
 
-extension FeedSourcesController: FeedDragDropObserver {
+extension FeedSourcesSectionController: FeedDragDropObserver {
 
     var dragDropObserverIdentifier: String {
         "FeedSources"

@@ -1,5 +1,5 @@
 //
-//  FeedSourcesViewModel.swift
+//  FeedSourcesCollectionViewModel.swift
 //  rss-reader
 //
 //  Created by Heorhi Heilik on 13.08.23.
@@ -7,9 +7,9 @@
 
 import UIKit
 
-class FeedSourcesViewModel {
+class FeedSourcesCollectionViewModel {
 
-    var feedsCount: Int {
+    var feedsSourcesCount: Int {
         FeedURLDatabase.array.count
     }
 

@@ -1,5 +1,5 @@
 //
-//  EntriesViewModel.swift
+//  EntriesSectionViewModel.swift
 //  rss-reader
 //
 //  Created by Heorhi Heilik on 24.08.23.
@@ -19,7 +19,7 @@ enum FeedStatus {
     case ready
 }
 
-class EntriesViewModel {
+class EntriesSectionViewModel {
 
     var lastSelectionArray = [IndexPath]()
 
