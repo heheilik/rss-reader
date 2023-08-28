@@ -9,8 +9,13 @@ import UIKit
 
 class FeedSourcesCollectionViewModel {
 
-    var feedsSourcesCount: Int {
-        FeedURLDatabase.array.count
+    func itemCount(for section: FeedSourcesSection) -> Int {
+        switch section {
+        case .plusButton:
+            return 1
+        case .feeds:
+            return FeedURLDatabase.array.count
+        }
     }
 
     func feedName(for indexPath: IndexPath) -> String {
@@ -43,6 +48,48 @@ class FeedSourcesCollectionViewModel {
             set.insert(indexPath.row)
         }
         FeedURLDatabase.array.remove(atOffsets: set)
+    }
+
+    // MARK: - Size Calculation
+
+    func plusButtonSize(collectionView: UICollectionView) -> CGSize {
+        let height = collectionView.bounds.size.height
+        return CGSize(width: height, height: height)
+    }
+
+    func feedSourceSize(
+        collectionView: UICollectionView,
+        amountOfFeedsOnScreen: CGFloat
+    ) -> CGSize {
+        guard let delegate = collectionView.delegate as? UICollectionViewDelegateFlowLayout else {
+            fatalError("Wrong delegate.")
+        }
+
+        let inset = delegate.collectionView!(
+            collectionView,
+            layout: collectionView.collectionViewLayout,
+            insetForSectionAt: TableSection.feedSources.rawValue
+        )
+        let spacing = delegate.collectionView!(
+            collectionView,
+            layout: collectionView.collectionViewLayout,
+            minimumInteritemSpacingForSectionAt: TableSection.feedSources.rawValue
+        )
+
+        let contentWidth = collectionView.bounds.size.width
+        let contentHeight = collectionView.bounds.size.height
+        let plusWidth = plusButtonSize(collectionView: collectionView).width
+
+        var cellWidth = contentWidth
+        cellWidth -= inset.left + plusWidth
+        cellWidth -= amountOfFeedsOnScreen * spacing
+
+        cellWidth /= amountOfFeedsOnScreen - 0.5
+
+        return CGSize(
+            width: cellWidth,
+            height: contentHeight
+        )
     }
 
 }

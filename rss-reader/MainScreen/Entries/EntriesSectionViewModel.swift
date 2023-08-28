@@ -109,4 +109,25 @@ class EntriesSectionViewModel {
         entryHeadersToPresent.sort(by: { $0.updated > $1.updated })
     }
 
+    func rowCount(for section: TableSection) -> Int {
+        switch section {
+        case .status:
+            switch entriesState {
+            case .start, .loading:
+                return 1
+            case .showing:
+                return 0
+            }
+        case .entries:
+            switch entriesState {
+            case .showing:
+                return entryHeadersToPresent.count
+            case .start, .loading:
+                return 0
+            }
+        case .feedSources, .trashIcon:
+            fatalError("Section \(section) is not managed by this data source.")
+        }
+    }
+
 }

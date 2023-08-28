@@ -14,14 +14,9 @@ enum TableSection: Int, CaseIterable {
     case entries
 }
 
-enum CellIdentifier {
-    static let feedsList = "FeedSourcesListTableViewCell"
-    static let trashIcon = "TrashIconTableViewCell"
-    static let statusScreen = "StatusTableViewCell"
-    static let feedEntry = "FeedEntryInfoTableViewCell"
-}
-
 class FeedViewController: UIViewController {
+
+    private let viewModel = FeedViewModel()
 
     private var feedSourcesController: FeedSourcesSectionController!
     private var entriesController: EntriesSectionController!
@@ -30,6 +25,13 @@ class FeedViewController: UIViewController {
     private weak var entriesSectionDataSource: UITableViewDataSource?
 
     @IBOutlet weak var table: UITableView!
+
+    enum CellIdentifier {
+        static let feedsList = "FeedSourcesListTableViewCell"
+        static let trashIcon = "TrashIconTableViewCell"
+        static let statusScreen = "StatusTableViewCell"
+        static let feedEntry = "FeedEntryInfoTableViewCell"
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -114,44 +116,15 @@ extension FeedViewController: UITableViewDataSource {
 
 extension FeedViewController: UITableViewDelegate {
 
-    enum TableSizeConstant {
-        static let feedsListHeight: CGFloat = 64
-        static let trashIconHeight: CGFloat = 64
-        static let bottomInset: CGFloat = 8
-    }
-
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         guard let typedSection = TableSection(rawValue: indexPath.section) else {
             fatalError("Section \(indexPath.section) is invalid.")
         }
-
-        switch typedSection {
-        case .feedSources:
-            return TableSizeConstant.feedsListHeight + TableSizeConstant.bottomInset
-        case .trashIcon:
-            return TableSizeConstant.trashIconHeight + TableSizeConstant.bottomInset
-        case .status:
-            return tableContentHeight(totalHeight: tableView.bounds.height)
-        case .entries:
-            return UITableView.automaticDimension
-        }
-    }
-
-    // TODO: Move to ViewModel.
-    func tableContentHeight(totalHeight: CGFloat) -> CGFloat {
-        var result = totalHeight
-        result -= feedsListTotalHeight()
-        if feedSourcesController.isDeleteActive {
-            result -= trashIconTotalHeight()
-        }
-        return result
-    }
-
-    func feedsListTotalHeight() -> CGFloat {
-        TableSizeConstant.feedsListHeight + TableSizeConstant.bottomInset
-    }
-    func trashIconTotalHeight() -> CGFloat {
-        TableSizeConstant.trashIconHeight + TableSizeConstant.bottomInset
+        return viewModel.tableView(
+            tableView,
+            contentHeightForSection: typedSection,
+            isTrashIconActive: feedSourcesController.viewModel.isDeleteActive
+        )
     }
 
 }

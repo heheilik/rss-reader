@@ -17,6 +17,10 @@ enum CellAppearance {
 
 class FeedSourcesSectionController: NSObject {
 
+    let viewModel = FeedSourcesSectionViewModel()
+
+    typealias CellIdentifier = FeedViewController.CellIdentifier
+
     private let table: UITableView
 
     init(table: UITableView) {
@@ -24,9 +28,6 @@ class FeedSourcesSectionController: NSObject {
         super.init()
         feedDragDropController.observers[self.dragDropObserverIdentifier] = self
     }
-
-    // TODO: Move to ViewModel.
-    var isDeleteActive = false
 
     let viewController = {
         let viewController = FeedSourcesCollectionViewController()
@@ -50,15 +51,7 @@ extension FeedSourcesSectionController: UITableViewDataSource {
         guard let typedSection = TableSection(rawValue: section) else {
             fatalError("Wrong section.")
         }
-
-        switch typedSection {
-        case .feedSources:
-            return 1
-        case .trashIcon:
-            return isDeleteActive ? 1 : 0  // TODO: Move to ViewModel.
-        case .status, .entries:
-            fatalError("Section \(typedSection) is not managed by this data source.")
-        }
+        return viewModel.rowCount(for: typedSection)
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -108,14 +101,14 @@ extension FeedSourcesSectionController: FeedDragDropObserver {
 
     func onDragDropStarted() {
         table.performBatchUpdates {
-            self.isDeleteActive = true
+            self.viewModel.isDeleteActive = true
             self.table.reloadSections(IndexSet(integer: TableSection.trashIcon.rawValue), with: .bottom)
         }
     }
 
     func onDragDropEnded() {
         table.performBatchUpdates {
-            self.isDeleteActive = false
+            self.viewModel.isDeleteActive = false
             self.table.reloadSections(IndexSet(integer: TableSection.trashIcon.rawValue), with: .top)
         }
     }

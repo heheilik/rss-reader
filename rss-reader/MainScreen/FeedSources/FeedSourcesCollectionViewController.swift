@@ -74,13 +74,7 @@ extension FeedSourcesCollectionViewController: UICollectionViewDataSource {
         guard let typedSection = FeedSourcesSection.init(rawValue: section) else {
             fatalError("Section \(section) is invalid.")
         }
-
-        switch typedSection {
-        case .plusButton:
-            return 1
-        case .feeds:
-            return viewModel.feedsSourcesCount
-        }
+        return viewModel.itemCount(for: typedSection)
     }
 
     func collectionView(
@@ -106,7 +100,7 @@ extension FeedSourcesCollectionViewController: UICollectionViewDataSource {
                 addFeedSourceViewController.saveDataCallback = { feedSource in
                     self.collectionView.performBatchUpdates {
                         let indexPath = IndexPath(
-                            row: self.viewModel.feedsSourcesCount,
+                            row: self.viewModel.itemCount(for: FeedSourcesSection.feeds),
                             section: FeedSourcesSection.feeds.rawValue
                         )
                         self.viewModel.collectionView(
@@ -152,42 +146,10 @@ extension FeedSourcesCollectionViewController: UICollectionViewDelegateFlowLayou
         }
         switch typedSection {
         case .plusButton:
-            return plusButtonSize(collectionView: collectionView)
+            return viewModel.plusButtonSize(collectionView: collectionView)
         case .feeds:
-            return feedSourceSize(collectionView: collectionView, amountOfFeedsOnScreen: 3)
+            return viewModel.feedSourceSize(collectionView: collectionView, amountOfFeedsOnScreen: 3)
         }
-    }
-
-    func plusButtonSize(collectionView: UICollectionView) -> CGSize {
-        let height = collectionView.bounds.size.height
-        return CGSize(width: height, height: height)
-    }
-
-    func feedSourceSize(collectionView: UICollectionView, amountOfFeedsOnScreen: CGFloat) -> CGSize {
-        let inset = self.collectionView(
-            collectionView,
-            layout: collectionView.collectionViewLayout,
-            insetForSectionAt: TableSection.feedSources.rawValue
-        )
-        let spacing = self.collectionView(
-            collectionView,
-            layout: collectionView.collectionViewLayout,
-            minimumInteritemSpacingForSectionAt: TableSection.feedSources.rawValue
-        )
-        let contentWidth = collectionView.bounds.size.width
-        let contentHeight = collectionView.bounds.size.height
-        let plusWidth = plusButtonSize(collectionView: collectionView).width
-
-        var cellWidth = contentWidth
-        cellWidth -= inset.left + plusWidth
-        cellWidth -= amountOfFeedsOnScreen * spacing
-
-        cellWidth /= amountOfFeedsOnScreen - 0.5
-
-        return CGSize(
-            width: cellWidth,
-            height: contentHeight
-        )
     }
 
     func collectionView(

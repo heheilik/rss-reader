@@ -11,6 +11,8 @@ class EntriesSectionController: NSObject {
 
     let viewModel = EntriesSectionViewModel()
 
+    typealias CellIdentifier = FeedViewController.CellIdentifier
+
     private let table: UITableView
 
     init(table: UITableView) {
@@ -36,25 +38,9 @@ extension EntriesSectionController: UITableViewDataSource {
             fatalError("Wrong section.")
         }
 
+        return viewModel.rowCount(for: typedSection)
+
         // TODO: Move to ViewModel.
-        switch typedSection {
-        case .status:
-            switch viewModel.entriesState {
-            case .start, .loading:
-                return 1
-            case .showing:
-                return 0
-            }
-        case .entries:
-            switch viewModel.entriesState {
-            case .showing:
-                return viewModel.entryHeadersToPresent.count
-            case .start, .loading:
-                return 0
-            }
-        case .feedSources, .trashIcon:
-            fatalError("Section \(typedSection) is not managed by this data source.")
-        }
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
