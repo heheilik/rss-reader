@@ -19,7 +19,7 @@ class EntriesSectionController: NSObject {
         self.table = table
         super.init()
         viewModel.onFeedDownloaded = {
-            DispatchQueue.main.sync {
+            DispatchQueue.main.async {
                 self.viewModel.updateFeedToPresent()
                 table.reloadSections(
                     IndexSet([TableSection.status.rawValue, TableSection.entries.rawValue]),

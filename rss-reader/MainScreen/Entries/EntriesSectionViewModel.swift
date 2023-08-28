@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CoreData
 
 enum EntriesState {
     case start
@@ -25,10 +26,19 @@ class EntriesSectionViewModel {
 
     var entriesState = EntriesState.start
 
+    init() {
+        container = NSPersistentContainer(name: "RawFeed")
+        container.loadPersistentStores { _, _ in
+            print("loaded")
+        }
+    }
+
+    private let container: NSPersistentContainer
+
     private let feedService = FeedService()
     private var tasks: [URL: URLSessionDataTask] = [:]
 
-    private var feeds: [URL: RawFeed?] = [:]
+    private var feeds: [URL: Feed] = [:]
     private(set) var entryHeaders: [URL: [FormattedEntry.Header]] = [:]
     private(set) var feedStatuses: [URL: FeedStatus] = [:]
 
@@ -46,7 +56,35 @@ class EntriesSectionViewModel {
                 return
             }
 
-            self.feeds[url] = feed
+
+            // writing to persistent store if needed
+            let fetchRequest: NSFetchRequest<Feed> = Feed.fetchRequest()
+            fetchRequest.predicate = NSPredicate(
+                format: "%K == %@",
+                #keyPath(Feed.urlString), url.absoluteString
+            )
+            DispatchQueue.main.async {
+                do {
+                    let result = try self.container.viewContext.fetch(fetchRequest)
+                    guard result.isEmpty || result.first?.identifier != feed.header.id else {
+                        print("data already exists")
+                        return  // which means that data is here and it's the same
+                    }
+
+                    // trying to save new data
+                    if !result.isEmpty {
+                        self.container.viewContext.delete(result.first!)
+                    }
+
+                    let newEntity = Feed(context: self.container.viewContext)
+                    newEntity.setData(from: feed, forUrl: url)
+
+                    try self.container.viewContext.save()
+
+                } catch {
+                    print(error)
+                }
+            }
 
             var entryHeadersArray = [FormattedEntry.Header]()
             for entry in feed.entries {

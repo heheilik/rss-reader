@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22158.8" systemVersion="23A5328b" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
+    <entity name="Entry" representedClassName=".Entry" syncable="YES">
+        <attribute name="author" optional="YES" attributeType="String"/>
+        <attribute name="content" optional="YES" attributeType="String"/>
+        <attribute name="identifier" optional="YES" attributeType="String"/>
+        <attribute name="lastUpdated" optional="YES" attributeType="String"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+        <relationship name="feed" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Feed" inverseName="entries" inverseEntity="Feed"/>
+    </entity>
+    <entity name="Feed" representedClassName=".Feed" syncable="YES">
+        <attribute name="identifier" optional="YES" attributeType="String"/>
+        <attribute name="lastUpdated" optional="YES" attributeType="String"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+        <attribute name="urlString" optional="YES" attributeType="String"/>
+        <relationship name="entries" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Entry" inverseName="feed" inverseEntity="Entry"/>
+    </entity>
+</model>
