@@ -21,8 +21,8 @@ class EntriesSectionController: NSObject {
         viewModel.onFeedDownloaded = {
             DispatchQueue.main.sync {
                 self.viewModel.updateFeedToPresent()
-                self.table.reloadSections(
-                    IndexSet(integer: TableSection.entries.rawValue),
+                table.reloadSections(
+                    IndexSet([TableSection.status.rawValue, TableSection.entries.rawValue]),
                     with: .fade
                 )
             }
@@ -37,10 +37,7 @@ extension EntriesSectionController: UITableViewDataSource {
         guard let typedSection = TableSection(rawValue: section) else {
             fatalError("Wrong section.")
         }
-
         return viewModel.rowCount(for: typedSection)
-
-        // TODO: Move to ViewModel.
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -90,30 +87,10 @@ extension EntriesSectionController: FeedSourcesSelectionDelegate {
         viewModel.prepareFeeds()
         viewModel.updateFeedToPresent()
 
-        configureEntriesSections()
-    }
-
-    // TODO: Move to ViewModel.
-    func configureEntriesSections() {
-        guard !viewModel.lastSelectionArray.isEmpty else {
-            changeEntriesSectionsState(to: .start)
-            return
-        }
-        guard !viewModel.entryHeadersToPresent.isEmpty else {
-            changeEntriesSectionsState(to: .loading)
-            return
-        }
-        changeEntriesSectionsState(to: .showing)
-    }
-
-    func changeEntriesSectionsState(to newState: EntriesState) {
-        table.performBatchUpdates {
-            self.viewModel.entriesState = newState
-            table.reloadSections(
-                IndexSet([TableSection.status.rawValue, TableSection.entries.rawValue]),
-                with: .fade
-            )
-        }
+        table.reloadSections(
+            IndexSet([TableSection.status.rawValue, TableSection.entries.rawValue]),
+            with: .fade
+        )
     }
 
 }

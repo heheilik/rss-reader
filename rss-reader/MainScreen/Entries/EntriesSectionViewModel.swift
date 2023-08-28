@@ -23,7 +23,6 @@ class EntriesSectionViewModel {
 
     var lastSelectionArray = [IndexPath]()
 
-    // FIXME: State is not changing on download.
     var entriesState = EntriesState.start
 
     private let feedService = FeedService()
@@ -65,6 +64,8 @@ class EntriesSectionViewModel {
     }
 
     func prepareFeeds() {
+        reconfigureState()
+
         for indexPath in lastSelectionArray {
             let index = indexPath.row
             let currentUrl = FeedURLDatabase.array[index].url
@@ -107,6 +108,20 @@ class EntriesSectionViewModel {
         }
 
         entryHeadersToPresent.sort(by: { $0.updated > $1.updated })
+
+        reconfigureState()
+    }
+
+    func reconfigureState() {
+        guard !lastSelectionArray.isEmpty else {
+            entriesState = .start
+            return
+        }
+        guard !entryHeadersToPresent.isEmpty else {
+            entriesState = .loading
+            return
+        }
+        entriesState = .showing
     }
 
     func rowCount(for section: TableSection) -> Int {
