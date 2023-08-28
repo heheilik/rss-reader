@@ -46,10 +46,14 @@ enum EventType {
 }
 
 protocol FeedDragDropObserver {
+
+    var dragDropObserverIdentifier: String { get }
+
     func onDragDropStarted()
     func onDragDropEnded()
     func onItemMoved(from source: IndexPath, to destination: IndexPath)
     func onItemsDeleted(withIndices indices: [NSNumber])
+
 }
 extension FeedDragDropObserver {
     func onDragDropStarted() {}
@@ -65,11 +69,11 @@ extension FeedDragDropController: UICollectionViewDragDelegate {
         itemsForBeginning session: UIDragSession,
         at indexPath: IndexPath
     ) -> [UIDragItem] {
-        guard let section = FeedSourcesSectionIndex(rawValue: indexPath.section) else {
+        guard let typedSection = FeedSourcesSection(rawValue: indexPath.section) else {
             fatalError("Section \(indexPath.section) is invalid.")
         }
 
-        switch section {
+        switch typedSection {
         case .plusButton:
             return []
         case .feeds:
@@ -117,7 +121,7 @@ extension FeedDragDropController: UICollectionViewDropDelegate {
 
             guard
                 let destinationIndexPath,
-                let section = FeedSourcesSectionIndex(rawValue: destinationIndexPath.section)
+                let section = FeedSourcesSection(rawValue: destinationIndexPath.section)
             else {
                 return .forbidden
             }

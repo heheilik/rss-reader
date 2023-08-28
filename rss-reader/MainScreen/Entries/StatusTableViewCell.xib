@@ -9,15 +9,15 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="317" id="avB-aY-ywR" customClass="StartTableViewCell" customModule="rss_reader" customModuleProvider="target">
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="317" id="avB-aY-ywR" customClass="StatusTableViewCell" customModule="rss_reader" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="380" height="317"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="avB-aY-ywR" id="ibo-Ep-14E">
                 <rect key="frame" x="0.0" y="0.0" width="380" height="317"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Choose one or multiple cells to load feed." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0n6-01-tus">
-                        <rect key="frame" x="23" y="148" width="334" height="21"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Status Message." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0n6-01-tus">
+                        <rect key="frame" x="122.33333333333333" y="148" width="135.66666666666669" height="21"/>
                         <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                         <color key="textColor" systemColor="systemGray2Color"/>
                         <nil key="highlightedColor"/>
@@ -28,12 +28,15 @@
                     <constraint firstItem="0n6-01-tus" firstAttribute="centerX" secondItem="ibo-Ep-14E" secondAttribute="centerX" id="ffd-0R-qrq"/>
                 </constraints>
             </tableViewCellContentView>
+            <connections>
+                <outlet property="statusLabel" destination="0n6-01-tus" id="c2H-GF-e6z"/>
+            </connections>
             <point key="canvasLocation" x="94.656488549618317" y="137.67605633802819"/>
         </tableViewCell>
     </objects>
     <resources>
         <systemColor name="systemGray2Color">
-            <color red="0.68235294120000001" green="0.68235294120000001" blue="0.69803921570000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.68235294117647061" green="0.68235294117647061" blue="0.69803921568627447" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
