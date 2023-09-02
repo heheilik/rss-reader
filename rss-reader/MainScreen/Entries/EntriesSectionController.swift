@@ -10,17 +10,20 @@ import UIKit
 class EntriesSectionController: NSObject {
 
     let viewModel = EntriesSectionViewModel()
+    private let table: UITableView
 
     typealias CellIdentifier = FeedViewController.CellIdentifier
 
-    private let table: UITableView
-
     init(table: UITableView) {
         self.table = table
+
         super.init()
-        viewModel.onFeedDownloaded = {
+
+        viewModel.onFeedUpdated = { [weak self] in
+            guard let self else {
+                return
+            }
             DispatchQueue.main.async {
-                self.viewModel.updateFeedToPresent()
                 table.reloadSections(
                     IndexSet([TableSection.status.rawValue, TableSection.entries.rawValue]),
                     with: .fade
@@ -54,11 +57,13 @@ extension EntriesSectionController: UITableViewDataSource {
                 fatalError("Failed to dequeue \(CellIdentifier.statusScreen)")
             }
             switch viewModel.entriesState {
-            case .start:
+            case .none:
                 cell.setStatus(.start)
             case .loading:
                 cell.setStatus(.loading)
-            case .showing:
+            case .ready:
+                break
+            case .error:
                 break
             }
             return cell
@@ -84,8 +89,7 @@ extension EntriesSectionController: FeedSourcesSelectionDelegate {
 
     func onCellSelectionArrayProbablyChanged(selectionArray: [IndexPath]) {
         viewModel.lastSelectionArray = selectionArray
-        viewModel.prepareFeeds()
-        viewModel.updateFeedToPresent()
+        viewModel.updateFeeds()
 
         table.reloadSections(
             IndexSet([TableSection.status.rawValue, TableSection.entries.rawValue]),

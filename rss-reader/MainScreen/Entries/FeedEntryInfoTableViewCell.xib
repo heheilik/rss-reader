@@ -58,9 +58,9 @@
             </tableViewCellContentView>
             <connections>
                 <outlet property="author" destination="s66-YV-OAw" id="uxl-BX-0ya"/>
-                <outlet property="id" destination="e6g-MF-WLw" id="NZ9-9e-2XX"/>
+                <outlet property="identifier" destination="e6g-MF-WLw" id="NZ9-9e-2XX"/>
+                <outlet property="lastUpdated" destination="buo-6g-49c" id="pZq-Zg-xeO"/>
                 <outlet property="title" destination="q3D-hg-2iV" id="MlX-b3-1ac"/>
-                <outlet property="updated" destination="buo-6g-49c" id="pZq-Zg-xeO"/>
             </connections>
             <point key="canvasLocation" x="18.320610687022899" y="53.521126760563384"/>
         </tableViewCell>
