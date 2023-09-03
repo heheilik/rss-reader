@@ -8,7 +8,6 @@
 import Foundation
 import CoreData
 
-
 public class Feed: NSManagedObject {
 
     func setData(from parsedFeed: ParsedFeed, forUrl url: URL) {

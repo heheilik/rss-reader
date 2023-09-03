@@ -8,7 +8,6 @@
 import Foundation
 import CoreData
 
-
 extension EntryHeader {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<EntryHeader> {

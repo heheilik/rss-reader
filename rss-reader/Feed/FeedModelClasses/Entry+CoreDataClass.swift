@@ -8,7 +8,6 @@
 import Foundation
 import CoreData
 
-
 public class Entry: NSManagedObject {
 
     func setData(from parsedEntry: ParsedEntry) {

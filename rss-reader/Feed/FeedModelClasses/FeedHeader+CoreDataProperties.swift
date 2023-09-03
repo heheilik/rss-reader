@@ -8,7 +8,6 @@
 import Foundation
 import CoreData
 
-
 extension FeedHeader {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<FeedHeader> {

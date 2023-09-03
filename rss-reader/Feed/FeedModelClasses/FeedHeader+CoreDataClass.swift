@@ -12,9 +12,11 @@ import CoreData
 public class FeedHeader: NSManagedObject {
 
     func setData(from parsedFeedHeader: ParsedFeed.Header) {
-        self.identifier = parsedFeedHeader.identifier
-        self.title = parsedFeedHeader.title
-        if let date = RFC3339DateFormatter().date(from: parsedFeedHeader.lastUpdated) {
+        self.identifier = parsedFeedHeader.identifier.trimmingCharacters(in: .whitespacesAndNewlines)
+        self.title = parsedFeedHeader.title.trimmingCharacters(in: .whitespacesAndNewlines)
+        if let date = RFC3339DateFormatter().date(
+            from: parsedFeedHeader.lastUpdated.trimmingCharacters(in: .whitespacesAndNewlines)
+        ) {
             self.lastUpdated = date
         }
     }

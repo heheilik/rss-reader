@@ -12,10 +12,12 @@ import CoreData
 public class EntryHeader: NSManagedObject {
 
     func setData(from parsedEntryHeader: ParsedEntry.Header) {
-        self.identifier = parsedEntryHeader.identifier
-        self.title = parsedEntryHeader.title
-        self.author = parsedEntryHeader.author
-        if let date = RFC3339DateFormatter().date(from: parsedEntryHeader.lastUpdated) {
+        self.identifier = parsedEntryHeader.identifier.trimmingCharacters(in: .whitespacesAndNewlines)
+        self.title = parsedEntryHeader.title.trimmingCharacters(in: .whitespacesAndNewlines)
+        self.author = parsedEntryHeader.author.trimmingCharacters(in: .whitespacesAndNewlines)
+        if let date = RFC3339DateFormatter().date(
+            from: parsedEntryHeader.lastUpdated.trimmingCharacters(in: .whitespacesAndNewlines)
+        ) {
             self.lastUpdated = date
         }
     }

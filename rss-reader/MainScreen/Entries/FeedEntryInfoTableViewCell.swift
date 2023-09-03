@@ -24,7 +24,9 @@ class FeedEntryInfoTableViewCell: UITableViewCell {
         title.text = entryHeader.title
         author.text = entryHeader.author
         if let date = entryHeader.lastUpdated {
-            lastUpdated.text = DateFormatter().string(from: date)
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateStyle = .medium
+            lastUpdated.text = dateFormatter.string(from: date)
         } else {
             lastUpdated.text = ""
         }
