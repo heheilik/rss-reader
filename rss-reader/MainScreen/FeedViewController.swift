@@ -147,9 +147,6 @@ extension FeedViewController: UITableViewDelegate {
 
 extension FeedViewController: FeedSourcesSelectionObserver {
     func onCellSelectionArrayProbablyChanged(selectionArray: [IndexPath]) {
-        guard let refreshControl = table.refreshControl else {
-            return
-        }
-        refreshControl.isEnabled = !selectionArray.isEmpty
+        table.refreshControl?.isEnabled = !selectionArray.isEmpty
     }
 }
