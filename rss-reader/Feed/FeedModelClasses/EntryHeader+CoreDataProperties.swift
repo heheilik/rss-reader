@@ -22,6 +22,6 @@ extension EntryHeader {
 
 }
 
-extension EntryHeader : Identifiable {
+extension EntryHeader: Identifiable {
 
 }

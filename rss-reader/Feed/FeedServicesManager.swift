@@ -105,7 +105,7 @@ final class FeedServicesManager {
                 }))
             }
         }
-        try? feedCoreDataService.container.viewContext.execute(asyncFetchRequest)
+        _ = try? feedCoreDataService.container.viewContext.execute(asyncFetchRequest)
     }
 
     func state(forFeedWithUrl url: URL) -> FeedState.State? {

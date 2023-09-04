@@ -21,6 +21,6 @@ extension FeedHeader {
 
 }
 
-extension FeedHeader : Identifiable {
+extension FeedHeader: Identifiable {
 
 }

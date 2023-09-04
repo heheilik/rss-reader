@@ -20,11 +20,11 @@ class EntriesSectionController: NSObject {
         super.init()
 
         viewModel.onFeedUpdated = { [weak self] in
-            guard let self else {
-                return
-            }
             DispatchQueue.main.async {
-                table.reloadSections(
+                guard let self else {
+                    return
+                }
+                self.table.reloadSections(
                     IndexSet([TableSection.status.rawValue, TableSection.entries.rawValue]),
                     with: .fade
                 )

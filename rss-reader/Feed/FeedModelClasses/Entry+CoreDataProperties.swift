@@ -20,6 +20,6 @@ extension Entry {
 
 }
 
-extension Entry : Identifiable {
+extension Entry: Identifiable {
 
 }

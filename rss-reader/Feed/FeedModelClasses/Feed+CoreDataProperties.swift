@@ -37,6 +37,6 @@ extension Feed {
 
 }
 
-extension Feed : Identifiable {
+extension Feed: Identifiable {
 
 }
