@@ -6,138 +6,128 @@
 //
 
 import Foundation
+import CoreData
 
-enum EntriesState {
-    case start
+enum EntriesSectionState {
+    case none
     case loading
-    case showing
-}
-
-enum FeedStatus {
-    case empty
-    case loading
+    case error
     case ready
 }
 
 class EntriesSectionViewModel {
 
+    // MARK: - Properties
+
+    var entriesState = EntriesSectionState.none
+    private(set) var entryHeadersToPresent: [EntryHeader] = []
+
+    let feedServicesManager = FeedServicesManager()
+
+    var onFeedUpdated: () -> Void = {}
     var lastSelectionArray = [IndexPath]()
 
-    var entriesState = EntriesState.start
+    // MARK: - Initializer
 
-    private let feedService = FeedService()
-    private var tasks: [URL: URLSessionDataTask] = [:]
-
-    private var feeds: [URL: RawFeed?] = [:]
-    private(set) var entryHeaders: [URL: [FormattedEntry.Header]] = [:]
-    private(set) var feedStatuses: [URL: FeedStatus] = [:]
-
-    private(set) var entryHeadersToPresent: [FormattedEntry.Header] = []
-
-    var onFeedDownloaded: () -> Void = {}
-
-    private let feedFormatter = FeedFormatter()
-
-    private func prepareFeed(forUrl url: URL) {
-        feedStatuses[url] = .loading
-        tasks[url] = feedService.prepareFeed(withURL: url) { feed in
-            guard let feed else {
-                self.tasks[url] = nil
+    init() {
+        feedServicesManager.onFeedUpdated = { [weak self] _ in
+            guard let self else {
                 return
             }
-
-            self.feeds[url] = feed
-
-            var entryHeadersArray = [FormattedEntry.Header]()
-            for entry in feed.entries {
-                if let formattedEntry = self.feedFormatter.formattedEntry(from: entry) {
-                    entryHeadersArray.append(formattedEntry.header)
-                }
-            }
-            self.entryHeaders[url] = entryHeadersArray
-
-            self.feedStatuses[url] = .ready
-            self.tasks[url] = nil
-
-            self.onFeedDownloaded()
+            updateFeedsToPresent()
+            self.onFeedUpdated()
         }
     }
 
-    func prepareFeeds() {
+    func updateFeeds() {
+        updateFeedsToPresent()
         reconfigureState()
 
         for indexPath in lastSelectionArray {
             let index = indexPath.row
             let currentUrl = FeedURLDatabase.array[index].url
 
-            if feedStatuses[currentUrl] == nil {
-                feedStatuses[currentUrl] = .empty
-            }
-            let status = feedStatuses[currentUrl]!
-
-            switch status {
-            case .empty:
-                prepareFeed(forUrl: currentUrl)
-            case .loading:
-                break
-            case .ready:
-                break
+            if feedServicesManager.state(forFeedWithUrl: currentUrl) == nil {
+                feedServicesManager.prepareFeed(withUrl: currentUrl)
             }
         }
     }
 
-    func updateFeedToPresent() {
+    private func updateFeedsToPresent() {
         entryHeadersToPresent = []
         for indexPath in lastSelectionArray {
             let index = indexPath.row
             let currentUrl = FeedURLDatabase.array[index].url
-            guard let status = feedStatuses[currentUrl] else {
+            guard let state = feedServicesManager.state(forFeedWithUrl: currentUrl) else {
                 continue
             }
-            switch status {
-            case .empty:
-                break
-            case .loading:
-                break
-            case .ready:
-                guard let headers = entryHeaders[currentUrl] else {
+            switch state {
+            case .ready, .readyOldData, .readyNotSaved:
+                guard let entries = feedServicesManager.feed(withUrl: currentUrl)?.entries?.allObjects else {
                     break
                 }
+                let headers = entries.compactMap({ entry in
+                    return (entry as? Entry)?.header
+                })
                 entryHeadersToPresent.append(contentsOf: headers)
+
+            case .startedProcessing,
+                 .coreDataFetchFailed, .coreDataFetchSucceded,
+                 .httpDownloadSucceded,
+                 .error:
+                break
             }
         }
 
-        entryHeadersToPresent.sort(by: { $0.updated > $1.updated })
+        entryHeadersToPresent.sort(by: {
+            guard let firstDate = $0.lastUpdated else {
+                return false
+            }
+            guard let secondDate = $1.lastUpdated else {
+                return true
+            }
+            return firstDate > secondDate
+        })
 
         reconfigureState()
     }
 
     func reconfigureState() {
         guard !lastSelectionArray.isEmpty else {
-            entriesState = .start
+            entriesState = .none
             return
         }
         guard !entryHeadersToPresent.isEmpty else {
-            entriesState = .loading
+            var allErrors = true
+            for indexPath in lastSelectionArray {
+                let index = indexPath.row
+                let url = FeedURLDatabase.array[index].url
+                if feedServicesManager.state(forFeedWithUrl: url) != .error {
+                    allErrors = false
+                    return
+                }
+            }
+
+            entriesState = allErrors ? .error : .loading
             return
         }
-        entriesState = .showing
+        entriesState = .ready
     }
 
     func rowCount(for section: TableSection) -> Int {
         switch section {
         case .status:
             switch entriesState {
-            case .start, .loading:
+            case .none, .loading, .error:
                 return 1
-            case .showing:
+            case .ready:
                 return 0
             }
         case .entries:
             switch entriesState {
-            case .showing:
+            case .ready:
                 return entryHeadersToPresent.count
-            case .start, .loading:
+            case .none, .loading, .error:
                 return 0
             }
         case .feedSources, .trashIcon:

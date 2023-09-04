@@ -1,5 +1,5 @@
 //
-//  FeedService.swift
+//  FeedHttpService.swift
 //  rss-reader
 //
 //  Created by Heorhi Heilik on 24.07.23.
@@ -7,25 +7,27 @@
 
 import UIKit
 
-final class FeedService {
+final class FeedHttpService {
+
+    private let urlSession: URLSession
 
     init(urlSession: URLSession = .shared) {
         self.urlSession = urlSession
     }
 
-    private let urlSession: URLSession
-
     func prepareFeed(
         withURL url: URL,
-        completion: @escaping (RawFeed?) -> Void
-    ) -> URLSessionDataTask {
+        completion: @escaping (ParsedFeed?) -> Void
+    ) {
         let downloadTask = urlSession.dataTask(with: url) { data, _, error in
             guard error == nil else {
                 print(error ?? "Unknown error.")
+                completion(nil)
                 return
             }
             guard let data else {
                 print("No data downloaded.")
+                completion(nil)
                 return
             }
 
@@ -35,7 +37,6 @@ final class FeedService {
             }
         }
         downloadTask.resume()
-        return downloadTask
     }
 
 }

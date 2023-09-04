@@ -19,7 +19,7 @@ final class Parser: NSObject {
         }
     }
 
-    func parse(_ data: Data, completion: @escaping (RawFeed?) -> Void) {
+    func parse(_ data: Data, completion: @escaping (ParsedFeed?) -> Void) {
         DispatchQueue.global().async {
             let parser = XMLParser(data: data)
             parser.delegate = self
@@ -44,8 +44,8 @@ final class Parser: NSObject {
     private var entryData: [TrackedElement: String] = [:]
     private let entryDataRequiredKeys: Set<TrackedElement> = [.title, .author, .updated, .id, .content]
 
-    private var entries: [RawEntry] = []
-    private var feed: RawFeed?
+    private var entries: [ParsedEntry] = []
+    private var feed: ParsedFeed?
 
 }
 
@@ -89,12 +89,12 @@ extension Parser: XMLParserDelegate {
             guard Set(entryData.keys) == entryDataRequiredKeys else {
                 fatalError("Required key was deleted from entryData dictionary.")
             }
-            entries.append(RawEntry(
-                header: RawEntry.Header(
+            entries.append(ParsedEntry(
+                header: ParsedEntry.Header(
                     title: entryData[.title] ?? "[error]",
                     author: entryData[.author] ?? "[error]",
-                    updated: entryData[.updated] ?? "[error]",
-                    id: entryData[.id] ?? "[error]"
+                    lastUpdated: entryData[.updated] ?? "[error]",
+                    identifier: entryData[.id] ?? "[error]"
                 ),
                 content: entryData[.content] ?? "[error]"
             ))
@@ -136,11 +136,11 @@ extension Parser: XMLParserDelegate {
         guard Set(feedData.keys) == feedDataRequiredKeys else {
             fatalError("Required key was deleted from feedData dictionary.")
         }
-        feed = RawFeed(
-            header: RawFeed.Header(
+        feed = ParsedFeed(
+            header: ParsedFeed.Header(
                 title: feedData[.title] ?? "[error]",
-                updated: feedData[.updated] ?? "[error]",
-                id: feedData[.id] ?? "[error]"
+                lastUpdated: feedData[.updated] ?? "[error]",
+                identifier: feedData[.id] ?? "[error]"
             ),
             entries: entries
         )

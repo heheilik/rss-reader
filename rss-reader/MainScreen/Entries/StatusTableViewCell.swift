@@ -14,6 +14,7 @@ class StatusTableViewCell: UITableViewCell {
     enum Status: String {
         case start = "Choose one or multiple feeds to show."
         case loading = "Loading..."
+        case error = "Failed to load any of selected feeds."
     }
 
     override func awakeFromNib() {

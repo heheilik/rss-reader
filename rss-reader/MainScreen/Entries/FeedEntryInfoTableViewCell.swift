@@ -11,8 +11,8 @@ class FeedEntryInfoTableViewCell: UITableViewCell {
 
     @IBOutlet private weak var title: UILabel!
     @IBOutlet private weak var author: UILabel!
-    @IBOutlet private weak var updated: UILabel!
-    @IBOutlet private weak var id: UILabel!
+    @IBOutlet private weak var lastUpdated: UILabel!
+    @IBOutlet private weak var identifier: UILabel!
 
     let dateFormatter = {
         let dateFormatter = DateFormatter()
@@ -20,11 +20,17 @@ class FeedEntryInfoTableViewCell: UITableViewCell {
         return dateFormatter
     }()
 
-    func updateContentsWith(_ entryHeader: FormattedEntry.Header) {
+    func updateContentsWith(_ entryHeader: EntryHeader) {
         title.text = entryHeader.title
         author.text = entryHeader.author
-        updated.text = dateFormatter.string(from: entryHeader.updated)
-        id.text = entryHeader.id
+        if let date = entryHeader.lastUpdated {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateStyle = .medium
+            lastUpdated.text = dateFormatter.string(from: date)
+        } else {
+            lastUpdated.text = ""
+        }
+        identifier.text = entryHeader.identifier
     }
 
 }
