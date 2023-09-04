@@ -61,9 +61,9 @@ extension EntriesSectionController: UITableViewDataSource {
                 cell.setStatus(.start)
             case .loading:
                 cell.setStatus(.loading)
-            case .ready:
-                break
             case .error:
+                cell.setStatus(.error)
+            case .ready:
                 break
             }
             return cell

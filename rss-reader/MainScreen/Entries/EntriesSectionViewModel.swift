@@ -98,7 +98,17 @@ class EntriesSectionViewModel {
             return
         }
         guard !entryHeadersToPresent.isEmpty else {
-            entriesState = .loading
+            var allErrors = true
+            for indexPath in lastSelectionArray {
+                let index = indexPath.row
+                let url = FeedURLDatabase.array[index].url
+                if feedServicesManager.state(forFeedWithUrl: url) != .error {
+                    allErrors = false
+                    return
+                }
+            }
+
+            entriesState = allErrors ? .error : .loading
             return
         }
         entriesState = .ready
@@ -108,21 +118,17 @@ class EntriesSectionViewModel {
         switch section {
         case .status:
             switch entriesState {
-            case .none, .loading:
+            case .none, .loading, .error:
                 return 1
             case .ready:
                 return 0
-            case .error:
-                fatalError("Error state is not implemented.")
             }
         case .entries:
             switch entriesState {
             case .ready:
                 return entryHeadersToPresent.count
-            case .none, .loading:
+            case .none, .loading, .error:
                 return 0
-            case .error:
-                fatalError("Error state is not implemented.")
             }
         case .feedSources, .trashIcon:
             fatalError("Section \(section) is not managed by this data source.")

@@ -48,7 +48,7 @@ final class FeedServicesManager {
                 feedStatus.proceedCoreDataFetching(succeeded: false)
             }
 
-            _ = self.feedHttpService.prepareFeed(withURL: url) { parsedFeed in
+            self.feedHttpService.prepareFeed(withURL: url) { parsedFeed in
                 group.notify(queue: DispatchQueue.main, work: DispatchWorkItem(block: {
                     guard let feedStatus = self.feedStates[url] else {
                         fatalError("Status is deleted.")
@@ -63,6 +63,7 @@ final class FeedServicesManager {
                             print("Show that feed can't be updated.")
 
                         case .error:
+                            self.onFeedUpdated(url)
                             print("Show error here.")
 
                         case .startedProcessing,
