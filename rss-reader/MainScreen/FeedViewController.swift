@@ -63,6 +63,19 @@ class FeedViewController: UIViewController {
         )
 
         feedSourcesController.setSelectionDelegate(entriesController)
+
+        table.refreshControl = {
+            let control = UIRefreshControl()
+            let action = UIAction { action in
+                guard let control = action.sender as? UIRefreshControl else {
+                    fatalError("Sender is not UIRefreshControl.")
+                }
+                print("is refreshing")
+                control.endRefreshing()
+            }
+            control.addAction(action, for: .valueChanged)
+            return control
+        }()
     }
 
 }
