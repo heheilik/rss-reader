@@ -18,14 +18,16 @@ final class FeedHttpService {
     func prepareFeed(
         withURL url: URL,
         completion: @escaping (ParsedFeed?) -> Void
-    ) -> URLSessionDataTask {
+    ) {
         let downloadTask = urlSession.dataTask(with: url) { data, _, error in
             guard error == nil else {
                 print(error ?? "Unknown error.")
+                completion(nil)
                 return
             }
             guard let data else {
                 print("No data downloaded.")
+                completion(nil)
                 return
             }
 
@@ -35,7 +37,6 @@ final class FeedHttpService {
             }
         }
         downloadTask.resume()
-        return downloadTask
     }
 
 }
