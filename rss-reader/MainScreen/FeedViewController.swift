@@ -71,7 +71,9 @@ class FeedViewController: UIViewController {
                 guard let control = action.sender as? UIRefreshControl else {
                     fatalError("Sender is not UIRefreshControl.")
                 }
-                print("is refreshing")
+
+                self.entriesController.viewModel.reloadAllFeeds()
+
                 control.endRefreshing()
             }
             control.addAction(action, for: .valueChanged)

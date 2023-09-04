@@ -17,7 +17,7 @@ final class FeedCoreDataService {
         container.loadPersistentStores { _, _ in }
     }
 
-    func fetchRequest(forUrl url: URL) -> NSFetchRequest<Feed> {
+    func fetchRequest(forFeedAtUrl url: URL) -> NSFetchRequest<Feed> {
         let fetchRequest: NSFetchRequest<Feed> = Feed.fetchRequest()
         fetchRequest.predicate = NSPredicate(
             format: "%K == %@",
@@ -42,6 +42,19 @@ final class FeedCoreDataService {
             return false
         }
         return true
+    }
+
+    func execute(_ request: NSPersistentStoreRequest) throws {
+        try container.viewContext.execute(request)
+    }
+
+    func deleteFeed(withUrl url: URL) {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Feed")
+        fetchRequest.predicate = NSPredicate(
+            format: "%K == %@",
+            argumentArray: [#keyPath(Feed.url), url]
+        )
+        try? execute(NSBatchDeleteRequest(fetchRequest: fetchRequest))
     }
 
 }

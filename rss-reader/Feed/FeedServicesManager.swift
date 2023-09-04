@@ -22,7 +22,7 @@ final class FeedServicesManager {
         feedStates[url] = FeedState()
 
         let asyncFetchRequest = NSAsynchronousFetchRequest<Feed>(
-            fetchRequest: feedCoreDataService.fetchRequest(forUrl: url)
+            fetchRequest: feedCoreDataService.fetchRequest(forFeedAtUrl: url)
         ) { request in
 
             guard let feedStatus = self.feedStates[url] else {
@@ -106,7 +106,27 @@ final class FeedServicesManager {
                 }))
             }
         }
-        _ = try? feedCoreDataService.container.viewContext.execute(asyncFetchRequest)
+        _ = try? feedCoreDataService.execute(asyncFetchRequest)
+    }
+
+    func reloadFeed(withUrl url: URL) {
+        guard let state = state(forFeedWithUrl: url) else {
+            return
+        }
+
+        switch state {
+        case .error, .readyOldData, .readyNotSaved, .ready:
+            feedStates[url] = nil
+            feeds[url] = nil
+            feedCoreDataService.deleteFeed(withUrl: url)
+            onFeedUpdated(url)
+            prepareFeed(withUrl: url)
+
+        case .startedProcessing,
+             .coreDataFetchFailed, .coreDataFetchSucceded,
+             .httpDownloadSucceded:
+            break
+        }
     }
 
     func state(forFeedWithUrl url: URL) -> FeedState.State? {
