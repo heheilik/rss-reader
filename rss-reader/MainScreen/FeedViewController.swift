@@ -62,7 +62,23 @@ class FeedViewController: UIViewController {
             forCellReuseIdentifier: CellIdentifier.feedEntry
         )
 
-        feedSourcesController.setSelectionDelegate(entriesController)
+        feedSourcesController.setSelectionObserver(entriesController, forName: "EntriesSectionController")
+        feedSourcesController.setSelectionObserver(self, forName: "FeedViewController")
+
+        table.refreshControl = {
+            let control = UIRefreshControl()
+            let action = UIAction { action in
+                guard let control = action.sender as? UIRefreshControl else {
+                    fatalError("Sender is not UIRefreshControl.")
+                }
+
+                self.entriesController.viewModel.reloadAllFeeds()
+
+                control.endRefreshing()
+            }
+            control.addAction(action, for: .valueChanged)
+            return control
+        }()
     }
 
 }
@@ -127,4 +143,10 @@ extension FeedViewController: UITableViewDelegate {
         )
     }
 
+}
+
+extension FeedViewController: FeedSourcesSelectionObserver {
+    func onCellSelectionArrayProbablyChanged(selectionArray: [IndexPath]) {
+        table.refreshControl?.isEnabled = !selectionArray.isEmpty
+    }
 }

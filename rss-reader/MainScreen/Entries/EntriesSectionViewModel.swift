@@ -39,6 +39,14 @@ class EntriesSectionViewModel {
         }
     }
 
+    func reloadAllFeeds() {
+        for indexPath in lastSelectionArray {
+            let index = indexPath.row
+            let currentUrl = FeedURLDatabase.array[index].url
+            feedServicesManager.reloadFeed(withUrl: currentUrl)
+        }
+    }
+
     func updateFeeds() {
         updateFeedsToPresent()
         reconfigureState()
