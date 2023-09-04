@@ -39,8 +39,8 @@ class FeedSourcesSectionController: NSObject {
     }()
     let feedDragDropController = FeedDragDropController()
 
-    func setSelectionDelegate(_ delegate: FeedSourcesSelectionDelegate) {
-        viewController.selectionDelegate = delegate
+    func setSelectionObserver(_ observer: FeedSourcesSelectionObserver, forName name: String) {
+        viewController.observers[name] = observer
     }
 
 }

@@ -15,6 +15,13 @@ class FeedDragDropController: NSObject {
 
     var observers: [String: FeedDragDropObserver] = [:]
 
+    enum EventType {
+        case dragDropStarted
+        case dragDropEnded
+        case itemMoved(IndexPath, IndexPath)
+        case itemsDeleted([NSNumber])
+    }
+
     func sendEvent(_ event: EventType) {
         switch event {
         case .dragDropStarted:
@@ -36,13 +43,6 @@ class FeedDragDropController: NSObject {
         }
     }
 
-}
-
-enum EventType {
-    case dragDropStarted
-    case dragDropEnded
-    case itemMoved(IndexPath, IndexPath)
-    case itemsDeleted([NSNumber])
 }
 
 protocol FeedDragDropObserver {

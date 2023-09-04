@@ -85,7 +85,7 @@ extension EntriesSectionController: UITableViewDataSource {
 
 }
 
-extension EntriesSectionController: FeedSourcesSelectionDelegate {
+extension EntriesSectionController: FeedSourcesSelectionObserver {
 
     func onCellSelectionArrayProbablyChanged(selectionArray: [IndexPath]) {
         viewModel.lastSelectionArray = selectionArray

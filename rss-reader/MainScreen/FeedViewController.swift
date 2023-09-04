@@ -62,7 +62,8 @@ class FeedViewController: UIViewController {
             forCellReuseIdentifier: CellIdentifier.feedEntry
         )
 
-        feedSourcesController.setSelectionDelegate(entriesController)
+        feedSourcesController.setSelectionObserver(entriesController, forName: "EntriesSectionController")
+        feedSourcesController.setSelectionObserver(self, forName: "FeedViewController")
 
         table.refreshControl = {
             let control = UIRefreshControl()
@@ -140,4 +141,13 @@ extension FeedViewController: UITableViewDelegate {
         )
     }
 
+}
+
+extension FeedViewController: FeedSourcesSelectionObserver {
+    func onCellSelectionArrayProbablyChanged(selectionArray: [IndexPath]) {
+        guard let refreshControl = table.refreshControl else {
+            return
+        }
+        refreshControl.isEnabled = !selectionArray.isEmpty
+    }
 }
