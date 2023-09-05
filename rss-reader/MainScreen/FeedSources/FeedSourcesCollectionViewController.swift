@@ -17,32 +17,32 @@ protocol FeedSourcesSelectionObserver: AnyObject {
 }
 
 class FeedSourcesCollectionViewController: UIViewController {
-    
+
     let viewModel = FeedSourcesCollectionViewModel()
-    
+
     @IBOutlet weak var collectionView: UICollectionView!
-    
+
     enum CellIdentifier {
         static let plusButton = "AddFeedSourceCollectionViewCell"
         static let feed = "FeedSourceCollectionViewCell"
     }
-    
+
     override var view: UIView! {
         didSet {
             configureCollectionView()
         }
     }
-    
+
     func configureCollectionView() {
         collectionView.collectionViewLayout = {
             let layout = UICollectionViewFlowLayout()
             layout.scrollDirection = .horizontal
             return layout
         }()
-        
+
         collectionView.delegate = self
         collectionView.dataSource = self
-        
+
         collectionView.register(
             UINib(nibName: CellIdentifier.plusButton, bundle: nil),
             forCellWithReuseIdentifier: CellIdentifier.plusButton
@@ -51,16 +51,16 @@ class FeedSourcesCollectionViewController: UIViewController {
             UINib(nibName: CellIdentifier.feed, bundle: nil),
             forCellWithReuseIdentifier: CellIdentifier.feed
         )
-        
+
         collectionView.allowsMultipleSelection = true
     }
 
     var observers: [String: FeedSourcesSelectionObserver] = [:]
-    
+
     enum EventType {
         case onSelectionArrayProbablyChanged([IndexPath])
     }
-    
+
     func sendEvent(_ event: EventType) {
         switch event {
         case .onSelectionArrayProbablyChanged(let selectionArray):
@@ -69,7 +69,7 @@ class FeedSourcesCollectionViewController: UIViewController {
             }
         }
     }
-
+    
 }
 
 extension FeedSourcesCollectionViewController: UICollectionViewDataSource {
@@ -223,9 +223,6 @@ extension FeedSourcesCollectionViewController: UICollectionViewDelegateFlowLayou
         sendEvent(.onSelectionArrayProbablyChanged(
             collectionView.indexPathsForSelectedItems ?? []
         ))
-//        selectionDelegate?.onCellSelectionArrayProbablyChanged(
-//            selectionArray: collectionView.indexPathsForSelectedItems ?? []
-//        )
     }
 
     func collectionView(
@@ -235,9 +232,6 @@ extension FeedSourcesCollectionViewController: UICollectionViewDelegateFlowLayou
         sendEvent(.onSelectionArrayProbablyChanged(
             collectionView.indexPathsForSelectedItems ?? []
         ))
-//        selectionDelegate?.onCellSelectionArrayProbablyChanged(
-//            selectionArray: collectionView.indexPathsForSelectedItems ?? []
-//        )
     }
 
     func collectionView(
@@ -248,9 +242,6 @@ extension FeedSourcesCollectionViewController: UICollectionViewDelegateFlowLayou
         sendEvent(.onSelectionArrayProbablyChanged(
             collectionView.indexPathsForSelectedItems ?? []
         ))
-//        selectionDelegate?.onCellSelectionArrayProbablyChanged(
-//            selectionArray: collectionView.indexPathsForSelectedItems ?? []
-//        )
     }
 
 }
@@ -274,9 +265,6 @@ extension FeedSourcesCollectionViewController: FeedDragDropObserver {
         sendEvent(.onSelectionArrayProbablyChanged(
             collectionView.indexPathsForSelectedItems ?? []
         ))
-//        selectionDelegate?.onCellSelectionArrayProbablyChanged(
-//            selectionArray: collectionView.indexPathsForSelectedItems ?? []
-//        )
     }
 
     func onItemsDeleted(withIndices indices: [NSNumber]) {
@@ -298,9 +286,6 @@ extension FeedSourcesCollectionViewController: FeedDragDropObserver {
             }
         }
 
-//        selectionDelegate?.onCellSelectionArrayProbablyChanged(
-//            selectionArray: collectionView.indexPathsForSelectedItems ?? []
-//        )
         sendEvent(.onSelectionArrayProbablyChanged(
             collectionView.indexPathsForSelectedItems ?? []
         ))

@@ -14,6 +14,34 @@ enum TableSection: Int, CaseIterable {
     case entries
 }
 
+extension UITableViewCell {
+    static var reuseIdentifier: String {
+        String(describing: self)
+    }
+}
+
+extension UITableView {
+    func register<Cell: UITableViewCell>(nib: UINib, for cell: Cell.Type) {
+        self.register(nib, forCellReuseIdentifier: cell.reuseIdentifier)
+    }
+
+    func dequeue<Cell: UITableViewCell>(
+        _ cellType: Cell.Type,
+        for indexPath: IndexPath,
+        configure: (inout Cell) -> Void
+    ) -> UITableViewCell {
+        let cell = dequeueReusableCell(withIdentifier: cellType.reuseIdentifier, for: indexPath)
+
+        guard var cell = cell as? Cell else {
+            assertionFailure("Cell can't be cast to type \(cellType).")
+            return cell
+        }
+
+        configure(&cell)
+        return cell
+    }
+}
+
 class FeedViewController: UIViewController {
 
     private let viewModel = FeedViewModel()
@@ -61,6 +89,10 @@ class FeedViewController: UIViewController {
             UINib(nibName: CellIdentifier.feedEntry, bundle: nil),
             forCellReuseIdentifier: CellIdentifier.feedEntry
         )
+
+        table.dequeue(FeedSourcesListTableViewCell.self, for: IndexPath()) { cell in
+            
+        }
 
         feedSourcesController.setSelectionObserver(entriesController, forName: "EntriesSectionController")
         feedSourcesController.setSelectionObserver(self, forName: "FeedViewController")

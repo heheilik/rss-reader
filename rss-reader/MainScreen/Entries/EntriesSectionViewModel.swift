@@ -112,7 +112,7 @@ class EntriesSectionViewModel {
                 let url = FeedURLDatabase.array[index].url
                 if feedServicesManager.state(forFeedWithUrl: url) != .error {
                     allErrors = false
-                    return
+                    break
                 }
             }
 

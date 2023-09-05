@@ -11,6 +11,7 @@ enum DragDropTypeIdentifier {
     static let feedCell = "Feed Cell"
 }
 
+// TODO: rename
 class FeedDragDropController: NSObject {
 
     var observers: [String: FeedDragDropObserver] = [:]

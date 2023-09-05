@@ -9,6 +9,7 @@ import UIKit
 
 class FeedViewModel {
 
+    // TODO: Rename
     enum TableSizeConstant {
         static let feedsListHeight: CGFloat = 64
         static let trashIconHeight: CGFloat = 64
