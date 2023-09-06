@@ -9,6 +9,18 @@ import UIKit
 
 class FeedSourcesCollectionViewModel {
 
+    enum FeedSourcesSection: Int, CaseIterable {
+        case plusButton
+        case feeds
+    }
+
+    func section(for indexPath: IndexPath) -> FeedSourcesSection {
+        guard let typedSection = FeedSourcesSection(rawValue: indexPath.section) else {
+            fatalError("Section at \(indexPath) does not exist.")
+        }
+        return typedSection
+    }
+
     func itemCount(for section: FeedSourcesSection) -> Int {
         switch section {
         case .plusButton:
@@ -65,16 +77,20 @@ class FeedSourcesCollectionViewModel {
             fatalError("Wrong delegate.")
         }
 
-        let inset = delegate.collectionView!(
-            collectionView,
-            layout: collectionView.collectionViewLayout,
-            insetForSectionAt: TableSection.feedSources.rawValue
-        )
-        let spacing = delegate.collectionView!(
-            collectionView,
-            layout: collectionView.collectionViewLayout,
-            minimumInteritemSpacingForSectionAt: TableSection.feedSources.rawValue
-        )
+        guard
+            let inset = delegate.collectionView?(
+                collectionView,
+                layout: collectionView.collectionViewLayout,
+                insetForSectionAt: FeedSourcesSection.feeds.rawValue
+            ),
+            let spacing = delegate.collectionView?(
+                collectionView,
+                layout: collectionView.collectionViewLayout,
+                minimumInteritemSpacingForSectionAt: FeedSourcesSection.feeds.rawValue
+            )
+        else {
+            fatalError("Required methods of delegate are not implemented.")
+        }
 
         let contentWidth = collectionView.bounds.size.width
         let contentHeight = collectionView.bounds.size.height

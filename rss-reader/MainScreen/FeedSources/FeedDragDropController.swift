@@ -14,6 +14,8 @@ enum DragDropTypeIdentifier {
 // TODO: rename
 class FeedDragDropController: NSObject {
 
+    typealias FeedSourcesSection = FeedSourcesCollectionViewModel.FeedSourcesSection
+
     var observers: [String: FeedDragDropObserver] = [:]
 
     enum EventType {
@@ -70,6 +72,7 @@ extension FeedDragDropController: UICollectionViewDragDelegate {
         itemsForBeginning session: UIDragSession,
         at indexPath: IndexPath
     ) -> [UIDragItem] {
+
         guard let typedSection = FeedSourcesSection(rawValue: indexPath.section) else {
             fatalError("Section \(indexPath.section) is invalid.")
         }

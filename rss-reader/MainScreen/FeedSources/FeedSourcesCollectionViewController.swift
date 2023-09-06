@@ -7,33 +7,31 @@
 
 import UIKit
 
-enum FeedSourcesSection: Int, CaseIterable {
-    case plusButton = 0
-    case feeds
-}
 
-protocol FeedSourcesSelectionObserver: AnyObject {
+protocol FeedSourcesSelectionDelegate: AnyObject {
     func onCellSelectionArrayProbablyChanged(selectionArray: [IndexPath])
 }
 
 class FeedSourcesCollectionViewController: UIViewController {
 
+    typealias FeedSourcesSection = FeedSourcesCollectionViewModel.FeedSourcesSection
+
     let viewModel = FeedSourcesCollectionViewModel()
+
+    weak var selectionDelegate: FeedSourcesSelectionDelegate?
 
     @IBOutlet weak var collectionView: UICollectionView!
 
-    enum CellIdentifier {
-        static let plusButton = "AddFeedSourceCollectionViewCell"
-        static let feed = "FeedSourceCollectionViewCell"
+    override func awakeFromNib() {
+        print("\(Self.self) awaken from nib")
+        UINib(nibName: "\(Self.self)", bundle: nil).instantiate(withOwner: self)
+        super.awakeFromNib()
+        print("\(Self.self) super awaken from nib")
     }
 
-    override var view: UIView! {
-        didSet {
-            configureCollectionView()
-        }
-    }
+    override func viewDidLoad() {
+        print("\(Self.self) did load")
 
-    func configureCollectionView() {
         collectionView.collectionViewLayout = {
             let layout = UICollectionViewFlowLayout()
             layout.scrollDirection = .horizontal
@@ -44,32 +42,16 @@ class FeedSourcesCollectionViewController: UIViewController {
         collectionView.dataSource = self
 
         collectionView.register(
-            UINib(nibName: CellIdentifier.plusButton, bundle: nil),
-            forCellWithReuseIdentifier: CellIdentifier.plusButton
+            nib: UINib(nibName: "AddFeedSourceCollectionViewCell", bundle: nil),
+            for: AddFeedSourceCollectionViewCell.self
         )
         collectionView.register(
-            UINib(nibName: CellIdentifier.feed, bundle: nil),
-            forCellWithReuseIdentifier: CellIdentifier.feed
+            nib: UINib(nibName: "FeedSourceCollectionViewCell", bundle: nil),
+            for: FeedSourceCollectionViewCell.self
         )
 
         collectionView.allowsMultipleSelection = true
     }
-
-    var observers: [String: FeedSourcesSelectionObserver] = [:]
-
-    enum EventType {
-        case onSelectionArrayProbablyChanged([IndexPath])
-    }
-
-    func sendEvent(_ event: EventType) {
-        switch event {
-        case .onSelectionArrayProbablyChanged(let selectionArray):
-            for observer in observers.values {
-                observer.onCellSelectionArrayProbablyChanged(selectionArray: selectionArray)
-            }
-        }
-    }
-    
 }
 
 extension FeedSourcesCollectionViewController: UICollectionViewDataSource {
@@ -84,9 +66,7 @@ extension FeedSourcesCollectionViewController: UICollectionViewDataSource {
         _ collectionView: UICollectionView,
         numberOfItemsInSection section: Int
     ) -> Int {
-        guard let typedSection = FeedSourcesSection.init(rawValue: section) else {
-            fatalError("Section \(section) is invalid.")
-        }
+        let typedSection = viewModel.section(for: IndexPath(row: 0, section: section))
         return viewModel.itemCount(for: typedSection)
     }
 
@@ -94,52 +74,44 @@ extension FeedSourcesCollectionViewController: UICollectionViewDataSource {
         _ collectionView: UICollectionView,
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
-        guard let typedSection = FeedSourcesSection.init(rawValue: indexPath.section) else {
-            fatalError("Section \(indexPath.section) is invalid.")
-        }
-
+        let typedSection = viewModel.section(for: indexPath)
         switch typedSection {
         case .plusButton:
-            guard let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: CellIdentifier.plusButton,
+            return collectionView.dequeue(
+                AddFeedSourceCollectionViewCell.self,
                 for: indexPath
-            ) as? AddFeedSourceCollectionViewCell else {
-                fatalError("Failed to dequeue (\(CellIdentifier.plusButton)).")
-            }
-
-            let plusButtonUIAction = UIAction { _ in
-                let addFeedSourceViewController = AddFeedSourceViewController()
-                addFeedSourceViewController.sheetPresentationController?.detents = [.medium()]
-                addFeedSourceViewController.saveDataCallback = { feedSource in
-                    self.collectionView.performBatchUpdates {
-                        let indexPath = IndexPath(
-                            row: self.viewModel.itemCount(for: FeedSourcesSection.feeds),
-                            section: FeedSourcesSection.feeds.rawValue
-                        )
-                        self.viewModel.collectionView(
-                            self.collectionView,
-                            willInsertItem: feedSource,
-                            at: indexPath
-                        )
-                        self.collectionView.insertItems(at: [indexPath])
+            ) { cell in
+                
+                let plusButtonUIAction = UIAction { _ in
+                    let addFeedSourceViewController = AddFeedSourceViewController()
+                    addFeedSourceViewController.sheetPresentationController?.detents = [.medium()]
+                    addFeedSourceViewController.saveDataCallback = { feedSource in
+                        self.collectionView.performBatchUpdates {
+                            let indexPath = IndexPath(
+                                row: self.viewModel.itemCount(for: FeedSourcesSection.feeds),
+                                section: FeedSourcesSection.feeds.rawValue
+                            )
+                            self.viewModel.collectionView(
+                                self.collectionView,
+                                willInsertItem: feedSource,
+                                at: indexPath
+                            )
+                            self.collectionView.insertItems(at: [indexPath])
+                        }
                     }
+                    self.present(addFeedSourceViewController, animated: true)
                 }
-                self.present(addFeedSourceViewController, animated: true)
+                
+                cell.plusButton.addAction(plusButtonUIAction, for: .touchUpInside)
             }
-
-            cell.plusButton.addAction(plusButtonUIAction, for: .touchUpInside)
-            return cell
 
         case .feeds:
-            guard let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: CellIdentifier.feed,
+            return collectionView.dequeue(
+                FeedSourceCollectionViewCell.self,
                 for: indexPath
-            ) as? FeedSourceCollectionViewCell else {
-                fatalError("Failed to dequeue (\(CellIdentifier.feed)).")
+            ) { cell in
+                cell.updateContentsWith(viewModel.feedName(for: indexPath))
             }
-
-            cell.updateContentsWith(viewModel.feedName(for: indexPath))
-            return cell
         }
     }
 
@@ -220,18 +192,18 @@ extension FeedSourcesCollectionViewController: UICollectionViewDelegateFlowLayou
         _ collectionView: UICollectionView,
         didSelectItemAt indexPath: IndexPath
     ) {
-        sendEvent(.onSelectionArrayProbablyChanged(
-            collectionView.indexPathsForSelectedItems ?? []
-        ))
+        selectionDelegate?.onCellSelectionArrayProbablyChanged(
+            selectionArray: collectionView.indexPathsForVisibleItems
+        )
     }
 
     func collectionView(
         _ collectionView: UICollectionView,
         didDeselectItemAt indexPath: IndexPath
     ) {
-        sendEvent(.onSelectionArrayProbablyChanged(
-            collectionView.indexPathsForSelectedItems ?? []
-        ))
+        selectionDelegate?.onCellSelectionArrayProbablyChanged(
+            selectionArray: collectionView.indexPathsForVisibleItems
+        )
     }
 
     func collectionView(
@@ -239,9 +211,9 @@ extension FeedSourcesCollectionViewController: UICollectionViewDelegateFlowLayou
         didEndDisplaying cell: UICollectionViewCell,
         forItemAt indexPath: IndexPath
     ) {
-        sendEvent(.onSelectionArrayProbablyChanged(
-            collectionView.indexPathsForSelectedItems ?? []
-        ))
+        selectionDelegate?.onCellSelectionArrayProbablyChanged(
+            selectionArray: collectionView.indexPathsForVisibleItems
+        )
     }
 
 }
@@ -262,9 +234,9 @@ extension FeedSourcesCollectionViewController: FeedDragDropObserver {
             collectionView.moveItem(at: source, to: destination)
         }
 
-        sendEvent(.onSelectionArrayProbablyChanged(
-            collectionView.indexPathsForSelectedItems ?? []
-        ))
+        selectionDelegate?.onCellSelectionArrayProbablyChanged(
+            selectionArray: collectionView.indexPathsForVisibleItems
+        )
     }
 
     func onItemsDeleted(withIndices indices: [NSNumber]) {
@@ -286,9 +258,9 @@ extension FeedSourcesCollectionViewController: FeedDragDropObserver {
             }
         }
 
-        sendEvent(.onSelectionArrayProbablyChanged(
-            collectionView.indexPathsForSelectedItems ?? []
-        ))
+        selectionDelegate?.onCellSelectionArrayProbablyChanged(
+            selectionArray: collectionView.indexPathsForVisibleItems
+        )
     }
 
 }
