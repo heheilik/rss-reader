@@ -23,8 +23,6 @@ class FeedSourcesViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
 
     override func viewDidLoad() {
-        print("\(Self.self) did load")
-
         collectionView.collectionViewLayout = {
             let layout = UICollectionViewFlowLayout()
             layout.scrollDirection = .horizontal

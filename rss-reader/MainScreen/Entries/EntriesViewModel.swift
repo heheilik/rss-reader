@@ -10,6 +10,7 @@ import Foundation
 final class EntriesViewModel {
 
     enum TableSection: Int, CaseIterable {
+        case feedSourcesPlaceholder
         case status
         case entries
     }

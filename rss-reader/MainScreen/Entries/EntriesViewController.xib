@@ -18,18 +18,18 @@
         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bNt-u3-GJw">
             <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
             <subviews>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="Lpz-Ai-pu5">
-                    <rect key="frame" x="0.0" y="59" width="393" height="759"/>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="Lpz-Ai-pu5">
+                    <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                 </tableView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="T7r-Ck-cvw"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
-                <constraint firstItem="Lpz-Ai-pu5" firstAttribute="leading" secondItem="T7r-Ck-cvw" secondAttribute="leading" id="9x1-25-NUA"/>
-                <constraint firstItem="T7r-Ck-cvw" firstAttribute="trailing" secondItem="Lpz-Ai-pu5" secondAttribute="trailing" id="Kdf-oN-Mps"/>
-                <constraint firstItem="Lpz-Ai-pu5" firstAttribute="bottom" secondItem="T7r-Ck-cvw" secondAttribute="bottom" id="kba-CZ-Vl2"/>
-                <constraint firstItem="T7r-Ck-cvw" firstAttribute="top" secondItem="Lpz-Ai-pu5" secondAttribute="top" id="z86-4Y-Kd6"/>
+                <constraint firstItem="Lpz-Ai-pu5" firstAttribute="leading" secondItem="bNt-u3-GJw" secondAttribute="leading" id="9x1-25-NUA"/>
+                <constraint firstAttribute="trailing" secondItem="Lpz-Ai-pu5" secondAttribute="trailing" id="Kdf-oN-Mps"/>
+                <constraint firstItem="Lpz-Ai-pu5" firstAttribute="bottom" secondItem="bNt-u3-GJw" secondAttribute="bottom" id="kba-CZ-Vl2"/>
+                <constraint firstAttribute="top" secondItem="Lpz-Ai-pu5" secondAttribute="top" id="z86-4Y-Kd6"/>
             </constraints>
             <point key="canvasLocation" x="-109" y="42"/>
         </view>

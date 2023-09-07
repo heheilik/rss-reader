@@ -36,6 +36,8 @@
 		5D6D2F532AA790DE0010F5D7 /* EntriesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D6D2F522AA790DE0010F5D7 /* EntriesViewModel.swift */; };
 		5D6D2F552AA892AD0010F5D7 /* UICollectionView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D6D2F542AA892AD0010F5D7 /* UICollectionView+Extensions.swift */; };
 		5D6D2F572AA8D2D50010F5D7 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D6D2F562AA8D2D50010F5D7 /* Constants.swift */; };
+		5D6D2F5D2AAA37880010F5D7 /* FeedSourcesPlaceholderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D6D2F5C2AAA37880010F5D7 /* FeedSourcesPlaceholderTableViewCell.swift */; };
+		5D6D2F5F2AAA37990010F5D7 /* FeedSourcesPlaceholderTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D6D2F5E2AAA37990010F5D7 /* FeedSourcesPlaceholderTableViewCell.xib */; };
 		5D6D71572A8CBFCB00D1B5F5 /* StatusTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D6D71562A8CBFCB00D1B5F5 /* StatusTableViewCell.swift */; };
 		5D6D71592A8CBFD300D1B5F5 /* StatusTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D6D71582A8CBFD300D1B5F5 /* StatusTableViewCell.xib */; };
 		5D84B6482A78363C0019266D /* AddFeedSourceCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D84B6472A78363C0019266D /* AddFeedSourceCollectionViewCell.xib */; };
@@ -101,6 +103,8 @@
 		5D6D2F522AA790DE0010F5D7 /* EntriesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntriesViewModel.swift; sourceTree = "<group>"; };
 		5D6D2F542AA892AD0010F5D7 /* UICollectionView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Extensions.swift"; sourceTree = "<group>"; };
 		5D6D2F562AA8D2D50010F5D7 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		5D6D2F5C2AAA37880010F5D7 /* FeedSourcesPlaceholderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedSourcesPlaceholderTableViewCell.swift; sourceTree = "<group>"; };
+		5D6D2F5E2AAA37990010F5D7 /* FeedSourcesPlaceholderTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FeedSourcesPlaceholderTableViewCell.xib; sourceTree = "<group>"; };
 		5D6D71562A8CBFCB00D1B5F5 /* StatusTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusTableViewCell.swift; sourceTree = "<group>"; };
 		5D6D71582A8CBFD300D1B5F5 /* StatusTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StatusTableViewCell.xib; sourceTree = "<group>"; };
 		5D84B6472A78363C0019266D /* AddFeedSourceCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddFeedSourceCollectionViewCell.xib; sourceTree = "<group>"; };
@@ -165,6 +169,8 @@
 				5D6D2F4E2AA78C4F0010F5D7 /* EntriesViewController.swift */,
 				5D6D2F502AA78C6B0010F5D7 /* EntriesViewController.xib */,
 				5D6D2F522AA790DE0010F5D7 /* EntriesViewModel.swift */,
+				5D6D2F5C2AAA37880010F5D7 /* FeedSourcesPlaceholderTableViewCell.swift */,
+				5D6D2F5E2AAA37990010F5D7 /* FeedSourcesPlaceholderTableViewCell.xib */,
 				5D8F738C2A573BA600CF541C /* FeedEntryInfoTableViewCell.swift */,
 				5D8F738A2A573B4F00CF541C /* FeedEntryInfoTableViewCell.xib */,
 				5D6D71562A8CBFCB00D1B5F5 /* StatusTableViewCell.swift */,
@@ -387,6 +393,7 @@
 				5D58835C2A885D7C008DD2EE /* FeedSourcesListTableViewCell.xib in Resources */,
 				5D992ECD2A3D39260007EC2C /* LaunchScreen.storyboard in Resources */,
 				5D1B95662A7F2BFA00AA63ED /* AddFeedSourceViewController.xib in Resources */,
+				5D6D2F5F2AAA37990010F5D7 /* FeedSourcesPlaceholderTableViewCell.xib in Resources */,
 				5D992ED52A3D398D0007EC2C /* FeedViewController.xib in Resources */,
 				5D6D71592A8CBFD300D1B5F5 /* StatusTableViewCell.xib in Resources */,
 				5D84B64C2A7839240019266D /* FeedSourceCollectionViewCell.xib in Resources */,
@@ -447,6 +454,7 @@
 				5D992EC12A3D39250007EC2C /* AppDelegate.swift in Sources */,
 				5D6D2F462AA3E04B0010F5D7 /* Feed+CoreDataClass.swift in Sources */,
 				5D6D2F4D2AA7851B0010F5D7 /* UITableView+Extensions.swift in Sources */,
+				5D6D2F5D2AAA37880010F5D7 /* FeedSourcesPlaceholderTableViewCell.swift in Sources */,
 				5DCEA6C32A9CF7C800EA4199 /* FeedViewModel.swift in Sources */,
 				5D9D1F282A9D45ED00257E26 /* ParsedFeed.swift in Sources */,
 				5D6D2F452AA3E04B0010F5D7 /* Entry+CoreDataProperties.swift in Sources */,

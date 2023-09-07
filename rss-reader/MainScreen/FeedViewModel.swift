@@ -7,7 +7,7 @@
 
 import UIKit
 
-class FeedViewModel {
+class FeedViewModel: NSObject {
 
     func constraintsFor(
         contentView: UIView,
@@ -18,11 +18,17 @@ class FeedViewModel {
             feedSourcesView.topAnchor.constraint(
                 equalTo: contentView.safeAreaLayoutGuide.topAnchor
             ),
+            feedSourcesView.topAnchor.constraint(
+                equalTo: contentView.safeAreaLayoutGuide.topAnchor
+            ),
             feedSourcesView.leadingAnchor.constraint(
                 equalTo: contentView.safeAreaLayoutGuide.leadingAnchor
             ),
             feedSourcesView.trailingAnchor.constraint(
                 equalTo: contentView.safeAreaLayoutGuide.trailingAnchor
+            ),
+            entriesView.topAnchor.constraint(
+                equalTo: contentView.topAnchor
             ),
             entriesView.bottomAnchor.constraint(
                 equalTo: contentView.bottomAnchor
@@ -33,55 +39,96 @@ class FeedViewModel {
             entriesView.trailingAnchor.constraint(
                 equalTo: contentView.safeAreaLayoutGuide.trailingAnchor
             ),
-            feedSourcesView.bottomAnchor.constraint(
-                equalTo: entriesView.topAnchor,
-                constant: -8
-            ),
             feedSourcesView.heightAnchor.constraint(equalToConstant: 64)
         ]
     }
 
-    // TODO: Rename
-//    enum TableSizeConstant {
-//        static let feedsListHeight: CGFloat = 64
-//        static let trashIconHeight: CGFloat = 64
-//        static let bottomInset: CGFloat = 8
-//    }
+    // MARK: - Scrolling
 
-//    func tableView(
-//        _ tableView: UITableView,
-//        contentHeightForSection section: TableSection,
-//        isTrashIconActive: Bool
-//    ) -> CGFloat {
-//        switch section {
-//        case .feedSources:
-//            return feedsListTotalHeight()
-//        case .trashIcon:
-//            return trashIconTotalHeight()
-//        case .status:
-//            return tableContentHeight(
-//                totalHeight: tableView.bounds.height,
-//                isTrashIconActive: isTrashIconActive
-//            )
-//        case .entries:
-//            return UITableView.automaticDimension
-//        }
-//    }
-//
-//    private func tableContentHeight(totalHeight: CGFloat, isTrashIconActive: Bool) -> CGFloat {
-//        var result = totalHeight
-//        result -= feedsListTotalHeight()
-//        if isTrashIconActive {
-//            result -= trashIconTotalHeight()
-//        }
-//        return result
-//    }
-//
-//    private func feedsListTotalHeight() -> CGFloat {
-//        TableSizeConstant.feedsListHeight + TableSizeConstant.bottomInset
-//    }
-//    private func trashIconTotalHeight() -> CGFloat {
-//        TableSizeConstant.trashIconHeight + TableSizeConstant.bottomInset
-//    }
+    enum Direction {
+        case none
+        case upwards
+        case downwards
+
+        init(delta: Double) {
+            switch delta.sign {
+            case .plus:
+                self = .upwards
+            case .minus:
+                self = .downwards
+            }
+        }
+    }
+
+    var feedSourcesHidden = false
+    var lastContentOffset: Double = 0
+
+    var transitionInProgress = false
+
+    @FeedSourcesHeight var heightShown: Double
+
+    @propertyWrapper
+    struct FeedSourcesHeight {
+        private var height: Double = 64
+        var wrappedValue: Double {
+            get {
+                return max(0, min(64, height))
+            }
+            set {
+                height = max(-1, min(65, newValue))
+            }
+        }
+    }
+
+}
+
+extension FeedViewModel: UIScrollViewDelegate {
+
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let delta = lastContentOffset - scrollView.contentOffset.y
+
+        if !transitionInProgress {
+            switch Direction(delta: delta) {
+            case .upwards:
+                if feedSourcesHidden {
+                    transitionInProgress = true
+                }
+
+            case .downwards:
+                if !feedSourcesHidden {
+                    transitionInProgress = true
+                }
+
+            case .none:
+                break
+            }
+
+            if !transitionInProgress {
+                lastContentOffset = scrollView.contentOffset.y
+                return
+            }
+        }
+
+        heightShown += delta
+        lastContentOffset = scrollView.contentOffset.y
+
+        print(heightShown)
+
+        if heightShown == 0 {
+            transitionInProgress = false
+            feedSourcesHidden = true
+            return
+        }
+        if heightShown == 64 {
+            transitionInProgress = false
+            feedSourcesHidden = false
+            return
+        }
+
+    }
+
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        // scrolling stopped
+    }
 
 }
