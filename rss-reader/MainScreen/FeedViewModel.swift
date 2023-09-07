@@ -9,6 +9,38 @@ import UIKit
 
 class FeedViewModel {
 
+    func constraintsFor(
+        contentView: UIView,
+        feedSourcesView: UIView,
+        entriesView: UIView
+    ) -> [NSLayoutConstraint] {
+        [
+            feedSourcesView.topAnchor.constraint(
+                equalTo: contentView.safeAreaLayoutGuide.topAnchor
+            ),
+            feedSourcesView.leadingAnchor.constraint(
+                equalTo: contentView.safeAreaLayoutGuide.leadingAnchor
+            ),
+            feedSourcesView.trailingAnchor.constraint(
+                equalTo: contentView.safeAreaLayoutGuide.trailingAnchor
+            ),
+            entriesView.bottomAnchor.constraint(
+                equalTo: contentView.bottomAnchor
+            ),
+            entriesView.leadingAnchor.constraint(
+                equalTo: contentView.safeAreaLayoutGuide.leadingAnchor
+            ),
+            entriesView.trailingAnchor.constraint(
+                equalTo: contentView.safeAreaLayoutGuide.trailingAnchor
+            ),
+            feedSourcesView.bottomAnchor.constraint(
+                equalTo: entriesView.topAnchor,
+                constant: -8
+            ),
+            feedSourcesView.heightAnchor.constraint(equalToConstant: 64)
+        ]
+    }
+
     // TODO: Rename
 //    enum TableSizeConstant {
 //        static let feedsListHeight: CGFloat = 64

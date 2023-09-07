@@ -8,7 +8,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FeedSourcesCollectionViewController" customModule="rss_reader" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FeedSourcesViewController" customModule="rss_reader" customModuleProvider="target">
             <connections>
                 <outlet property="collectionView" destination="pK2-UJ-35J" id="UJd-x8-dtf"/>
                 <outlet property="view" destination="U45-no-kex" id="x2a-ZM-z5h"/>

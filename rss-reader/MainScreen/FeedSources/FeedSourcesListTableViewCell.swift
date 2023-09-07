@@ -9,7 +9,7 @@ import UIKit
 
 class FeedSourcesListTableViewCell: UITableViewCell {
 
-    var viewController: FeedSourcesCollectionViewController? {
+    var viewController: FeedSourcesViewController? {
         didSet {
             guard let viewController else {
                 return

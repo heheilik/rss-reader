@@ -9,25 +9,59 @@ import UIKit
 
 final class FeedViewController: UIViewController {
 
-    @IBOutlet var feedSourcesCollectionViewController: FeedSourcesCollectionViewController!
-    @IBOutlet var entriesTableViewController: EntriesTableViewController!
-
     private let viewModel = FeedViewModel()
 
-    override func awakeFromNib() {
-        print("\(Self.self) awaken from nib")
-        super.awakeFromNib()
+    private let feedSourcesViewController = FeedSourcesViewController()
+    private let entriesViewController = EntriesViewController()
 
-//        UINib(nibName: "FeedSourcesCollectionViewController", bundle: nil).instantiate(withOwner: feedSourcesCollectionViewController)
-//        UINib(nibName: "EntriesTableViewController", bundle: nil).instantiate(withOwner: entriesTableViewController)
-//        super.awakeFromNib()
-//
-//        addChild(feedSourcesCollectionViewController)
-//        feedSourcesCollectionViewController.didMove(toParent: self)
-//
-//        addChild(entriesTableViewController)
-//        entriesTableViewController.didMove(toParent: self)
+    override func loadView() {
+        view = UIView()
+        view.backgroundColor = .white
+        view.translatesAutoresizingMaskIntoConstraints = false
+        feedSourcesViewController.view.translatesAutoresizingMaskIntoConstraints = false
+        entriesViewController.view.translatesAutoresizingMaskIntoConstraints = false
 
+        addChild(feedSourcesViewController)
+        addChild(entriesViewController)
+
+        view.addSubview(feedSourcesViewController.view)
+        view.addSubview(entriesViewController.view)
+
+        NSLayoutConstraint.activate(
+            viewModel.constraintsFor(
+                contentView: self.view,
+                feedSourcesView: feedSourcesViewController.view,
+                entriesView: entriesViewController.view
+            )
+        )
+
+//        NSLayoutConstraint.activate([
+//            feedSourcesViewController.view.topAnchor.constraint(
+//                equalTo: self.view.safeAreaLayoutGuide.topAnchor
+//            ),
+//            feedSourcesViewController.view.leadingAnchor.constraint(
+//                equalTo: self.view.safeAreaLayoutGuide.leadingAnchor
+//            ),
+//            feedSourcesViewController.view.trailingAnchor.constraint(
+//                equalTo: self.view.safeAreaLayoutGuide.trailingAnchor
+//            ),
+//            entriesViewController.view.bottomAnchor.constraint(
+//                equalTo: self.view.bottomAnchor
+//            ),
+//            entriesViewController.view.leadingAnchor.constraint(
+//                equalTo: self.view.safeAreaLayoutGuide.leadingAnchor
+//            ),
+//            entriesViewController.view.trailingAnchor.constraint(
+//                equalTo: self.view.safeAreaLayoutGuide.trailingAnchor
+//            ),
+//            feedSourcesViewController.view.bottomAnchor.constraint(
+//                equalTo: entriesViewController.view.topAnchor,
+//                constant: 8
+//            )
+//        ])
+
+        feedSourcesViewController.didMove(toParent: self)
+        entriesViewController.didMove(toParent: self)
     }
 
     override func viewDidLoad() {

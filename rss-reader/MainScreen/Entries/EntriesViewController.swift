@@ -1,5 +1,5 @@
 //
-//  EntriesTableViewController.swift
+//  EntriesViewController.swift
 //  rss-reader
 //
 //  Created by Heorhi Heilik on 5.09.23.
@@ -7,9 +7,9 @@
 
 import UIKit
 
-class EntriesTableViewController: UIViewController {
+class EntriesViewController: UIViewController {
 
-    let viewModel = EntriesTableViewModel()
+    let viewModel = EntriesViewModel()
 
     @IBOutlet weak var tableView: UITableView!
 
@@ -36,7 +36,7 @@ class EntriesTableViewController: UIViewController {
 
 }
 
-extension EntriesTableViewController: UITableViewDataSource {
+extension EntriesViewController: UITableViewDataSource {
 
     func numberOfSections(in tableView: UITableView) -> Int {
         viewModel.sectionCount()
@@ -67,7 +67,7 @@ extension EntriesTableViewController: UITableViewDataSource {
     
 }
 
-extension EntriesTableViewController: UITableViewDelegate {
+extension EntriesViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let typedSection = viewModel.section(forIndexPath: indexPath)

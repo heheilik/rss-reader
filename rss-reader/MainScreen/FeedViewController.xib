@@ -10,54 +10,16 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FeedViewController" customModule="rss_reader" customModuleProvider="target">
             <connections>
-                <outlet property="entriesTableViewController" destination="N2A-ed-Y2P" id="bC5-EW-UHn"/>
-                <outlet property="feedSourcesCollectionViewController" destination="nbz-l2-0rT" id="V0y-fj-are"/>
                 <outlet property="view" destination="I5q-AR-sAu" id="Eib-ui-a6J"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="I5q-AR-sAu">
             <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
-            <subviews>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Bxg-9P-5rX" userLabel="feedSources">
-                    <rect key="frame" x="0.0" y="59" width="393" height="64"/>
-                    <viewLayoutGuide key="safeArea" id="sTJ-Bn-9Ye"/>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="64" id="Mzn-mF-XTk"/>
-                    </constraints>
-                </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4DO-ZN-Y6J" userLabel="entriesTable">
-                    <rect key="frame" x="0.0" y="123" width="393" height="695"/>
-                    <viewLayoutGuide key="safeArea" id="v12-7R-Kyt"/>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                </view>
-            </subviews>
             <viewLayoutGuide key="safeArea" id="L70-pI-Arx"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-            <constraints>
-                <constraint firstItem="4DO-ZN-Y6J" firstAttribute="bottom" secondItem="L70-pI-Arx" secondAttribute="bottom" id="B21-CG-pRS"/>
-                <constraint firstItem="4DO-ZN-Y6J" firstAttribute="leading" secondItem="L70-pI-Arx" secondAttribute="leading" id="Ou8-xS-kyS"/>
-                <constraint firstItem="L70-pI-Arx" firstAttribute="top" secondItem="Bxg-9P-5rX" secondAttribute="top" id="QcA-CE-T5Y"/>
-                <constraint firstItem="L70-pI-Arx" firstAttribute="trailing" secondItem="4DO-ZN-Y6J" secondAttribute="trailing" id="UUi-eb-7TA"/>
-                <constraint firstItem="L70-pI-Arx" firstAttribute="trailing" secondItem="Bxg-9P-5rX" secondAttribute="trailing" id="deQ-WU-CNq"/>
-                <constraint firstItem="4DO-ZN-Y6J" firstAttribute="top" secondItem="Bxg-9P-5rX" secondAttribute="bottom" id="uZA-3f-qnZ"/>
-                <constraint firstItem="Bxg-9P-5rX" firstAttribute="leading" secondItem="L70-pI-Arx" secondAttribute="leading" id="vM0-x2-ZK8"/>
-            </constraints>
             <point key="canvasLocation" x="-269" y="25"/>
         </view>
-        <viewController id="nbz-l2-0rT" customClass="FeedSourcesCollectionViewController" customModule="rss_reader" customModuleProvider="target">
-            <connections>
-                <outlet property="view" destination="Bxg-9P-5rX" id="OJi-t6-T2H"/>
-            </connections>
-            <point key="canvasLocation" x="-1663" y="25"/>
-        </viewController>
-        <viewController id="N2A-ed-Y2P" customClass="EntriesTableViewController" customModule="rss_reader" customModuleProvider="target">
-            <connections>
-                <outlet property="view" destination="4DO-ZN-Y6J" id="gJ2-9j-bIO"/>
-            </connections>
-            <point key="canvasLocation" x="-964" y="25"/>
-        </viewController>
     </objects>
     <resources>
         <systemColor name="systemBackgroundColor">

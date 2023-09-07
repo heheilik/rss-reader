@@ -1,5 +1,5 @@
 //
-//  FeedSourcesCollectionViewModel.swift
+//  FeedSourcesViewModel.swift
 //  rss-reader
 //
 //  Created by Heorhi Heilik on 13.08.23.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class FeedSourcesCollectionViewModel {
+class FeedSourcesViewModel {
 
     enum FeedSourcesSection: Int, CaseIterable {
         case plusButton

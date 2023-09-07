@@ -1,5 +1,5 @@
 //
-//  FeedSourcesCollectionViewController.swift
+//  FeedSourcesViewController.swift
 //  rss-reader
 //
 //  Created by Heorhi Heilik on 13.08.23.
@@ -12,22 +12,15 @@ protocol FeedSourcesSelectionDelegate: AnyObject {
     func onCellSelectionArrayProbablyChanged(selectionArray: [IndexPath])
 }
 
-class FeedSourcesCollectionViewController: UIViewController {
+class FeedSourcesViewController: UIViewController {
 
-    typealias FeedSourcesSection = FeedSourcesCollectionViewModel.FeedSourcesSection
+    typealias FeedSourcesSection = FeedSourcesViewModel.FeedSourcesSection
 
-    let viewModel = FeedSourcesCollectionViewModel()
+    let viewModel = FeedSourcesViewModel()
 
     weak var selectionDelegate: FeedSourcesSelectionDelegate?
 
     @IBOutlet weak var collectionView: UICollectionView!
-
-    override func awakeFromNib() {
-        print("\(Self.self) awaken from nib")
-        UINib(nibName: "\(Self.self)", bundle: nil).instantiate(withOwner: self)
-        super.awakeFromNib()
-        print("\(Self.self) super awaken from nib")
-    }
 
     override func viewDidLoad() {
         print("\(Self.self) did load")
@@ -54,7 +47,7 @@ class FeedSourcesCollectionViewController: UIViewController {
     }
 }
 
-extension FeedSourcesCollectionViewController: UICollectionViewDataSource {
+extension FeedSourcesViewController: UICollectionViewDataSource {
 
     // MARK: - Data Source
 
@@ -117,7 +110,7 @@ extension FeedSourcesCollectionViewController: UICollectionViewDataSource {
 
 }
 
-extension FeedSourcesCollectionViewController: UICollectionViewDelegateFlowLayout {
+extension FeedSourcesViewController: UICollectionViewDelegateFlowLayout {
 
     // MARK: - Size Calculations
 
@@ -218,10 +211,10 @@ extension FeedSourcesCollectionViewController: UICollectionViewDelegateFlowLayou
 
 }
 
-extension FeedSourcesCollectionViewController: FeedDragDropObserver {
+extension FeedSourcesViewController: FeedDragDropObserver {
 
     var dragDropObserverIdentifier: String {
-        "FeedSourcesCollectionViewController"
+        "FeedSourcesViewController"
     }
 
     func onItemMoved(from source: IndexPath, to destination: IndexPath) {

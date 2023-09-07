@@ -1,5 +1,5 @@
 //
-//  EntriesTableViewModel.swift
+//  EntriesViewModel.swift
 //  rss-reader
 //
 //  Created by Heorhi Heilik on 5.09.23.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class EntriesTableViewModel {
+final class EntriesViewModel {
 
     enum TableSection: Int, CaseIterable {
         case status

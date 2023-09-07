@@ -14,7 +14,7 @@ enum DragDropTypeIdentifier {
 // TODO: rename
 class FeedDragDropController: NSObject {
 
-    typealias FeedSourcesSection = FeedSourcesCollectionViewModel.FeedSourcesSection
+    typealias FeedSourcesSection = FeedSourcesViewModel.FeedSourcesSection
 
     var observers: [String: FeedDragDropObserver] = [:]
 
