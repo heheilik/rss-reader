@@ -65,12 +65,30 @@ class FeedViewModel: NSObject {
     }
 
     var previousState = ContentOffsetState.normal
-    var previousOffset: Double = 0
+    var previousOffset: CGFloat = 0
 
-    var heightShown: Double = 64
+    var heightShown: CGFloat = 64
+
 }
 
 extension FeedViewModel: UIScrollViewDelegate {
+
+    func adjustHeight(
+        _ height: inout CGFloat,
+        forDelta delta: CGFloat,
+        inRangeOfState state: ContentOffsetState
+    ) {
+        switch state {
+        case .aboveTop:
+            height = max(0, height - delta)
+
+        case .normal:
+            height = max(0, min(64, height - delta))
+
+        case .belowBottom:
+            height = min(height, max(0, height - delta))
+        }
+    }
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let topPoint = scrollView.adjustedContentInset.top
@@ -81,29 +99,40 @@ extension FeedViewModel: UIScrollViewDelegate {
         let state: ContentOffsetState
         if offset < topPoint {
             state = .aboveTop
-        } else if offset > scrollView.contentSize.height - scrollView.frame.size.height {
+        } else if offset > bottomPoint {
             state = .belowBottom
         } else {
             state = .normal
         }
 
-//        print("State: \(state)")
-//        print("Offset: \(offset)")
-//        print("Previous Offset: \(previousOffset)")
-
-        let delta = offset - previousOffset
-//        print(delta)
-//        print("")
-
         switch state {
         case .aboveTop:
-            heightShown = max(0, heightShown - delta)
+            guard previousState == .aboveTop else {
+                let deltaInNormal = topPoint - previousOffset
+                let deltaAboveTop = offset - topPoint
+                adjustHeight(&heightShown, forDelta: deltaInNormal, inRangeOfState: .normal)
+                adjustHeight(&heightShown, forDelta: deltaAboveTop, inRangeOfState: .aboveTop)
+                return
+            }
+
+            let delta = offset - previousOffset
+            adjustHeight(&heightShown, forDelta: delta, inRangeOfState: .aboveTop)
 
         case .normal:
-            heightShown = max(0, min(64, heightShown - delta))
+            let delta = offset - previousOffset
+            adjustHeight(&heightShown, forDelta: delta, inRangeOfState: .normal)
 
         case .belowBottom:
-            heightShown = min(heightShown, max(0, heightShown - delta))
+            guard previousState == .aboveTop else {
+                let deltaInNormal = bottomPoint - previousOffset
+                let deltaBelowBottom = offset - bottomPoint
+                adjustHeight(&heightShown, forDelta: deltaInNormal, inRangeOfState: .normal)
+                adjustHeight(&heightShown, forDelta: deltaBelowBottom, inRangeOfState: .belowBottom)
+                return
+            }
+
+            let delta = offset - previousOffset
+            adjustHeight(&heightShown, forDelta: delta, inRangeOfState: .belowBottom)
         }
 
         previousOffset = offset

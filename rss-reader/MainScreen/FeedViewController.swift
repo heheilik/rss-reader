@@ -62,20 +62,16 @@ extension FeedViewController: UIScrollViewDelegate {
         guard let constraint = view.constraints.filter({ constraint in
             guard
                 let first = constraint.firstItem as? UIView,
-                let second = constraint.secondItem as? UIView,
-                let feedSourcesView = feedSourcesViewController.view as? UIView,
-                let aboveSafeAreaCover = aboveSafeAreaCover as? UIView
+                let second = constraint.secondItem as? UIView
             else {
                 return false
             }
 
             return
-            first == feedSourcesView &&
-            second == aboveSafeAreaCover &&
-            constraint.firstAttribute == .bottom &&
-            constraint.secondAttribute == .bottom
-
-
+                first == feedSourcesViewController.view &&
+                second == aboveSafeAreaCover &&
+                constraint.firstAttribute == .bottom &&
+                constraint.secondAttribute == .bottom
         }).first else {
             fatalError("Constraint not found.")
         }
