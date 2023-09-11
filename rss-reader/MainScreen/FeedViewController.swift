@@ -40,8 +40,8 @@ final class FeedViewController: UIViewController {
             )
         )
 
-        feedSourcesViewController.didMove(toParent: self)
         entriesViewController.didMove(toParent: self)
+        feedSourcesViewController.didMove(toParent: self)
     }
 
     override func viewDidLoad() {

@@ -109,10 +109,11 @@ extension FeedViewModel: UIScrollViewDelegate {
             }
         }
 
-        heightShown += delta
+        print(scrollView.contentOffset.y)
+        if (scrollView.contentOffset.y >= 0 && scrollView.contentOffset.y < (scrollView.contentSize.height - scrollView.frame.size.height)){
+            heightShown += delta
+            }
         lastContentOffset = scrollView.contentOffset.y
-
-        print(heightShown)
 
         if heightShown == 0 {
             transitionInProgress = false

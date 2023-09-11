@@ -89,6 +89,7 @@ extension EntriesViewController: UITableViewDelegate {
         case .feedSourcesPlaceholder:
             return 64
         case .status:
+            // FIXME: temporarily increased height for testing
 //            return tableView.bounds.height - 64
             return tableView.bounds.height
         case .entries:
