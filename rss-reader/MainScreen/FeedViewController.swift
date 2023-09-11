@@ -14,9 +14,11 @@ final class FeedViewController: UIViewController {
     private let feedSourcesViewController = FeedSourcesViewController()
     private let entriesViewController = EntriesViewController()
 
-    private var isFeedSourcesHidden = false
-    private var isScrollingUp = false
-    private var lastContentOffset = CGPoint()
+    private let aboveSafeAreaCover = {
+        let view = UIView()
+        view.backgroundColor = .white
+        return view
+    }()
 
     override func loadView() {
         view = UIView()
@@ -25,26 +27,30 @@ final class FeedViewController: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         feedSourcesViewController.view.translatesAutoresizingMaskIntoConstraints = false
         entriesViewController.view.translatesAutoresizingMaskIntoConstraints = false
+        aboveSafeAreaCover.translatesAutoresizingMaskIntoConstraints = false
 
         addChild(feedSourcesViewController)
         addChild(entriesViewController)
 
         view.addSubview(entriesViewController.view)
         view.addSubview(feedSourcesViewController.view)
+        view.addSubview(aboveSafeAreaCover)
+
+        entriesViewController.didMove(toParent: self)
+        feedSourcesViewController.didMove(toParent: self)
 
         NSLayoutConstraint.activate(
             viewModel.constraintsFor(
                 contentView: view,
+                entriesView: entriesViewController.view,
                 feedSourcesView: feedSourcesViewController.view,
-                entriesView: entriesViewController.view
+                aboveSafeAreaCoverView: aboveSafeAreaCover
             )
         )
-
-        entriesViewController.didMove(toParent: self)
-        feedSourcesViewController.didMove(toParent: self)
     }
 
     override func viewDidLoad() {
+
         entriesViewController.scrollViewDelegate = self
     }
 

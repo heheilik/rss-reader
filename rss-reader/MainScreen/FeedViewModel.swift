@@ -11,24 +11,13 @@ class FeedViewModel: NSObject {
 
     func constraintsFor(
         contentView: UIView,
+        entriesView: UIView,
         feedSourcesView: UIView,
-        entriesView: UIView
+        aboveSafeAreaCoverView: UIView
     ) -> [NSLayoutConstraint] {
         [
-            feedSourcesView.topAnchor.constraint(
-                equalTo: contentView.safeAreaLayoutGuide.topAnchor
-            ),
-            feedSourcesView.topAnchor.constraint(
-                equalTo: contentView.safeAreaLayoutGuide.topAnchor
-            ),
-            feedSourcesView.leadingAnchor.constraint(
-                equalTo: contentView.safeAreaLayoutGuide.leadingAnchor
-            ),
-            feedSourcesView.trailingAnchor.constraint(
-                equalTo: contentView.safeAreaLayoutGuide.trailingAnchor
-            ),
             entriesView.topAnchor.constraint(
-                equalTo: contentView.topAnchor
+                equalTo: contentView.safeAreaLayoutGuide.topAnchor
             ),
             entriesView.bottomAnchor.constraint(
                 equalTo: contentView.bottomAnchor
@@ -39,7 +28,28 @@ class FeedViewModel: NSObject {
             entriesView.trailingAnchor.constraint(
                 equalTo: contentView.safeAreaLayoutGuide.trailingAnchor
             ),
-            feedSourcesView.heightAnchor.constraint(equalToConstant: 64)
+            feedSourcesView.topAnchor.constraint(
+                equalTo: contentView.safeAreaLayoutGuide.topAnchor
+            ),
+            feedSourcesView.leadingAnchor.constraint(
+                equalTo: contentView.safeAreaLayoutGuide.leadingAnchor
+            ),
+            feedSourcesView.trailingAnchor.constraint(
+                equalTo: contentView.safeAreaLayoutGuide.trailingAnchor
+            ),
+            feedSourcesView.heightAnchor.constraint(equalToConstant: 64),
+            aboveSafeAreaCoverView.topAnchor.constraint(
+                equalTo: contentView.topAnchor
+            ),
+            aboveSafeAreaCoverView.bottomAnchor.constraint(
+                equalTo: contentView.safeAreaLayoutGuide.topAnchor
+            ),
+            aboveSafeAreaCoverView.leadingAnchor.constraint(
+                equalTo: contentView.leadingAnchor
+            ),
+            aboveSafeAreaCoverView.trailingAnchor.constraint(
+                equalTo: contentView.trailingAnchor
+            )
         ]
     }
 
