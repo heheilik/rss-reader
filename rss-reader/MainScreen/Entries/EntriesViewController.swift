@@ -91,7 +91,7 @@ extension EntriesViewController: UITableViewDelegate {
         case .status:
             // FIXME: temporarily increased height for testing
 //            return tableView.bounds.height - 64
-            return tableView.bounds.height
+            return tableView.bounds.height * 2
         case .entries:
             return UITableView.automaticDimension
         }

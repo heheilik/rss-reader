@@ -28,16 +28,19 @@ class FeedViewModel: NSObject {
             entriesView.trailingAnchor.constraint(
                 equalTo: contentView.safeAreaLayoutGuide.trailingAnchor
             ),
-            feedSourcesView.topAnchor.constraint(
-                equalTo: contentView.safeAreaLayoutGuide.topAnchor
-            ),
+
             feedSourcesView.leadingAnchor.constraint(
                 equalTo: contentView.safeAreaLayoutGuide.leadingAnchor
             ),
             feedSourcesView.trailingAnchor.constraint(
                 equalTo: contentView.safeAreaLayoutGuide.trailingAnchor
             ),
+            feedSourcesView.bottomAnchor.constraint(
+                equalTo: aboveSafeAreaCoverView.bottomAnchor,
+                constant: 64
+            ),
             feedSourcesView.heightAnchor.constraint(equalToConstant: 64),
+
             aboveSafeAreaCoverView.topAnchor.constraint(
                 equalTo: contentView.topAnchor
             ),
@@ -55,87 +58,56 @@ class FeedViewModel: NSObject {
 
     // MARK: - Scrolling
 
-    enum Direction {
-        case none
-        case upwards
-        case downwards
-
-        init(delta: Double) {
-            switch delta.sign {
-            case .plus:
-                self = .upwards
-            case .minus:
-                self = .downwards
-            }
-        }
+    enum ContentOffsetState {
+        case normal
+        case aboveTop     // Top point: scrollView.contentOffset.y >= 0
+        case belowBottom  // Bottom point: scrollView.contentSize.height - scrollView.frame.size.height
     }
 
-    var feedSourcesHidden = false
-    var lastContentOffset: Double = 0
+    var previousState = ContentOffsetState.normal
+    var previousOffset: Double = 0
 
-    var transitionInProgress = false
-
-    @FeedSourcesHeight var heightShown: Double
-
-    @propertyWrapper
-    struct FeedSourcesHeight {
-        private var height: Double = 64
-        var wrappedValue: Double {
-            get {
-                return max(0, min(64, height))
-            }
-            set {
-                height = max(-1, min(65, newValue))
-            }
-        }
-    }
-
+    var heightShown: Double = 64
 }
 
 extension FeedViewModel: UIScrollViewDelegate {
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let delta = lastContentOffset - scrollView.contentOffset.y
+        let topPoint = scrollView.adjustedContentInset.top
+        let bottomPoint = scrollView.contentSize.height - scrollView.frame.size.height
 
-        if !transitionInProgress {
-            switch Direction(delta: delta) {
-            case .upwards:
-                if feedSourcesHidden {
-                    transitionInProgress = true
-                }
+        let offset = scrollView.contentOffset.y
 
-            case .downwards:
-                if !feedSourcesHidden {
-                    transitionInProgress = true
-                }
-
-            case .none:
-                break
-            }
-
-            if !transitionInProgress {
-                lastContentOffset = scrollView.contentOffset.y
-                return
-            }
+        let state: ContentOffsetState
+        if offset < topPoint {
+            state = .aboveTop
+        } else if offset > scrollView.contentSize.height - scrollView.frame.size.height {
+            state = .belowBottom
+        } else {
+            state = .normal
         }
 
-        print(scrollView.contentOffset.y)
-        if (scrollView.contentOffset.y >= 0 && scrollView.contentOffset.y < (scrollView.contentSize.height - scrollView.frame.size.height)){
-            heightShown += delta
-            }
-        lastContentOffset = scrollView.contentOffset.y
+//        print("State: \(state)")
+//        print("Offset: \(offset)")
+//        print("Previous Offset: \(previousOffset)")
 
-        if heightShown == 0 {
-            transitionInProgress = false
-            feedSourcesHidden = true
-            return
-        }
-        if heightShown == 64 {
-            transitionInProgress = false
-            feedSourcesHidden = false
-            return
+        let delta = offset - previousOffset
+//        print(delta)
+//        print("")
+
+        switch state {
+        case .aboveTop:
+            heightShown = max(0, heightShown - delta)
+
+        case .normal:
+            heightShown = max(0, min(64, heightShown - delta))
+
+        case .belowBottom:
+            heightShown = min(heightShown, max(0, heightShown - delta))
         }
 
+        previousOffset = offset
+        previousState = state
     }
 
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {

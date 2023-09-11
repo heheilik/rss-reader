@@ -50,7 +50,6 @@ final class FeedViewController: UIViewController {
     }
 
     override func viewDidLoad() {
-
         entriesViewController.scrollViewDelegate = self
     }
 
@@ -60,14 +59,29 @@ extension FeedViewController: UIScrollViewDelegate {
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         viewModel.scrollViewDidScroll(scrollView)
+        guard let constraint = view.constraints.filter({ constraint in
+            guard
+                let first = constraint.firstItem as? UIView,
+                let second = constraint.secondItem as? UIView,
+                let feedSourcesView = feedSourcesViewController.view as? UIView,
+                let aboveSafeAreaCover = aboveSafeAreaCover as? UIView
+            else {
+                return false
+            }
 
-        guard let constraint = feedSourcesViewController.view.constraints.filter({ constraint in
-            constraint.firstAttribute == .top && constraint.secondAttribute == .top
+            return
+            first == feedSourcesView &&
+            second == aboveSafeAreaCover &&
+            constraint.firstAttribute == .bottom &&
+            constraint.secondAttribute == .bottom
+
+
         }).first else {
-            fatalError("Constraint is deleted.")
+            fatalError("Constraint not found.")
         }
 
-        constraint.constant = viewModel.heightShown - 64
+        constraint.constant = viewModel.heightShown
+        print(constraint.constant)
     }
 
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
