@@ -9,59 +9,10 @@ import UIKit
 
 class FeedViewModel: NSObject {
 
-    func constraintsFor(
-        contentView: UIView,
-        entriesView: UIView,
-        feedSourcesView: UIView,
-        aboveSafeAreaCoverView: UIView
-    ) -> [NSLayoutConstraint] {
-        [
-            entriesView.topAnchor.constraint(
-                equalTo: contentView.safeAreaLayoutGuide.topAnchor
-            ),
-            entriesView.bottomAnchor.constraint(
-                equalTo: contentView.bottomAnchor
-            ),
-            entriesView.leadingAnchor.constraint(
-                equalTo: contentView.safeAreaLayoutGuide.leadingAnchor
-            ),
-            entriesView.trailingAnchor.constraint(
-                equalTo: contentView.safeAreaLayoutGuide.trailingAnchor
-            ),
-
-            feedSourcesView.leadingAnchor.constraint(
-                equalTo: contentView.safeAreaLayoutGuide.leadingAnchor
-            ),
-            feedSourcesView.trailingAnchor.constraint(
-                equalTo: contentView.safeAreaLayoutGuide.trailingAnchor
-            ),
-            feedSourcesView.bottomAnchor.constraint(
-                equalTo: aboveSafeAreaCoverView.bottomAnchor,
-                constant: 64
-            ),
-            feedSourcesView.heightAnchor.constraint(equalToConstant: 64),
-
-            aboveSafeAreaCoverView.topAnchor.constraint(
-                equalTo: contentView.topAnchor
-            ),
-            aboveSafeAreaCoverView.bottomAnchor.constraint(
-                equalTo: contentView.safeAreaLayoutGuide.topAnchor
-            ),
-            aboveSafeAreaCoverView.leadingAnchor.constraint(
-                equalTo: contentView.leadingAnchor
-            ),
-            aboveSafeAreaCoverView.trailingAnchor.constraint(
-                equalTo: contentView.trailingAnchor
-            )
-        ]
-    }
-
-    // MARK: - Scrolling
-
     enum ContentOffsetState {
         case normal
-        case aboveTop     // Top point: scrollView.contentOffset.y >= 0
-        case belowBottom  // Bottom point: scrollView.contentSize.height - scrollView.frame.size.height
+        case aboveTop
+        case belowBottom
     }
 
     var previousState = ContentOffsetState.normal

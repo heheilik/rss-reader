@@ -7,7 +7,6 @@
 
 import UIKit
 
-
 protocol FeedSourcesSelectionDelegate: AnyObject {
     func onCellSelectionArrayProbablyChanged(selectionArray: [IndexPath])
 }
@@ -140,7 +139,7 @@ extension FeedSourcesViewController: UICollectionViewDelegateFlowLayout {
         case .plusButton:
             return UIEdgeInsets(
                 top: 0,
-                left: 8,
+                left: 0,
                 bottom: 0,
                 right: 0
             )
@@ -149,7 +148,7 @@ extension FeedSourcesViewController: UICollectionViewDelegateFlowLayout {
                 top: 0,
                 left: 8,
                 bottom: 0,
-                right: 8
+                right: 0
             )
         }
     }

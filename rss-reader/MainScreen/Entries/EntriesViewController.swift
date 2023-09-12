@@ -55,7 +55,7 @@ extension EntriesViewController: UITableViewDataSource {
             return 0
         }
     }
-    
+
     func tableView(
         _ tableView: UITableView,
         cellForRowAt indexPath: IndexPath
@@ -78,7 +78,7 @@ extension EntriesViewController: UITableViewDataSource {
             fatalError("Entry cell configuration is not set.")
         }
     }
-    
+
 }
 
 extension EntriesViewController: UITableViewDelegate {

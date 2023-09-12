@@ -14,42 +14,41 @@ final class FeedViewController: UIViewController {
     private let feedSourcesViewController = FeedSourcesViewController()
     private let entriesViewController = EntriesViewController()
 
-    private let aboveSafeAreaCover = {
-        let view = UIView()
-        view.backgroundColor = .white
-        return view
-    }()
+    @IBOutlet weak var feedSourcesContainer: UIView!
+    @IBOutlet weak var entriesContainer: UIView!
+    
+    @IBOutlet weak var aboveSafeAreaCoverView: UIView!
 
-    override func loadView() {
-        view = UIView()
-        view.backgroundColor = .white
-
-        view.translatesAutoresizingMaskIntoConstraints = false
-        feedSourcesViewController.view.translatesAutoresizingMaskIntoConstraints = false
-        entriesViewController.view.translatesAutoresizingMaskIntoConstraints = false
-        aboveSafeAreaCover.translatesAutoresizingMaskIntoConstraints = false
-
-        addChild(feedSourcesViewController)
-        addChild(entriesViewController)
-
-        view.addSubview(entriesViewController.view)
-        view.addSubview(feedSourcesViewController.view)
-        view.addSubview(aboveSafeAreaCover)
-
-        entriesViewController.didMove(toParent: self)
-        feedSourcesViewController.didMove(toParent: self)
-
-        NSLayoutConstraint.activate(
-            viewModel.constraintsFor(
-                contentView: view,
-                entriesView: entriesViewController.view,
-                feedSourcesView: feedSourcesViewController.view,
-                aboveSafeAreaCoverView: aboveSafeAreaCover
-            )
-        )
-    }
+    @IBOutlet weak var feedSourcesHeightShown: NSLayoutConstraint!
 
     override func viewDidLoad() {
+
+        addChild(feedSourcesViewController)
+        feedSourcesContainer.translatesAutoresizingMaskIntoConstraints = false
+        feedSourcesContainer.addSubview(feedSourcesViewController.view)
+
+        NSLayoutConstraint.activate([
+            feedSourcesContainer.topAnchor.constraint(equalTo: feedSourcesViewController.view.topAnchor),
+            feedSourcesContainer.bottomAnchor.constraint(equalTo: feedSourcesViewController.view.bottomAnchor),
+            feedSourcesContainer.leadingAnchor.constraint(equalTo: feedSourcesViewController.view.leadingAnchor),
+            feedSourcesContainer.trailingAnchor.constraint(equalTo: feedSourcesViewController.view.trailingAnchor),
+        ])
+
+        feedSourcesViewController.didMove(toParent: self)
+
+        addChild(entriesViewController)
+        entriesContainer.translatesAutoresizingMaskIntoConstraints = false
+        entriesContainer.addSubview(entriesViewController.view)
+
+        NSLayoutConstraint.activate([
+            entriesContainer.topAnchor.constraint(equalTo: entriesViewController.view.topAnchor),
+            entriesContainer.bottomAnchor.constraint(equalTo: entriesViewController.view.bottomAnchor),
+            entriesContainer.leadingAnchor.constraint(equalTo: entriesViewController.view.leadingAnchor),
+            entriesContainer.trailingAnchor.constraint(equalTo: entriesViewController.view.trailingAnchor),
+        ])
+
+        entriesViewController.didMove(toParent: self)
+
         entriesViewController.scrollViewDelegate = self
     }
 
@@ -59,25 +58,7 @@ extension FeedViewController: UIScrollViewDelegate {
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         viewModel.scrollViewDidScroll(scrollView)
-        guard let constraint = view.constraints.filter({ constraint in
-            guard
-                let first = constraint.firstItem as? UIView,
-                let second = constraint.secondItem as? UIView
-            else {
-                return false
-            }
-
-            return
-                first == feedSourcesViewController.view &&
-                second == aboveSafeAreaCover &&
-                constraint.firstAttribute == .bottom &&
-                constraint.secondAttribute == .bottom
-        }).first else {
-            fatalError("Constraint not found.")
-        }
-
-        constraint.constant = viewModel.heightShown
-        print(constraint.constant)
+        feedSourcesHeightShown.constant = viewModel.heightShown
     }
 
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
