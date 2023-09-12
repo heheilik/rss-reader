@@ -116,6 +116,7 @@ extension FeedSourcesViewController: UICollectionViewDelegateFlowLayout {
         layout collectionViewLayout: UICollectionViewLayout,
         sizeForItemAt indexPath: IndexPath
     ) -> CGSize {
+        print("size requested")
         guard let typedSection = FeedSourcesSection(rawValue: indexPath.section) else {
             fatalError("Wrong section.")
         }

@@ -16,37 +16,19 @@ final class FeedViewController: UIViewController {
 
     @IBOutlet weak var feedSourcesContainer: UIView!
     @IBOutlet weak var entriesContainer: UIView!
-    
     @IBOutlet weak var aboveSafeAreaCoverView: UIView!
 
     @IBOutlet weak var feedSourcesHeightShown: NSLayoutConstraint!
 
     override func viewDidLoad() {
-
         addChild(feedSourcesViewController)
-        feedSourcesContainer.translatesAutoresizingMaskIntoConstraints = false
+        feedSourcesViewController.view.frame = feedSourcesContainer.bounds
         feedSourcesContainer.addSubview(feedSourcesViewController.view)
-
-        NSLayoutConstraint.activate([
-            feedSourcesContainer.topAnchor.constraint(equalTo: feedSourcesViewController.view.topAnchor),
-            feedSourcesContainer.bottomAnchor.constraint(equalTo: feedSourcesViewController.view.bottomAnchor),
-            feedSourcesContainer.leadingAnchor.constraint(equalTo: feedSourcesViewController.view.leadingAnchor),
-            feedSourcesContainer.trailingAnchor.constraint(equalTo: feedSourcesViewController.view.trailingAnchor),
-        ])
-
         feedSourcesViewController.didMove(toParent: self)
 
         addChild(entriesViewController)
-        entriesContainer.translatesAutoresizingMaskIntoConstraints = false
+        entriesViewController.view.frame = entriesContainer.bounds
         entriesContainer.addSubview(entriesViewController.view)
-
-        NSLayoutConstraint.activate([
-            entriesContainer.topAnchor.constraint(equalTo: entriesViewController.view.topAnchor),
-            entriesContainer.bottomAnchor.constraint(equalTo: entriesViewController.view.bottomAnchor),
-            entriesContainer.leadingAnchor.constraint(equalTo: entriesViewController.view.leadingAnchor),
-            entriesContainer.trailingAnchor.constraint(equalTo: entriesViewController.view.trailingAnchor),
-        ])
-
         entriesViewController.didMove(toParent: self)
 
         entriesViewController.scrollViewDelegate = self
