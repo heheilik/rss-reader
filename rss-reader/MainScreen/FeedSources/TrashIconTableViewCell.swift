@@ -26,10 +26,10 @@ class TrashIconTableViewCell: UITableViewCell {
     }
 
     private func configureAppearance() {
-        trashImageView.tintColor = CellAppearance.trashColor
-        trashImageBorderView.layer.borderColor = CellAppearance.trashColor.cgColor
-        trashImageBorderView.layer.borderWidth = CellAppearance.borderWidth
-        trashImageBorderView.layer.cornerRadius = CellAppearance.cornerRadius
+        trashImageView.tintColor = Constants.CellAppearance.trashColor
+        trashImageBorderView.layer.borderColor = Constants.CellAppearance.trashColor.cgColor
+        trashImageBorderView.layer.borderWidth = Constants.CellAppearance.borderWidth
+        trashImageBorderView.layer.cornerRadius = Constants.CellAppearance.cornerRadius
         selectionStyle = .none
     }
 

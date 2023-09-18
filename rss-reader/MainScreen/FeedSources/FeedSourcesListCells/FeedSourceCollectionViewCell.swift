@@ -16,20 +16,20 @@ class FeedSourceCollectionViewCell: UICollectionViewCell {
     }
 
     override func awakeFromNib() {
-        contentView.layer.borderColor = CellAppearance.cellColor.cgColor
-        contentView.layer.borderWidth = CellAppearance.borderWidth
-        contentView.layer.cornerRadius = CellAppearance.cornerRadius
-        title.textColor = CellAppearance.cellColor
+        contentView.layer.borderColor = Constants.CellAppearance.cellColor.cgColor
+        contentView.layer.borderWidth = Constants.CellAppearance.borderWidth
+        contentView.layer.cornerRadius = Constants.CellAppearance.cornerRadius
+        title.textColor = Constants.CellAppearance.cellColor
     }
 
     override var isSelected: Bool {
         didSet {
             if isSelected {
-                contentView.layer.borderColor = CellAppearance.cellColorSelected.cgColor
-                title.textColor = CellAppearance.cellColorSelected
+                contentView.layer.borderColor = Constants.CellAppearance.cellColorSelected.cgColor
+                title.textColor = Constants.CellAppearance.cellColorSelected
             } else {
-                contentView.layer.borderColor = CellAppearance.cellColor.cgColor
-                title.textColor = CellAppearance.cellColor
+                contentView.layer.borderColor = Constants.CellAppearance.cellColor.cgColor
+                title.textColor = Constants.CellAppearance.cellColor
             }
         }
     }

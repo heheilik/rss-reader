@@ -9,18 +9,14 @@
 /* Begin PBXBuildFile section */
 		5D1B95662A7F2BFA00AA63ED /* AddFeedSourceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D1B95652A7F2BFA00AA63ED /* AddFeedSourceViewController.xib */; };
 		5D1B95682A7F2C0100AA63ED /* AddFeedSourceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D1B95672A7F2C0100AA63ED /* AddFeedSourceViewController.swift */; };
-		5D2077D42A9713EA00AC17C7 /* EntriesSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D2077D32A9713EA00AC17C7 /* EntriesSectionController.swift */; };
-		5D2077D92A9717C500AC17C7 /* EntriesSectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D2077D82A9717C500AC17C7 /* EntriesSectionViewModel.swift */; };
 		5D30D53E2A6E167C0003DA1F /* FeedHttpService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D30D53D2A6E167C0003DA1F /* FeedHttpService.swift */; };
 		5D3562B02A9C4B3B0093340E /* AddFeedSourceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D3562AF2A9C4B3B0093340E /* AddFeedSourceViewModel.swift */; };
-		5D3562B22A9C51650093340E /* FeedSourcesSectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D3562B12A9C51650093340E /* FeedSourcesSectionViewModel.swift */; };
-		5D368EDE2A8856F40068E6F3 /* FeedSourcesCollectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D368EDD2A8856F40068E6F3 /* FeedSourcesCollectionViewController.xib */; };
+		5D368EDE2A8856F40068E6F3 /* FeedSourcesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D368EDD2A8856F40068E6F3 /* FeedSourcesViewController.xib */; };
 		5D418FE82A8926D40000B658 /* TrashIconTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D418FE62A8926D40000B658 /* TrashIconTableViewCell.swift */; };
 		5D418FE92A8926D40000B658 /* TrashIconTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D418FE72A8926D40000B658 /* TrashIconTableViewCell.xib */; };
-		5D4C15AD2A885C5C00FA1565 /* FeedSourcesCollectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D4C15AC2A885C5C00FA1565 /* FeedSourcesCollectionViewModel.swift */; };
+		5D4C15AD2A885C5C00FA1565 /* FeedSourcesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D4C15AC2A885C5C00FA1565 /* FeedSourcesViewModel.swift */; };
 		5D58835B2A885D7C008DD2EE /* FeedSourcesListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D5883592A885D7B008DD2EE /* FeedSourcesListTableViewCell.swift */; };
 		5D58835C2A885D7C008DD2EE /* FeedSourcesListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D58835A2A885D7B008DD2EE /* FeedSourcesListTableViewCell.xib */; };
-		5D58CC582A9B8D8000DD8221 /* FeedSourcesSectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D58CC572A9B8D8000DD8221 /* FeedSourcesSectionController.swift */; };
 		5D5AE97D2A870C1F00A8FD96 /* FeedURLDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D84B65C2A7943220019266D /* FeedURLDatabase.swift */; };
 		5D5C83E12A86F10400BB197D /* FeedURLDatabaseTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D5C83E02A86F10400BB197D /* FeedURLDatabaseTest.swift */; };
 		5D5F135B2A8C91B400094120 /* FeedSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D5F135A2A8C91B400094120 /* FeedSource.swift */; };
@@ -34,6 +30,12 @@
 		5D6D2F472AA3E04B0010F5D7 /* Feed+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D6D2F3F2AA3E04B0010F5D7 /* Feed+CoreDataProperties.swift */; };
 		5D6D2F482AA3E04B0010F5D7 /* EntryHeader+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D6D2F402AA3E04B0010F5D7 /* EntryHeader+CoreDataClass.swift */; };
 		5D6D2F492AA3E04B0010F5D7 /* EntryHeader+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D6D2F412AA3E04B0010F5D7 /* EntryHeader+CoreDataProperties.swift */; };
+		5D6D2F4F2AA78C4F0010F5D7 /* EntriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D6D2F4E2AA78C4F0010F5D7 /* EntriesViewController.swift */; };
+		5D6D2F512AA78C6B0010F5D7 /* EntriesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D6D2F502AA78C6B0010F5D7 /* EntriesViewController.xib */; };
+		5D6D2F532AA790DE0010F5D7 /* EntriesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D6D2F522AA790DE0010F5D7 /* EntriesViewModel.swift */; };
+		5D6D2F572AA8D2D50010F5D7 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D6D2F562AA8D2D50010F5D7 /* Constants.swift */; };
+		5D6D2F5D2AAA37880010F5D7 /* FeedSourcesPlaceholderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D6D2F5C2AAA37880010F5D7 /* FeedSourcesPlaceholderTableViewCell.swift */; };
+		5D6D2F5F2AAA37990010F5D7 /* FeedSourcesPlaceholderTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D6D2F5E2AAA37990010F5D7 /* FeedSourcesPlaceholderTableViewCell.xib */; };
 		5D6D71572A8CBFCB00D1B5F5 /* StatusTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D6D71562A8CBFCB00D1B5F5 /* StatusTableViewCell.swift */; };
 		5D6D71592A8CBFD300D1B5F5 /* StatusTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D6D71582A8CBFD300D1B5F5 /* StatusTableViewCell.xib */; };
 		5D84B6482A78363C0019266D /* AddFeedSourceCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D84B6472A78363C0019266D /* AddFeedSourceCollectionViewCell.xib */; };
@@ -50,7 +52,7 @@
 		5D992ECA2A3D39260007EC2C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5D992EC92A3D39260007EC2C /* Assets.xcassets */; };
 		5D992ECD2A3D39260007EC2C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5D992ECB2A3D39260007EC2C /* LaunchScreen.storyboard */; };
 		5D992ED52A3D398D0007EC2C /* FeedViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5D992ED42A3D398D0007EC2C /* FeedViewController.xib */; };
-		5D9B405B2A8856BB00F9724A /* FeedSourcesCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D9B405A2A8856BB00F9724A /* FeedSourcesCollectionViewController.swift */; };
+		5D9B405B2A8856BB00F9724A /* FeedSourcesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D9B405A2A8856BB00F9724A /* FeedSourcesViewController.swift */; };
 		5D9C335D2A72C47F00CDFFD5 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D9C335C2A72C47F00CDFFD5 /* Parser.swift */; };
 		5D9D1F282A9D45ED00257E26 /* ParsedFeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D9D1F272A9D45ED00257E26 /* ParsedFeed.swift */; };
 		5D9D1F2A2A9D46AD00257E26 /* RFC3339DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D9D1F292A9D46AD00257E26 /* RFC3339DateFormatter.swift */; };
@@ -58,6 +60,8 @@
 		5D9D1F832AA0180700257E26 /* FeedServicesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D9D1F822AA0180700257E26 /* FeedServicesManager.swift */; };
 		5DCEA6C32A9CF7C800EA4199 /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DCEA6C22A9CF7C800EA4199 /* FeedViewModel.swift */; };
 		5DCEA6C62A9D008300EA4199 /* Feed.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5DCEA6C42A9D008300EA4199 /* Feed.xcdatamodeld */; };
+		5DF41A8E2AB11FD40073F8EB /* UICollectionView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF41A8C2AB11FD40073F8EB /* UICollectionView+Extensions.swift */; };
+		5DF41A8F2AB11FD40073F8EB /* UITableView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF41A8D2AB11FD40073F8EB /* UITableView+Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,18 +77,14 @@
 /* Begin PBXFileReference section */
 		5D1B95652A7F2BFA00AA63ED /* AddFeedSourceViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddFeedSourceViewController.xib; sourceTree = "<group>"; };
 		5D1B95672A7F2C0100AA63ED /* AddFeedSourceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFeedSourceViewController.swift; sourceTree = "<group>"; };
-		5D2077D32A9713EA00AC17C7 /* EntriesSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntriesSectionController.swift; sourceTree = "<group>"; };
-		5D2077D82A9717C500AC17C7 /* EntriesSectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntriesSectionViewModel.swift; sourceTree = "<group>"; };
 		5D30D53D2A6E167C0003DA1F /* FeedHttpService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedHttpService.swift; sourceTree = "<group>"; };
 		5D3562AF2A9C4B3B0093340E /* AddFeedSourceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFeedSourceViewModel.swift; sourceTree = "<group>"; };
-		5D3562B12A9C51650093340E /* FeedSourcesSectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedSourcesSectionViewModel.swift; sourceTree = "<group>"; };
-		5D368EDD2A8856F40068E6F3 /* FeedSourcesCollectionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FeedSourcesCollectionViewController.xib; sourceTree = "<group>"; };
+		5D368EDD2A8856F40068E6F3 /* FeedSourcesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FeedSourcesViewController.xib; sourceTree = "<group>"; };
 		5D418FE62A8926D40000B658 /* TrashIconTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrashIconTableViewCell.swift; sourceTree = "<group>"; };
 		5D418FE72A8926D40000B658 /* TrashIconTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TrashIconTableViewCell.xib; sourceTree = "<group>"; };
-		5D4C15AC2A885C5C00FA1565 /* FeedSourcesCollectionViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedSourcesCollectionViewModel.swift; sourceTree = "<group>"; };
+		5D4C15AC2A885C5C00FA1565 /* FeedSourcesViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedSourcesViewModel.swift; sourceTree = "<group>"; };
 		5D5883592A885D7B008DD2EE /* FeedSourcesListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedSourcesListTableViewCell.swift; sourceTree = "<group>"; };
 		5D58835A2A885D7B008DD2EE /* FeedSourcesListTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FeedSourcesListTableViewCell.xib; sourceTree = "<group>"; };
-		5D58CC572A9B8D8000DD8221 /* FeedSourcesSectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedSourcesSectionController.swift; sourceTree = "<group>"; };
 		5D5C83E02A86F10400BB197D /* FeedURLDatabaseTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedURLDatabaseTest.swift; sourceTree = "<group>"; };
 		5D5F135A2A8C91B400094120 /* FeedSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedSource.swift; sourceTree = "<group>"; };
 		5D63C78E2A8FD09B003F051B /* FeedDragDropController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedDragDropController.swift; sourceTree = "<group>"; };
@@ -97,6 +97,12 @@
 		5D6D2F3F2AA3E04B0010F5D7 /* Feed+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Feed+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		5D6D2F402AA3E04B0010F5D7 /* EntryHeader+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EntryHeader+CoreDataClass.swift"; sourceTree = "<group>"; };
 		5D6D2F412AA3E04B0010F5D7 /* EntryHeader+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EntryHeader+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		5D6D2F4E2AA78C4F0010F5D7 /* EntriesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntriesViewController.swift; sourceTree = "<group>"; };
+		5D6D2F502AA78C6B0010F5D7 /* EntriesViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EntriesViewController.xib; sourceTree = "<group>"; };
+		5D6D2F522AA790DE0010F5D7 /* EntriesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntriesViewModel.swift; sourceTree = "<group>"; };
+		5D6D2F562AA8D2D50010F5D7 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		5D6D2F5C2AAA37880010F5D7 /* FeedSourcesPlaceholderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedSourcesPlaceholderTableViewCell.swift; sourceTree = "<group>"; };
+		5D6D2F5E2AAA37990010F5D7 /* FeedSourcesPlaceholderTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FeedSourcesPlaceholderTableViewCell.xib; sourceTree = "<group>"; };
 		5D6D71562A8CBFCB00D1B5F5 /* StatusTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusTableViewCell.swift; sourceTree = "<group>"; };
 		5D6D71582A8CBFD300D1B5F5 /* StatusTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StatusTableViewCell.xib; sourceTree = "<group>"; };
 		5D84B6472A78363C0019266D /* AddFeedSourceCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddFeedSourceCollectionViewCell.xib; sourceTree = "<group>"; };
@@ -109,12 +115,12 @@
 		5D992EBD2A3D39250007EC2C /* rss-reader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "rss-reader.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D992EC02A3D39250007EC2C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5D992EC22A3D39250007EC2C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		5D992EC42A3D39250007EC2C /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
+		5D992EC42A3D39250007EC2C /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		5D992EC92A3D39260007EC2C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5D992ECC2A3D39260007EC2C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5D992ECE2A3D39260007EC2C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5D992ED42A3D398D0007EC2C /* FeedViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FeedViewController.xib; sourceTree = "<group>"; };
-		5D9B405A2A8856BB00F9724A /* FeedSourcesCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedSourcesCollectionViewController.swift; sourceTree = "<group>"; };
+		5D9B405A2A8856BB00F9724A /* FeedSourcesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedSourcesViewController.swift; sourceTree = "<group>"; };
 		5D9C335C2A72C47F00CDFFD5 /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
 		5D9D1F272A9D45ED00257E26 /* ParsedFeed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsedFeed.swift; sourceTree = "<group>"; };
 		5D9D1F292A9D46AD00257E26 /* RFC3339DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RFC3339DateFormatter.swift; sourceTree = "<group>"; };
@@ -122,6 +128,8 @@
 		5D9D1F822AA0180700257E26 /* FeedServicesManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedServicesManager.swift; sourceTree = "<group>"; };
 		5DCEA6C22A9CF7C800EA4199 /* FeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewModel.swift; sourceTree = "<group>"; };
 		5DCEA6C52A9D008300EA4199 /* RawFeed.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = RawFeed.xcdatamodel; sourceTree = "<group>"; };
+		5DF41A8C2AB11FD40073F8EB /* UICollectionView+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Extensions.swift"; sourceTree = "<group>"; };
+		5DF41A8D2AB11FD40073F8EB /* UITableView+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableView+Extensions.swift"; sourceTree = "<group>"; };
 		5DF852792A86F0A500760527 /* rss-reader-tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "rss-reader-tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -158,8 +166,11 @@
 		5D2077D52A9716D000AC17C7 /* Entries */ = {
 			isa = PBXGroup;
 			children = (
-				5D2077D32A9713EA00AC17C7 /* EntriesSectionController.swift */,
-				5D2077D82A9717C500AC17C7 /* EntriesSectionViewModel.swift */,
+				5D6D2F4E2AA78C4F0010F5D7 /* EntriesViewController.swift */,
+				5D6D2F502AA78C6B0010F5D7 /* EntriesViewController.xib */,
+				5D6D2F522AA790DE0010F5D7 /* EntriesViewModel.swift */,
+				5D6D2F5C2AAA37880010F5D7 /* FeedSourcesPlaceholderTableViewCell.swift */,
+				5D6D2F5E2AAA37990010F5D7 /* FeedSourcesPlaceholderTableViewCell.xib */,
 				5D8F738C2A573BA600CF541C /* FeedEntryInfoTableViewCell.swift */,
 				5D8F738A2A573B4F00CF541C /* FeedEntryInfoTableViewCell.xib */,
 				5D6D71562A8CBFCB00D1B5F5 /* StatusTableViewCell.swift */,
@@ -171,11 +182,9 @@
 		5D2077D72A9716DE00AC17C7 /* FeedSources */ = {
 			isa = PBXGroup;
 			children = (
-				5D58CC572A9B8D8000DD8221 /* FeedSourcesSectionController.swift */,
-				5D3562B12A9C51650093340E /* FeedSourcesSectionViewModel.swift */,
-				5D9B405A2A8856BB00F9724A /* FeedSourcesCollectionViewController.swift */,
-				5D368EDD2A8856F40068E6F3 /* FeedSourcesCollectionViewController.xib */,
-				5D4C15AC2A885C5C00FA1565 /* FeedSourcesCollectionViewModel.swift */,
+				5D9B405A2A8856BB00F9724A /* FeedSourcesViewController.swift */,
+				5D368EDD2A8856F40068E6F3 /* FeedSourcesViewController.xib */,
+				5D4C15AC2A885C5C00FA1565 /* FeedSourcesViewModel.swift */,
 				5D63C78E2A8FD09B003F051B /* FeedDragDropController.swift */,
 				5D1B95642A7CEB0800AA63ED /* FeedSourcesListCells */,
 				5D5883592A885D7B008DD2EE /* FeedSourcesListTableViewCell.swift */,
@@ -235,6 +244,9 @@
 			children = (
 				5D992EC02A3D39250007EC2C /* AppDelegate.swift */,
 				5D992EC22A3D39250007EC2C /* SceneDelegate.swift */,
+				5DF41A8D2AB11FD40073F8EB /* UITableView+Extensions.swift */,
+				5DF41A8C2AB11FD40073F8EB /* UICollectionView+Extensions.swift */,
+				5D6D2F562AA8D2D50010F5D7 /* Constants.swift */,
 				5D9C335F2A74916900CDFFD5 /* MainScreen */,
 				5D30D53B2A6E15CE0003DA1F /* Feed */,
 				5D9D1F2C2A9D4ABB00257E26 /* FeedSource */,
@@ -381,11 +393,13 @@
 				5D58835C2A885D7C008DD2EE /* FeedSourcesListTableViewCell.xib in Resources */,
 				5D992ECD2A3D39260007EC2C /* LaunchScreen.storyboard in Resources */,
 				5D1B95662A7F2BFA00AA63ED /* AddFeedSourceViewController.xib in Resources */,
+				5D6D2F5F2AAA37990010F5D7 /* FeedSourcesPlaceholderTableViewCell.xib in Resources */,
 				5D992ED52A3D398D0007EC2C /* FeedViewController.xib in Resources */,
 				5D6D71592A8CBFD300D1B5F5 /* StatusTableViewCell.xib in Resources */,
 				5D84B64C2A7839240019266D /* FeedSourceCollectionViewCell.xib in Resources */,
+				5D6D2F512AA78C6B0010F5D7 /* EntriesViewController.xib in Resources */,
 				5D418FE92A8926D40000B658 /* TrashIconTableViewCell.xib in Resources */,
-				5D368EDE2A8856F40068E6F3 /* FeedSourcesCollectionViewController.xib in Resources */,
+				5D368EDE2A8856F40068E6F3 /* FeedSourcesViewController.xib in Resources */,
 				5D992ECA2A3D39260007EC2C /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -425,32 +439,34 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5DF41A8E2AB11FD40073F8EB /* UICollectionView+Extensions.swift in Sources */,
 				5D1B95682A7F2C0100AA63ED /* AddFeedSourceViewController.swift in Sources */,
+				5D6D2F572AA8D2D50010F5D7 /* Constants.swift in Sources */,
 				5D3562B02A9C4B3B0093340E /* AddFeedSourceViewModel.swift in Sources */,
 				5D6D2F422AA3E04B0010F5D7 /* FeedHeader+CoreDataClass.swift in Sources */,
 				5D992EC52A3D39250007EC2C /* FeedViewController.swift in Sources */,
-				5D2077D92A9717C500AC17C7 /* EntriesSectionViewModel.swift in Sources */,
-				5D58CC582A9B8D8000DD8221 /* FeedSourcesSectionController.swift in Sources */,
-				5D3562B22A9C51650093340E /* FeedSourcesSectionViewModel.swift in Sources */,
 				5D30D53E2A6E167C0003DA1F /* FeedHttpService.swift in Sources */,
 				5D418FE82A8926D40000B658 /* TrashIconTableViewCell.swift in Sources */,
 				5D6D2F202AA23BE30010F5D7 /* FeedState.swift in Sources */,
 				5D6D2F442AA3E04B0010F5D7 /* Entry+CoreDataClass.swift in Sources */,
-				5D9B405B2A8856BB00F9724A /* FeedSourcesCollectionViewController.swift in Sources */,
+				5D9B405B2A8856BB00F9724A /* FeedSourcesViewController.swift in Sources */,
+				5D6D2F532AA790DE0010F5D7 /* EntriesViewModel.swift in Sources */,
 				5D6D2F492AA3E04B0010F5D7 /* EntryHeader+CoreDataProperties.swift in Sources */,
 				5D992EC12A3D39250007EC2C /* AppDelegate.swift in Sources */,
 				5D6D2F462AA3E04B0010F5D7 /* Feed+CoreDataClass.swift in Sources */,
+				5D6D2F5D2AAA37880010F5D7 /* FeedSourcesPlaceholderTableViewCell.swift in Sources */,
 				5DCEA6C32A9CF7C800EA4199 /* FeedViewModel.swift in Sources */,
 				5D9D1F282A9D45ED00257E26 /* ParsedFeed.swift in Sources */,
 				5D6D2F452AA3E04B0010F5D7 /* Entry+CoreDataProperties.swift in Sources */,
 				5D9C335D2A72C47F00CDFFD5 /* Parser.swift in Sources */,
 				5D58835B2A885D7C008DD2EE /* FeedSourcesListTableViewCell.swift in Sources */,
+				5DF41A8F2AB11FD40073F8EB /* UITableView+Extensions.swift in Sources */,
 				5DCEA6C62A9D008300EA4199 /* Feed.xcdatamodeld in Sources */,
 				5D84B64E2A78392F0019266D /* FeedSourceCollectionViewCell.swift in Sources */,
 				5D9D1F2A2A9D46AD00257E26 /* RFC3339DateFormatter.swift in Sources */,
 				5D84B65D2A7943220019266D /* FeedURLDatabase.swift in Sources */,
 				5D9D1F832AA0180700257E26 /* FeedServicesManager.swift in Sources */,
-				5D4C15AD2A885C5C00FA1565 /* FeedSourcesCollectionViewModel.swift in Sources */,
+				5D4C15AD2A885C5C00FA1565 /* FeedSourcesViewModel.swift in Sources */,
 				5D6D71572A8CBFCB00D1B5F5 /* StatusTableViewCell.swift in Sources */,
 				5D63C78F2A8FD09B003F051B /* FeedDragDropController.swift in Sources */,
 				5D992EC32A3D39250007EC2C /* SceneDelegate.swift in Sources */,
@@ -460,7 +476,7 @@
 				5D6D2F432AA3E04B0010F5D7 /* FeedHeader+CoreDataProperties.swift in Sources */,
 				5D9D1F812AA0158700257E26 /* FeedCoreDataService.swift in Sources */,
 				5D6D2F482AA3E04B0010F5D7 /* EntryHeader+CoreDataClass.swift in Sources */,
-				5D2077D42A9713EA00AC17C7 /* EntriesSectionController.swift in Sources */,
+				5D6D2F4F2AA78C4F0010F5D7 /* EntriesViewController.swift in Sources */,
 				5D8F738D2A573BA600CF541C /* FeedEntryInfoTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
