@@ -7,8 +7,8 @@
 
 import UIKit
 
-protocol FeedSourcesSelectionDelegate: AnyObject {
-    func onCellSelectionArrayProbablyChanged(selectionArray: [IndexPath])
+protocol FeedSourcesURLListDelegate: AnyObject {
+    func onUrlSetUpdated(set: Set<URL>)
 }
 
 class FeedSourcesViewController: UIViewController {
@@ -17,7 +17,7 @@ class FeedSourcesViewController: UIViewController {
 
     let viewModel = FeedSourcesViewModel()
 
-    weak var selectionDelegate: FeedSourcesSelectionDelegate?
+    weak var urlListDelegate: FeedSourcesURLListDelegate?
 
     @IBOutlet weak var collectionView: UICollectionView!
 
@@ -56,7 +56,7 @@ extension FeedSourcesViewController: UICollectionViewDataSource {
         _ collectionView: UICollectionView,
         numberOfItemsInSection section: Int
     ) -> Int {
-        let typedSection = viewModel.section(for: IndexPath(row: 0, section: section))
+        let typedSection = viewModel.section(forIndexPath: IndexPath(row: 0, section: section))
         return viewModel.itemCount(for: typedSection)
     }
 
@@ -64,7 +64,7 @@ extension FeedSourcesViewController: UICollectionViewDataSource {
         _ collectionView: UICollectionView,
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
-        let typedSection = viewModel.section(for: indexPath)
+        let typedSection = viewModel.section(forIndexPath: indexPath)
         switch typedSection {
         case .plusButton:
             return collectionView.dequeue(
@@ -116,10 +116,7 @@ extension FeedSourcesViewController: UICollectionViewDelegateFlowLayout {
         layout collectionViewLayout: UICollectionViewLayout,
         sizeForItemAt indexPath: IndexPath
     ) -> CGSize {
-        print("size requested")
-        guard let typedSection = FeedSourcesSection(rawValue: indexPath.section) else {
-            fatalError("Wrong section.")
-        }
+        let typedSection = viewModel.section(forIndexPath: indexPath)
         switch typedSection {
         case .plusButton:
             return viewModel.plusButtonSize(collectionView: collectionView)
@@ -133,9 +130,7 @@ extension FeedSourcesViewController: UICollectionViewDelegateFlowLayout {
         layout collectionViewLayout: UICollectionViewLayout,
         insetForSectionAt section: Int
     ) -> UIEdgeInsets {
-        guard let typedSection = FeedSourcesSection(rawValue: section) else {
-             fatalError("Section \(section) is invalid.")
-        }
+        let typedSection = viewModel.section(forIndex: section)
         switch typedSection {
         case .plusButton:
             return UIEdgeInsets(
@@ -168,9 +163,7 @@ extension FeedSourcesViewController: UICollectionViewDelegateFlowLayout {
         _ collectionView: UICollectionView,
         shouldSelectItemAt indexPath: IndexPath
     ) -> Bool {
-        guard let typedSection = FeedSourcesSection(rawValue: indexPath.section) else {
-            fatalError("Section \(indexPath.section) is invalid.")
-        }
+        let typedSection = viewModel.section(forIndexPath: indexPath)
         switch typedSection {
         case .plusButton:
             return false
@@ -183,8 +176,10 @@ extension FeedSourcesViewController: UICollectionViewDelegateFlowLayout {
         _ collectionView: UICollectionView,
         didSelectItemAt indexPath: IndexPath
     ) {
-        selectionDelegate?.onCellSelectionArrayProbablyChanged(
-            selectionArray: collectionView.indexPathsForVisibleItems
+        urlListDelegate?.onUrlSetUpdated(
+            set: viewModel.urlSetFor(
+                selectionArray: collectionView.indexPathsForSelectedItems ?? []
+            )
         )
     }
 
@@ -192,8 +187,10 @@ extension FeedSourcesViewController: UICollectionViewDelegateFlowLayout {
         _ collectionView: UICollectionView,
         didDeselectItemAt indexPath: IndexPath
     ) {
-        selectionDelegate?.onCellSelectionArrayProbablyChanged(
-            selectionArray: collectionView.indexPathsForVisibleItems
+        urlListDelegate?.onUrlSetUpdated(
+            set: viewModel.urlSetFor(
+                selectionArray: collectionView.indexPathsForSelectedItems ?? []
+            )
         )
     }
 
@@ -202,8 +199,10 @@ extension FeedSourcesViewController: UICollectionViewDelegateFlowLayout {
         didEndDisplaying cell: UICollectionViewCell,
         forItemAt indexPath: IndexPath
     ) {
-        selectionDelegate?.onCellSelectionArrayProbablyChanged(
-            selectionArray: collectionView.indexPathsForVisibleItems
+        urlListDelegate?.onUrlSetUpdated(
+            set: viewModel.urlSetFor(
+                selectionArray: collectionView.indexPathsForSelectedItems ?? []
+            )
         )
     }
 
@@ -225,8 +224,10 @@ extension FeedSourcesViewController: FeedDragDropObserver {
             collectionView.moveItem(at: source, to: destination)
         }
 
-        selectionDelegate?.onCellSelectionArrayProbablyChanged(
-            selectionArray: collectionView.indexPathsForVisibleItems
+        urlListDelegate?.onUrlSetUpdated(
+            set: viewModel.urlSetFor(
+                selectionArray: collectionView.indexPathsForSelectedItems ?? []
+            )
         )
     }
 
@@ -249,8 +250,10 @@ extension FeedSourcesViewController: FeedDragDropObserver {
             }
         }
 
-        selectionDelegate?.onCellSelectionArrayProbablyChanged(
-            selectionArray: collectionView.indexPathsForVisibleItems
+        urlListDelegate?.onUrlSetUpdated(
+            set: viewModel.urlSetFor(
+                selectionArray: collectionView.indexPathsForSelectedItems ?? []
+            )
         )
     }
 

@@ -8,19 +8,13 @@
 import Foundation
 import CoreData
 
-class CoreDataStack {
+final class CoreDataStack {
 
     let managedObjectModel: NSManagedObjectModel
     let storeCoordinator: NSPersistentStoreCoordinator
-    let mainContext: NSManagedObjectContext
+    let primaryContext: NSManagedObjectContext
 
-    init() {
-        guard let modelUrl = Bundle.main.url(
-            forResource: "Feed",
-            withExtension: "momd"
-        ) else {
-            fatalError("Resource wasn't found.")
-        }
+    init(modelUrl: URL, primaryContextConcurrencyType: NSManagedObjectContext.ConcurrencyType) {
         guard let model = NSManagedObjectModel(contentsOf: modelUrl) else {
             fatalError("Resource wasn't instantiated.")
         }
@@ -28,8 +22,27 @@ class CoreDataStack {
 
         storeCoordinator = NSPersistentStoreCoordinator(managedObjectModel: managedObjectModel)
 
-        mainContext = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
-        mainContext.persistentStoreCoordinator = storeCoordinator
+        let dirURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last
+        let fileURL = URL(string: "Feed.sql", relativeTo: dirURL)
+        do {
+            try storeCoordinator.addPersistentStore(
+                ofType: NSSQLiteStoreType,
+                configurationName: nil,
+                at: fileURL,
+                options: nil
+            )
+        } catch {
+            fatalError("Error configuring persistent store: \(error)")
+        }
+
+        primaryContext = NSManagedObjectContext(primaryContextConcurrencyType)
+        primaryContext.persistentStoreCoordinator = storeCoordinator
+    }
+
+    func newChildContext() -> NSManagedObjectContext {
+        let context = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+        context.parent = primaryContext
+        return context
     }
 
 }

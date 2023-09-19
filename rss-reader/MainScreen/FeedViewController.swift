@@ -31,6 +31,7 @@ final class FeedViewController: UIViewController {
         entriesContainer.addSubview(entriesViewController.view)
         entriesViewController.didMove(toParent: self)
 
+        feedSourcesViewController.urlListDelegate = entriesViewController
         entriesViewController.scrollViewDelegate = self
     }
 

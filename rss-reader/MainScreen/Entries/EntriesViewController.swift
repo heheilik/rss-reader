@@ -31,6 +31,16 @@ class EntriesViewController: UIViewController {
             nib: UINib(nibName: "StatusTableViewCell", bundle: nil),
             for: StatusTableViewCell.self
         )
+
+        viewModel.updateUI = { [weak self] in
+            guard let strongSelf = self else {
+                return
+            }
+
+            DispatchQueue.main.async {
+                strongSelf.tableView.reloadData()
+            }
+        }
     }
 
 }
@@ -90,7 +100,7 @@ extension EntriesViewController: UITableViewDelegate {
             return 64
         case .status:
             // FIXME: temporarily increased height for testing
-//            return tableView.bounds.height - 64
+            // return tableView.bounds.height - 64
             return tableView.bounds.height * 2
         case .entries:
             return UITableView.automaticDimension
@@ -105,6 +115,14 @@ extension EntriesViewController: UITableViewDelegate {
 
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         scrollViewDelegate?.scrollViewDidEndDecelerating?(scrollView)
+    }
+
+}
+
+extension EntriesViewController: FeedSourcesURLListDelegate {
+
+    func onUrlSetUpdated(set: Set<URL>) {
+        viewModel.updateUrlSet(set: set)
     }
 
 }
