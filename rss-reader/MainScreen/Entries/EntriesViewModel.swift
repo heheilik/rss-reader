@@ -11,7 +11,7 @@ import CoreData
 final class EntriesViewModel {
 
     private let coreDataStack: CoreDataStack
-    private let fetchedResultsController: NSFetchedResultsController<EntryHeader>
+    private let fetchedResultsController: NSFetchedResultsController<Entry>
 
     private let feedHttpService = FeedHttpService()
 
@@ -32,13 +32,13 @@ final class EntriesViewModel {
             primaryContextConcurrencyType: .privateQueue
         )
 
-        let fetchRequest = EntryHeader.fetchRequest()
+        let fetchRequest = Entry.fetchRequest()
         fetchRequest.predicate = NSPredicate(
-            format: "%K in $lastUrlList",
-            argumentArray: [#keyPath(EntryHeader.entry.feed.url)]
+            format: "%K in %@",
+            argumentArray: [#keyPath(Entry.feed.url), lastUrlSet]
         )
         fetchRequest.sortDescriptors = [
-            NSSortDescriptor(key: #keyPath(EntryHeader.lastUpdated), ascending: false)
+            NSSortDescriptor(keyPath: \Entry.lastUpdated, ascending: false)
         ]
 
         fetchedResultsController = NSFetchedResultsController(
@@ -92,10 +92,14 @@ final class EntriesViewModel {
                             let primaryContext = self.coreDataStack.primaryContext
                             primaryContext.perform {
                                 do {
+                                    print(primaryContext.registeredObjects)
                                     try primaryContext.save()
+                                    try self.fetchedResultsController.performFetch()
                                 } catch {
                                     print(error)
                                 }
+                                print(primaryContext.registeredObjects)
+                                print(self.fetchedResultsController.fetchedObjects?.count ?? "nil")
                             }
                         }
                     }
@@ -123,7 +127,7 @@ final class EntriesViewModel {
                         return
                     }
 
-                    guard feed.header?.identifier == parsedFeed.header.identifier else {
+                    guard feed.identifier == parsedFeed.header.identifier else {
                         feed.setData(from: parsedFeed, forUrl: url)
                         return
                     }
@@ -142,6 +146,39 @@ final class EntriesViewModel {
     }
 
     private(set) var state: TableState = .start
+
+    func reconfigureState() {
+        guard !lastUrlSet.isEmpty else {
+            state = .start
+            return
+        }
+        state = .showing
+    }
+
+    func rowCount(for section: TableSection) -> Int {
+        switch section {
+        case .feedSourcesPlaceholder:
+            return 1
+        case .status:
+            switch state {
+            case .start:
+                return 1
+            case .loading:
+                return 1
+            case .showing:
+                return 0
+            }
+        case .entries:
+            switch state {
+            case .start:
+                return 0
+            case .loading:
+                return 0
+            case .showing:
+                return 0
+            }
+        }
+    }
 
     // MARK: - Section
 

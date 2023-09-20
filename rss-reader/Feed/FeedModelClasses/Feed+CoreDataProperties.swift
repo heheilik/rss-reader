@@ -2,7 +2,7 @@
 //  Feed+CoreDataProperties.swift
 //  rss-reader
 //
-//  Created by Heorhi Heilik on 3.09.23.
+//  Created by Heorhi Heilik on 20.09.23.
 //
 
 import Foundation
@@ -14,9 +14,11 @@ extension Feed {
         return NSFetchRequest<Feed>(entityName: "Feed")
     }
 
+    @NSManaged public var identifier: String?
+    @NSManaged public var title: String?
+    @NSManaged public var lastUpdated: Date?
     @NSManaged public var url: URL?
     @NSManaged public var entries: NSSet?
-    @NSManaged public var header: FeedHeader?
 
 }
 
@@ -37,6 +39,6 @@ extension Feed {
 
 }
 
-extension Feed: Identifiable {
+extension Feed : Identifiable {
 
 }
