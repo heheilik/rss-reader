@@ -12,7 +12,9 @@ final class CoreDataStack {
 
     let managedObjectModel: NSManagedObjectModel
     let storeCoordinator: NSPersistentStoreCoordinator
-    let primaryContext: NSManagedObjectContext
+
+    private let savingContext: NSManagedObjectContext
+    let mainThreadContext: NSManagedObjectContext
 
     init(modelUrl: URL, primaryContextConcurrencyType: NSManagedObjectContext.ConcurrencyType) {
         guard let model = NSManagedObjectModel(contentsOf: modelUrl) else {
@@ -35,14 +37,27 @@ final class CoreDataStack {
             fatalError("Error configuring persistent store: \(error)")
         }
 
-        primaryContext = NSManagedObjectContext(primaryContextConcurrencyType)
-        primaryContext.persistentStoreCoordinator = storeCoordinator
+
+        savingContext = NSManagedObjectContext(.privateQueue)
+        savingContext.persistentStoreCoordinator = storeCoordinator
+
+        mainThreadContext = NSManagedObjectContext(.mainQueue)
+        mainThreadContext.parent = savingContext
+        mainThreadContext.mergePolicy = NSMergePolicy.overwrite
     }
 
     func newChildContext() -> NSManagedObjectContext {
-        let context = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-        context.parent = primaryContext
+        let context = NSManagedObjectContext(.privateQueue)
+        context.parent = mainThreadContext
         return context
+    }
+
+    func save() {
+        do {
+            try mainThreadContext.save()
+        } catch {
+            print("Failed to save.")
+        }
     }
 
 }
