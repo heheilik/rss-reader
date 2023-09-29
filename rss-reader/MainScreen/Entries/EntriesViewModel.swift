@@ -16,6 +16,10 @@ final class EntriesViewModel {
         feedDataProvider = FeedDataProviderFactory().createFeedDataProvider()
     }
 
+    func updateUrlSet(with set: Set<URL>) {
+        feedDataProvider.updateUrlSet(with: set)
+    }
+
     // MARK: - Table State
 
     enum TableState {
@@ -26,38 +30,38 @@ final class EntriesViewModel {
 
     private(set) var state: TableState = .start
 
-    func reconfigureState() {
-        guard !lastUrlSet.isEmpty else {
-            state = .start
-            return
-        }
-        state = .showing
-    }
+//    func reconfigureState() {
+//        guard !lastUrlSet.isEmpty else {
+//            state = .start
+//            return
+//        }
+//        state = .showing
+//    }
 
-    func rowCount(for section: TableSection) -> Int {
-        switch section {
-        case .feedSourcesPlaceholder:
-            return 1
-        case .status:
-            switch state {
-            case .start:
-                return 1
-            case .loading:
-                return 1
-            case .showing:
-                return 0
-            }
-        case .entries:
-            switch state {
-            case .start:
-                return 0
-            case .loading:
-                return 0
-            case .showing:
-                return 0
-            }
-        }
-    }
+//    func rowCount(for section: TableSection) -> Int {
+//        switch section {
+//        case .feedSourcesPlaceholder:
+//            return 1
+//        case .status:
+//            switch state {
+//            case .start:
+//                return 1
+//            case .loading:
+//                return 1
+//            case .showing:
+//                return 0
+//            }
+//        case .entries:
+//            switch state {
+//            case .start:
+//                return 0
+//            case .loading:
+//                return 0
+//            case .showing:
+//                return 0
+//            }
+//        }
+//    }
 
     // MARK: - Section
 

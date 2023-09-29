@@ -32,15 +32,15 @@ class EntriesViewController: UIViewController {
             for: StatusTableViewCell.self
         )
 
-        viewModel.updateUI = { [weak self] in
-            guard let strongSelf = self else {
-                return
-            }
-
-            DispatchQueue.main.async {
-                strongSelf.tableView.reloadData()
-            }
-        }
+//        viewModel.updateUI = { [weak self] in
+//            guard let strongSelf = self else {
+//                return
+//            }
+//
+//            DispatchQueue.main.async {
+//                strongSelf.tableView.reloadData()
+//            }
+//        }
     }
 
 }
@@ -122,7 +122,7 @@ extension EntriesViewController: UITableViewDelegate {
 extension EntriesViewController: FeedSourcesURLListDelegate {
 
     func onUrlSetUpdated(set: Set<URL>) {
-        viewModel.updateUrlSet(set: set)
+        viewModel.updateUrlSet(with: set)
     }
 
 }

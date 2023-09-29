@@ -56,8 +56,8 @@
 		5D9D1F282A9D45ED00257E26 /* ParsedFeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D9D1F272A9D45ED00257E26 /* ParsedFeed.swift */; };
 		5D9D1F2A2A9D46AD00257E26 /* RFC3339DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D9D1F292A9D46AD00257E26 /* RFC3339DateFormatter.swift */; };
 		5DCEA6C32A9CF7C800EA4199 /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DCEA6C22A9CF7C800EA4199 /* FeedViewModel.swift */; };
-		5DDAD4762AC07C9500902063 /* FeedGroupUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DDAD4752AC07C9500902063 /* FeedGroupUpdater.swift */; };
 		5DDAD4782AC1010D00902063 /* FeedDataProviderFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DDAD4772AC1010D00902063 /* FeedDataProviderFactory.swift */; };
+		5DDAD4D32AC7269F00902063 /* FeedGroupDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DDAD4D22AC7269F00902063 /* FeedGroupDownloader.swift */; };
 		5DF41A8E2AB11FD40073F8EB /* UICollectionView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF41A8C2AB11FD40073F8EB /* UICollectionView+Extensions.swift */; };
 		5DF41A8F2AB11FD40073F8EB /* UITableView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF41A8D2AB11FD40073F8EB /* UITableView+Extensions.swift */; };
 /* End PBXBuildFile section */
@@ -121,8 +121,8 @@
 		5D9D1F272A9D45ED00257E26 /* ParsedFeed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsedFeed.swift; sourceTree = "<group>"; };
 		5D9D1F292A9D46AD00257E26 /* RFC3339DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RFC3339DateFormatter.swift; sourceTree = "<group>"; };
 		5DCEA6C22A9CF7C800EA4199 /* FeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewModel.swift; sourceTree = "<group>"; };
-		5DDAD4752AC07C9500902063 /* FeedGroupUpdater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedGroupUpdater.swift; sourceTree = "<group>"; };
 		5DDAD4772AC1010D00902063 /* FeedDataProviderFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedDataProviderFactory.swift; sourceTree = "<group>"; };
+		5DDAD4D22AC7269F00902063 /* FeedGroupDownloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedGroupDownloader.swift; sourceTree = "<group>"; };
 		5DF41A8C2AB11FD40073F8EB /* UICollectionView+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Extensions.swift"; sourceTree = "<group>"; };
 		5DF41A8D2AB11FD40073F8EB /* UITableView+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITableView+Extensions.swift"; sourceTree = "<group>"; };
 		5DF852792A86F0A500760527 /* rss-reader-tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "rss-reader-tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -195,7 +195,7 @@
 			children = (
 				5D2F84692ABB1C780037D921 /* FeedDataProvider.swift */,
 				5DDAD4772AC1010D00902063 /* FeedDataProviderFactory.swift */,
-				5DDAD4752AC07C9500902063 /* FeedGroupUpdater.swift */,
+				5DDAD4D22AC7269F00902063 /* FeedGroupDownloader.swift */,
 				5D30D53D2A6E167C0003DA1F /* FeedHttpService.swift */,
 				5D9C335C2A72C47F00CDFFD5 /* Parser.swift */,
 				5D9D1F272A9D45ED00257E26 /* ParsedFeed.swift */,
@@ -439,6 +439,7 @@
 				5D992EC52A3D39250007EC2C /* FeedViewController.swift in Sources */,
 				5D30D53E2A6E167C0003DA1F /* FeedHttpService.swift in Sources */,
 				5D418FE82A8926D40000B658 /* TrashIconTableViewCell.swift in Sources */,
+				5DDAD4D32AC7269F00902063 /* FeedGroupDownloader.swift in Sources */,
 				5D9B405B2A8856BB00F9724A /* FeedSourcesViewController.swift in Sources */,
 				5D6D2F532AA790DE0010F5D7 /* EntriesViewModel.swift in Sources */,
 				5D2F846A2ABB1C780037D921 /* FeedDataProvider.swift in Sources */,
@@ -449,7 +450,6 @@
 				5DCEA6C32A9CF7C800EA4199 /* FeedViewModel.swift in Sources */,
 				5D9D1F282A9D45ED00257E26 /* ParsedFeed.swift in Sources */,
 				5D9C335D2A72C47F00CDFFD5 /* Parser.swift in Sources */,
-				5DDAD4762AC07C9500902063 /* FeedGroupUpdater.swift in Sources */,
 				5D58835B2A885D7C008DD2EE /* FeedSourcesListTableViewCell.swift in Sources */,
 				5D2F84502ABB136A0037D921 /* Feed.xcdatamodeld in Sources */,
 				5DF41A8F2AB11FD40073F8EB /* UITableView+Extensions.swift in Sources */,

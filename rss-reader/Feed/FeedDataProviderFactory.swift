@@ -13,12 +13,14 @@ final class FeedDataProviderFactory {
     func createFeedDataProvider() -> FeedDataProvider {
         let coreDataStack = createCoreDataStack()
         let fetchedResultsController = createFetchedResultsController(coreDataStack: coreDataStack)
+        let fetchPredicateTemplate = fetchPredicateTemplate()
 
         let feedHttpService = createFeedHttpService()
 
         return FeedDataProvider(
             coreDataStack: coreDataStack,
             fetchedResultsController: fetchedResultsController,
+            fetchPredicateTemplate: fetchPredicateTemplate,
             feedHttpService: feedHttpService
         )
     }
@@ -41,11 +43,7 @@ final class FeedDataProviderFactory {
     ) -> NSFetchedResultsController<Entry> {
 
         let fetchRequest = Entry.fetchRequest()
-//        FIXME: add predicate
-        fetchRequest.predicate = NSPredicate(
-            format: "%K in %K",
-            argumentArray: [\Entry.feed.url, \FeedDataProvider.lastUrlSet]
-        )
+        fetchRequest.predicate = NSPredicate(format: "FALSEPREDICATE", argumentArray: [])
         fetchRequest.sortDescriptors = [
             NSSortDescriptor(keyPath: \Entry.lastUpdated, ascending: false)
         ]
@@ -55,6 +53,13 @@ final class FeedDataProviderFactory {
             managedObjectContext: coreDataStack.mainThreadContext,
             sectionNameKeyPath: nil,
             cacheName: nil
+        )
+    }
+
+    private func fetchPredicateTemplate() -> NSPredicate {
+        return NSPredicate(
+            format: "feed.url IN $lastUrlSet",
+            argumentArray: []
         )
     }
 

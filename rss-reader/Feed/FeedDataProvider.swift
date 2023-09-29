@@ -12,6 +12,7 @@ class FeedDataProvider {
 
     private let coreDataStack: CoreDataStack
     private let fetchedResultsController: NSFetchedResultsController<Entry>
+    private let fetchPredicateTemplate: NSPredicate
 
     private let feedHttpService: FeedHttpService
 
@@ -21,10 +22,12 @@ class FeedDataProvider {
     init(
         coreDataStack: CoreDataStack,
         fetchedResultsController: NSFetchedResultsController<Entry>,
+        fetchPredicateTemplate: NSPredicate,
         feedHttpService: FeedHttpService
     ) {
         self.coreDataStack = coreDataStack
         self.fetchedResultsController = fetchedResultsController
+        self.fetchPredicateTemplate = fetchPredicateTemplate
         self.feedHttpService = feedHttpService
 
         try? fetchedResultsController.performFetch()
@@ -46,35 +49,39 @@ class FeedDataProvider {
 
     func updateUrlSet(with set: Set<URL>) {
         let urlsToDownload = urlsToDownload(from: set)
-        urlsToDownload.forEach { url in
-            feedIsBeingProcessed[url] = true
-        }
+//        urlsToDownload.forEach { url in
+//            feedIsBeingProcessed[url] = true
+//        }
 
         lastUrlSet = set
 
-        let childContext = coreDataStack.newChildContext()
-        childContext.retainsRegisteredObjects = false
-        childContext.mergePolicy = NSMergePolicy.overwrite
-
-        let feedGroupUpdater = FeedGroupUpdater(
-            context: childContext,
+        let groupDownloader = FeedGroupDownloader(
             feedHttpService: feedHttpService,
-            groupToUpdate: urlsToDownload,
-            urlCompletion: urlCompletion,
-            groupCompletion: groupCompletion
+            urlsToDownload: urlsToDownload
         )
-        feedGroupUpdater.updateAndMerge()
-    }
+        groupDownloader.download()
 
-    func urlCompletion(_ url: URL, updatedWithoutErrors: Bool) {
-        self.feedIsBeingProcessed[url] = nil
-    }
+        fetchedResultsController.fetchRequest.predicate =
+            fetchPredicateTemplate.withSubstitutionVariables(["lastUrlSet": lastUrlSet])
 
-    func groupCompletion(_ group: Set<URL>) {
-        do {
-            try coreDataStack.mainThreadContext.save()
-        } catch {
-            print(error)
+        guard let fetchRequest =
+                fetchedResultsController.fetchRequest as? NSFetchRequest<NSFetchRequestResult>
+        else {
+            fatalError("Failed to cast fetchRequest.")
+        }
+
+        coreDataStack.fetch(fetchRequest) { _ in
+            DispatchQueue.main.async { [self] in
+                do {
+                    try fetchedResultsController.performFetch()
+                    print(fetchedResultsController.fetchedObjects?.count ?? "nil")
+                } catch {
+                    print("fetchedResultsController failed to perform fetch.")
+                }
+                let childContext = coreDataStack.newChildContext()
+                groupDownloader.context = childContext
+                groupDownloader.startCompletionHandlers()
+            }
         }
     }
 

@@ -18,7 +18,7 @@ final class CoreDataStack {
     let managedObjectModel: NSManagedObjectModel
     let storeCoordinator: NSPersistentStoreCoordinator
 
-    private let savingContext: NSManagedObjectContext
+    private let rootContext: NSManagedObjectContext
     let mainThreadContext: NSManagedObjectContext
 
     init(modelUrl: URL, databaseFileName: String) {
@@ -42,19 +42,36 @@ final class CoreDataStack {
             fatalError("Error configuring persistent store: \(error)")
         }
 
-        savingContext = NSManagedObjectContext(.privateQueue)
-        savingContext.persistentStoreCoordinator = storeCoordinator
+        rootContext = NSManagedObjectContext(.privateQueue)
+        rootContext.persistentStoreCoordinator = storeCoordinator
 
         mainThreadContext = NSManagedObjectContext(.mainQueue)
-        mainThreadContext.parent = savingContext
+        mainThreadContext.parent = rootContext
         mainThreadContext.mergePolicy = NSMergePolicy.overwrite
     }
 
     func save() {
-        do {
-            try mainThreadContext.save()
-        } catch {
-            print("Failed to save.")
+        rootContext.perform {
+            do {
+                try self.rootContext.save()
+            } catch {
+                print("Failed to save changes to persistent store.")
+            }
+        }
+    }
+
+    func fetch(
+        _ request: NSFetchRequest<NSFetchRequestResult>,
+        completion: @escaping (NSFetchRequestResult?) -> Void
+    ) {
+        rootContext.perform {
+            do {
+                let result = try self.rootContext.fetch(request)
+                completion(result as? NSFetchRequestResult)
+            } catch {
+                print(error)
+                completion(nil)
+            }
         }
     }
 
