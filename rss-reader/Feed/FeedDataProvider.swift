@@ -59,8 +59,18 @@ class FeedDataProvider {
             feedHttpService: feedHttpService,
             urlsToDownload: urlsToDownload
         )
-        groupDownloader.urlCompletion = { url, errors in
+        groupDownloader.urlCompletion = { url, _ in
             self.feedIsBeingProcessed[url] = nil
+        }
+        groupDownloader.groupCompletion = {
+            DispatchQueue.main.async {
+                do {
+                    try self.coreDataStack.mainThreadContext.save()
+                    self.coreDataStack.save()
+                } catch {
+                    print("Failed to save data to persistent store.")
+                }
+            }
         }
 
         groupDownloader.download()

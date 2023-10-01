@@ -12,12 +12,20 @@ class FeedGroupDownloader {
 
     private let feedHttpService: FeedHttpService
     private let urlsToDownload: Set<URL>
+    private var urlsLeftToDownload: Int {
+        didSet {
+            if urlsLeftToDownload == 0 {
+                groupCompletion()
+            }
+        }
+    }
 
     private var parsedFeedForUrl = [URL: ParsedFeed?]()
 
     var context: NSManagedObjectContext?
 
     var urlCompletion: (URL, ProcessingErrors) -> Void = { _, _ in }
+    var groupCompletion: () -> Void = {}
 
     struct ProcessingErrors: OptionSet {
         let rawValue: Int
@@ -29,6 +37,7 @@ class FeedGroupDownloader {
     init(feedHttpService: FeedHttpService, urlsToDownload: Set<URL>) {
         self.feedHttpService = feedHttpService
         self.urlsToDownload = urlsToDownload
+        urlsLeftToDownload = urlsToDownload.count
     }
 
     func download() {
@@ -61,6 +70,7 @@ class FeedGroupDownloader {
                     }
                 }
                 urlCompletion(url, errors)
+                urlsLeftToDownload -= 1
             }
 
             guard
