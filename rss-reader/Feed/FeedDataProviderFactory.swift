@@ -10,12 +10,12 @@ import CoreData
 
 final class FeedDataProviderFactory {
 
-    func createFeedDataProvider() -> FeedDataProvider {
-        let coreDataStack = createCoreDataStack()
-        let fetchedResultsController = createFetchedResultsController(coreDataStack: coreDataStack)
-        let fetchPredicateTemplate = fetchPredicateTemplate()
+    func newFeedDataProvider() -> FeedDataProvider {
+        let coreDataStack = newCoreDataStack()
+        let fetchedResultsController = newFetchedResultsController(coreDataStack: coreDataStack)
+        let fetchPredicateTemplate = newPredicateTemplate()
 
-        let feedHttpService = createFeedHttpService()
+        let feedHttpService = newFeedHttpService()
 
         return FeedDataProvider(
             coreDataStack: coreDataStack,
@@ -25,7 +25,7 @@ final class FeedDataProviderFactory {
         )
     }
 
-    private func createCoreDataStack() -> CoreDataStack {
+    private func newCoreDataStack() -> CoreDataStack {
         guard let modelUrl = Bundle.main.url(
             forResource: "Feed",
             withExtension: "momd"
@@ -38,7 +38,7 @@ final class FeedDataProviderFactory {
         )
     }
 
-    private func createFetchedResultsController(
+    private func newFetchedResultsController(
         coreDataStack: CoreDataStack
     ) -> NSFetchedResultsController<Entry> {
 
@@ -56,15 +56,15 @@ final class FeedDataProviderFactory {
         )
     }
 
-    private func fetchPredicateTemplate() -> NSPredicate {
-        return NSPredicate(
+    private func newPredicateTemplate() -> NSPredicate {
+        NSPredicate(
             format: "feed.url IN $lastUrlSet",
             argumentArray: []
         )
     }
 
-    private func createFeedHttpService() -> FeedHttpService {
-        return FeedHttpService()
+    private func newFeedHttpService() -> FeedHttpService {
+        FeedHttpService()
     }
 
 }

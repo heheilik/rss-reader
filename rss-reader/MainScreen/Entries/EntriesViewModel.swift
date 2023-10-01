@@ -13,7 +13,7 @@ final class EntriesViewModel {
     private let feedDataProvider: FeedDataProvider
 
     init() {
-        feedDataProvider = FeedDataProviderFactory().createFeedDataProvider()
+        feedDataProvider = FeedDataProviderFactory().newFeedDataProvider()
     }
 
     func updateUrlSet(with set: Set<URL>) {
