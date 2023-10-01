@@ -55,24 +55,7 @@ class FeedDataProvider {
 
         lastUrlSet = set
 
-        let groupDownloader = FeedGroupDownloader(
-            feedHttpService: feedHttpService,
-            urlsToDownload: urlsToDownload
-        )
-        groupDownloader.urlCompletion = { url, _ in
-            self.feedIsBeingProcessed[url] = nil
-        }
-        groupDownloader.groupCompletion = {
-            DispatchQueue.main.async {
-                do {
-                    try self.coreDataStack.mainThreadContext.save()
-                    self.coreDataStack.save()
-                } catch {
-                    print("Failed to save data to persistent store.")
-                }
-            }
-        }
-
+        let groupDownloader = newFeedGroupDownloader(forUrlGroup: urlsToDownload)
         groupDownloader.download()
 
         fetchedResultsController.fetchRequest.predicate =
@@ -97,6 +80,26 @@ class FeedDataProvider {
                 groupDownloader.startCompletionHandlers()
             }
         }
+    }
+
+    func newFeedGroupDownloader(forUrlGroup urlsToDownload: Set<URL>) -> FeedGroupDownloader {
+        FeedGroupDownloader(
+            feedHttpService: feedHttpService,
+            urlsToDownload: urlsToDownload,
+            urlCompletion: { url, _ in
+                self.feedIsBeingProcessed[url] = nil
+            },
+            groupCompletion: {
+                DispatchQueue.main.async {
+                    do {
+                        try self.coreDataStack.mainThreadContext.save()
+                        self.coreDataStack.save()
+                    } catch {
+                        print("Failed to save data to persistent store.")
+                    }
+                }
+            }
+        )
     }
 
 }

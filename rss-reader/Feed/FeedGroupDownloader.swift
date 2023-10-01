@@ -24,8 +24,8 @@ class FeedGroupDownloader {
 
     var context: NSManagedObjectContext?
 
-    var urlCompletion: (URL, ProcessingErrors) -> Void = { _, _ in }
-    var groupCompletion: () -> Void = {}
+    let urlCompletion: (URL, ProcessingErrors) -> Void
+    let groupCompletion: () -> Void
 
     struct ProcessingErrors: OptionSet {
         let rawValue: Int
@@ -34,11 +34,21 @@ class FeedGroupDownloader {
         static let httpDownloading = ProcessingErrors(rawValue: 1 << 1)
     }
 
-    init(feedHttpService: FeedHttpService, urlsToDownload: Set<URL>) {
+    init(
+        feedHttpService: FeedHttpService,
+        urlsToDownload: Set<URL>,
+        urlCompletion: @escaping (URL, ProcessingErrors) -> Void,
+        groupCompletion: @escaping () -> Void
+    ) {
         self.feedHttpService = feedHttpService
+
         self.urlsToDownload = urlsToDownload
-        urlsLeftToDownload = urlsToDownload.count
+        self.urlsLeftToDownload = urlsToDownload.count
+
+        self.urlCompletion = urlCompletion
+        self.groupCompletion = groupCompletion
     }
+
 
     func download() {
         for url in urlsToDownload {
