@@ -49,9 +49,9 @@ class FeedDataProvider {
 
     func updateUrlSet(with set: Set<URL>) {
         let urlsToDownload = urlsToDownload(from: set)
-//        urlsToDownload.forEach { url in
-//            feedIsBeingProcessed[url] = true
-//        }
+        urlsToDownload.forEach { url in
+            feedIsBeingProcessed[url] = true
+        }
 
         lastUrlSet = set
 
@@ -59,13 +59,17 @@ class FeedDataProvider {
             feedHttpService: feedHttpService,
             urlsToDownload: urlsToDownload
         )
+        groupDownloader.urlCompletion = { url, errors in
+            self.feedIsBeingProcessed[url] = nil
+        }
+
         groupDownloader.download()
 
         fetchedResultsController.fetchRequest.predicate =
             fetchPredicateTemplate.withSubstitutionVariables(["lastUrlSet": lastUrlSet])
 
         guard let fetchRequest =
-                fetchedResultsController.fetchRequest as? NSFetchRequest<NSFetchRequestResult>
+            fetchedResultsController.fetchRequest as? NSFetchRequest<NSFetchRequestResult>
         else {
             fatalError("Failed to cast fetchRequest.")
         }

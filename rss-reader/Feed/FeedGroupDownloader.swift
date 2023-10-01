@@ -17,7 +17,14 @@ class FeedGroupDownloader {
 
     var context: NSManagedObjectContext?
 
-    // TODO: Add context save completion handler
+    var urlCompletion: (URL, ProcessingErrors) -> Void = { _, _ in }
+
+    struct ProcessingErrors: OptionSet {
+        let rawValue: Int
+
+        static let coreData        = ProcessingErrors(rawValue: 1 << 0)
+        static let httpDownloading = ProcessingErrors(rawValue: 1 << 1)
+    }
 
     init(feedHttpService: FeedHttpService, urlsToDownload: Set<URL>) {
         self.feedHttpService = feedHttpService
@@ -41,38 +48,70 @@ class FeedGroupDownloader {
             fatalError("Data processing started when context was unavailable.")
         }
 
-        context.perform {
+        context.perform { [self] in
+            var errors = ProcessingErrors()
+
             defer {
-                do {
-                    if context.hasChanges {
+                if context.hasChanges {
+                    do {
                         try context.save()
+                    } catch {
+                        print("Error saving child context. \(error)")
+                        abort()
                     }
-                } catch {
-                    print("Error saving child context. \(error)")
                 }
+                urlCompletion(url, errors)
             }
 
-            guard let parsedFeed else {
-                return
-            }
-
-            // TODO: get feed and entries with fetch request
-            guard let feed = context.registeredObjects.first(where: { object in
-                guard let feed = object as? Feed else {
-                    return false
+            guard
+                let result = try? context.fetch(feedFetchRequest(for: url)),
+                let feed = result.first
+            else {
+                guard let parsedFeed else {
+                    errors = [.coreData, .httpDownloading]
+                    return
                 }
-                return feed.url == url
-            }) as? Feed else {
+
                 let feed = Feed(context: context)
                 feed.setData(from: parsedFeed, forUrl: url)
                 return
             }
 
-            guard feed.identifier == parsedFeed.header.identifier else {
-                feed.setData(from: parsedFeed, forUrl: url)
+            if result.count > 1 {
+                for index in 1..<result.count {
+                    guard let entries = result[index].entries else {
+                        context.delete(result[index])
+                        continue
+                    }
+                    for entry in entries {
+                        if let entry = entry as? NSManagedObject {
+                            context.delete(entry)
+                        }
+                    }
+                    context.delete(result[index])
+                }
+            }
+
+
+            guard let parsedFeed else {
+                errors.insert(.httpDownloading)
                 return
             }
 
+            guard feed.identifier != parsedFeed.header.identifier else {
+                return
+            }
+
+            guard let entries = feed.entries else {
+                feed.setData(from: parsedFeed, forUrl: url)
+                return
+            }
+            for entry in entries {
+                if let entry = entry as? NSManagedObject {
+                    context.delete(entry)
+                }
+            }
+            feed.setData(from: parsedFeed, forUrl: url)
         }
     }
 
@@ -80,6 +119,19 @@ class FeedGroupDownloader {
         for (url, parsedFeed) in parsedFeedForUrl {
             urlCompletedLoading(url: url, parsedFeed: parsedFeed)
         }
+    }
+
+    func feedFetchRequest(for url: URL) -> NSFetchRequest<Feed> {
+        let request = Feed.fetchRequest()
+        request.predicate = NSPredicate(
+            format: "%K == %@",
+            argumentArray: [#keyPath(Feed.url), url]
+        )
+        request.sortDescriptors = [NSSortDescriptor(
+            keyPath: \Feed.lastUpdated,
+            ascending: false
+        )]
+        return request
     }
 
 }
