@@ -28,7 +28,7 @@ class EntriesViewController: UIViewController {
         viewModel.dataChangedCallback = { [weak self] in
             if let self {
                 DispatchQueue.main.async {
-                    self.tableView.reloadData()
+                    self.tableView.reloadSections(IndexSet([1, 2]), with: .fade)
                 }
             }
         }
