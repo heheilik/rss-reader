@@ -2,25 +2,25 @@
 //  Entry+CoreDataClass.swift
 //  rss-reader
 //
-//  Created by Heorhi Heilik on 3.09.23.
+//  Created by Heorhi Heilik on 20.09.23.
 //
 
 import Foundation
 import CoreData
 
+@objc(Entry)
 public class Entry: NSManagedObject {
 
     func setData(from parsedEntry: ParsedEntry) {
-        guard let context = self.managedObjectContext else {
-            fatalError("No context available.")
+        self.identifier = parsedEntry.header.identifier.trimmingCharacters(in: .whitespacesAndNewlines)
+        self.title = parsedEntry.header.title.trimmingCharacters(in: .whitespacesAndNewlines)
+        self.author = parsedEntry.header.author.trimmingCharacters(in: .whitespacesAndNewlines)
+        if let date = RFC3339DateFormatter().date(
+            from: parsedEntry.header.lastUpdated.trimmingCharacters(in: .whitespacesAndNewlines)
+        ) {
+            self.lastUpdated = date
         }
 
-        self.header = {
-            let header = EntryHeader(context: context)
-            header.setData(from: parsedEntry.header)
-            header.entry = self
-            return header
-        }()
         self.content = parsedEntry.content
     }
 

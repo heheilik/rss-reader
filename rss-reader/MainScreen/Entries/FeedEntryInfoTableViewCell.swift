@@ -20,17 +20,17 @@ class FeedEntryInfoTableViewCell: UITableViewCell {
         return dateFormatter
     }()
 
-    func updateContentsWith(_ entryHeader: EntryHeader) {
-        title.text = entryHeader.title
-        author.text = entryHeader.author
-        if let date = entryHeader.lastUpdated {
+    func updateContentsWith(_ entry: Entry) {
+        title.text = entry.title
+        author.text = entry.author
+        if let date = entry.lastUpdated {
             let dateFormatter = DateFormatter()
             dateFormatter.dateStyle = .medium
             lastUpdated.text = dateFormatter.string(from: date)
         } else {
             lastUpdated.text = ""
         }
-        identifier.text = entryHeader.identifier
+        identifier.text = entry.identifier
     }
 
 }

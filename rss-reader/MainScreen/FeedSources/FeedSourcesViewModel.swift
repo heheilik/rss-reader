@@ -14,9 +14,16 @@ class FeedSourcesViewModel {
         case feeds
     }
 
-    func section(for indexPath: IndexPath) -> FeedSourcesSection {
+    func section(forIndexPath indexPath: IndexPath) -> FeedSourcesSection {
         guard let typedSection = FeedSourcesSection(rawValue: indexPath.section) else {
             fatalError("Section at \(indexPath) does not exist.")
+        }
+        return typedSection
+    }
+
+    func section(forIndex index: Int) -> FeedSourcesSection {
+        guard let typedSection = FeedSourcesSection(rawValue: index) else {
+            fatalError("Section at index \(index) does not exist.")
         }
         return typedSection
     }
@@ -60,6 +67,22 @@ class FeedSourcesViewModel {
             set.insert(indexPath.row)
         }
         FeedURLDatabase.array.remove(atOffsets: set)
+    }
+
+    func urlSetFor(selectionArray: [IndexPath]) -> Set<URL> {
+        var result = Set<URL>()
+
+        for indexPath in selectionArray {
+            let typedSection = section(forIndexPath: indexPath)
+            switch typedSection {
+            case .feeds:
+                result.insert(FeedURLDatabase.array[indexPath.row].url)
+            case .plusButton:
+                continue
+            }
+        }
+
+        return result
     }
 
     // MARK: - Size Calculation
