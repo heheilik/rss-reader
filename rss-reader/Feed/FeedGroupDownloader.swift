@@ -49,7 +49,6 @@ class FeedGroupDownloader {
         self.groupCompletion = groupCompletion
     }
 
-
     func download() {
         for url in urlsToDownload {
             feedHttpService.prepareFeed(withURL: url) { [self] parsedFeed in
@@ -111,7 +110,6 @@ class FeedGroupDownloader {
                     context.delete(result[index])
                 }
             }
-
 
             guard let parsedFeed else {
                 errors.insert(.httpDownloading)

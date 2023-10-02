@@ -10,7 +10,7 @@ import CoreData
 
 @objc(Feed)
 public class Feed: NSManagedObject {
-    
+
     func setData(from parsedFeed: ParsedFeed, forUrl url: URL) {
 
         guard let context = self.managedObjectContext else {

@@ -71,7 +71,7 @@ extension FeedSourcesViewController: UICollectionViewDataSource {
                 AddFeedSourceCollectionViewCell.self,
                 for: indexPath
             ) { cell in
-                
+
                 let plusButtonUIAction = UIAction { _ in
                     let addFeedSourceViewController = AddFeedSourceViewController()
                     addFeedSourceViewController.sheetPresentationController?.detents = [.medium()]
@@ -91,7 +91,7 @@ extension FeedSourcesViewController: UICollectionViewDataSource {
                     }
                     self.present(addFeedSourceViewController, animated: true)
                 }
-                
+
                 cell.plusButton.addAction(plusButtonUIAction, for: .touchUpInside)
             }
 
