@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreData
 
 class EntriesViewController: UIViewController {
 
@@ -32,15 +33,7 @@ class EntriesViewController: UIViewController {
             for: StatusTableViewCell.self
         )
 
-//        viewModel.updateUI = { [weak self] in
-//            guard let strongSelf = self else {
-//                return
-//            }
-//
-//            DispatchQueue.main.async {
-//                strongSelf.tableView.reloadData()
-//            }
-//        }
+        viewModel.setDelegate(delegate: self)
     }
 
 }
@@ -82,10 +75,21 @@ extension EntriesViewController: UITableViewDataSource {
                 StatusTableViewCell.self,
                 for: indexPath
             ) { cell in
-                cell.setStatus(.start)
+                switch viewModel.state {
+                case .start:
+                    cell.setStatus(.start)
+                case .loading:
+                    cell.setStatus(.loading)
+                case .showing:
+                    break
+                }
             }
         case .entries:
-            fatalError("Entry cell configuration is not set.")
+            return tableView.dequeue(FeedEntryInfoTableViewCell.self, for: indexPath) { cell in
+                var newIndexPath = indexPath
+                newIndexPath.section = 0
+                viewModel.feedDataProvider.fetchedResultsController.object(at: indexPath)
+            }
         }
     }
 
@@ -115,6 +119,16 @@ extension EntriesViewController: UITableViewDelegate {
 
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         scrollViewDelegate?.scrollViewDidEndDecelerating?(scrollView)
+    }
+
+}
+
+extension EntriesViewController: NSFetchedResultsControllerDelegate {
+    
+    func controllerDidChangeContent(
+        _ controller: NSFetchedResultsController<NSFetchRequestResult>
+    ) {
+        tableView.reloadData()
     }
 
 }

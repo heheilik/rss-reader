@@ -10,10 +10,14 @@ import CoreData
 
 final class EntriesViewModel {
 
-    private let feedDataProvider: FeedDataProvider
+    let feedDataProvider: FeedDataProvider
 
     init() {
         feedDataProvider = FeedDataProviderFactory().newFeedDataProvider()
+    }
+
+    func setDelegate(delegate: NSFetchedResultsControllerDelegate) {
+        feedDataProvider.fetchedResultsController.delegate = delegate
     }
 
     func updateUrlSet(with set: Set<URL>) {
@@ -30,38 +34,45 @@ final class EntriesViewModel {
 
     private(set) var state: TableState = .start
 
-//    func reconfigureState() {
-//        guard !lastUrlSet.isEmpty else {
-//            state = .start
-//            return
-//        }
-//        state = .showing
-//    }
+    func reconfigureState() {
+        guard !feedDataProvider.lastUrlSet.isEmpty else {
+            state = .start
+            return
+        }
+        guard
+            let fetchedObjects = feedDataProvider.fetchedResultsController.fetchedObjects,
+            fetchedObjects.count != 0
+        else {
+            state = .loading
+            return
+        }
+        state = .showing
+    }
 
-//    func rowCount(for section: TableSection) -> Int {
-//        switch section {
-//        case .feedSourcesPlaceholder:
-//            return 1
-//        case .status:
-//            switch state {
-//            case .start:
-//                return 1
-//            case .loading:
-//                return 1
-//            case .showing:
-//                return 0
-//            }
-//        case .entries:
-//            switch state {
-//            case .start:
-//                return 0
-//            case .loading:
-//                return 0
-//            case .showing:
-//                return 0
-//            }
-//        }
-//    }
+    func rowCount(for section: TableSection) -> Int {
+        switch section {
+        case .feedSourcesPlaceholder:
+            return 1
+        case .status:
+            switch state {
+            case .start:
+                return 1
+            case .loading:
+                return 1
+            case .showing:
+                return 0
+            }
+        case .entries:
+            switch state {
+            case .start:
+                return 0
+            case .loading:
+                return 0
+            case .showing:
+                return feedDataProvider.fetchedResultsController.fetchedObjects?.count ?? 0
+            }
+        }
+    }
 
     // MARK: - Section
 

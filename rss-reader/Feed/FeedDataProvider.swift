@@ -11,7 +11,7 @@ import CoreData
 class FeedDataProvider {
 
     private let coreDataStack: CoreDataStack
-    private let fetchedResultsController: NSFetchedResultsController<Entry>
+    let fetchedResultsController: NSFetchedResultsController<Entry>
     private let fetchPredicateTemplate: NSPredicate
 
     private let feedHttpService: FeedHttpService
