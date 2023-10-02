@@ -48,6 +48,7 @@ final class CoreDataStack {
         mainThreadContext = NSManagedObjectContext(.mainQueue)
         mainThreadContext.parent = rootContext
         mainThreadContext.mergePolicy = NSMergePolicy.overwrite
+        mainThreadContext.automaticallyMergesChangesFromParent = true
     }
 
     func save() {

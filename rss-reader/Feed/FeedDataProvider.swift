@@ -19,6 +19,8 @@ class FeedDataProvider {
     private(set) var lastUrlSet = Set<URL>()
     private var feedIsBeingProcessed = [URL: Bool]()  // true or nil
 
+    var dataChangedCallback: () -> Void = {}
+
     init(
         coreDataStack: CoreDataStack,
         fetchedResultsController: NSFetchedResultsController<Entry>,
@@ -88,6 +90,7 @@ class FeedDataProvider {
             urlsToDownload: urlsToDownload,
             urlCompletion: { url, _ in
                 self.feedIsBeingProcessed[url] = nil
+                self.dataChangedCallback()
             },
             groupCompletion: {
                 DispatchQueue.main.async {

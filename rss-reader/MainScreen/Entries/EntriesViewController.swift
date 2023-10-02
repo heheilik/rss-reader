@@ -10,11 +10,34 @@ import CoreData
 
 class EntriesViewController: UIViewController {
 
-    let viewModel = EntriesViewModel()
+    let viewModel: EntriesViewModel
 
     @IBOutlet private weak var tableView: UITableView!
+    let fetchedResultsController: NSFetchedResultsController<Entry>
 
     weak var scrollViewDelegate: UIScrollViewDelegate?
+
+    init(
+        viewModel: EntriesViewModel = EntriesViewModel()
+    ) {
+        self.viewModel = viewModel
+        fetchedResultsController = viewModel.feedDataProvider.fetchedResultsController
+
+        super.init(nibName: String(describing: Self.self), bundle: nil)
+
+        fetchedResultsController.delegate = self
+        viewModel.stateChangedCallback = { [weak self] in
+            if let self {
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+            }
+        }
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func viewDidLoad() {
         tableView.dataSource = self
@@ -25,15 +48,13 @@ class EntriesViewController: UIViewController {
             for: FeedSourcesPlaceholderTableViewCell.self
         )
         tableView.register(
-            nib: UINib(nibName: "FeedEntryTableViewCell", bundle: nil),
+            nib: UINib(nibName: "FeedEntryInfoTableViewCell", bundle: nil),
             for: FeedEntryInfoTableViewCell.self
         )
         tableView.register(
             nib: UINib(nibName: "StatusTableViewCell", bundle: nil),
             for: StatusTableViewCell.self
         )
-
-        viewModel.setDelegate(delegate: self)
     }
 
 }
@@ -53,9 +74,14 @@ extension EntriesViewController: UITableViewDataSource {
         case .feedSourcesPlaceholder:
             return 1
         case .status:
-            return 1
+            switch viewModel.state {
+            case .start, .loading:
+                return 1
+            case .showing:
+                return 0
+            }
         case .entries:
-            return 0
+            return fetchedResultsController.fetchedObjects?.count ?? 0
         }
     }
 
@@ -88,7 +114,7 @@ extension EntriesViewController: UITableViewDataSource {
             return tableView.dequeue(FeedEntryInfoTableViewCell.self, for: indexPath) { cell in
                 var newIndexPath = indexPath
                 newIndexPath.section = 0
-                viewModel.feedDataProvider.fetchedResultsController.object(at: indexPath)
+                cell.updateContentsWith(fetchedResultsController.object(at: newIndexPath))
             }
         }
     }
@@ -103,9 +129,7 @@ extension EntriesViewController: UITableViewDelegate {
         case .feedSourcesPlaceholder:
             return 64
         case .status:
-            // FIXME: temporarily increased height for testing
-            // return tableView.bounds.height - 64
-            return tableView.bounds.height * 2
+             return tableView.bounds.height - 64
         case .entries:
             return UITableView.automaticDimension
         }
@@ -124,12 +148,15 @@ extension EntriesViewController: UITableViewDelegate {
 }
 
 extension EntriesViewController: NSFetchedResultsControllerDelegate {
-    
-    func controllerDidChangeContent(
-        _ controller: NSFetchedResultsController<NSFetchRequestResult>
-    ) {
-        tableView.reloadData()
-    }
+
+//    func controllerDidChangeContent(
+//        _ controller: NSFetchedResultsController<NSFetchRequestResult>
+//    ) {
+//        print("controller changed content")
+//        viewModel.reconfigureState()
+//        print(viewModel.state)
+//        tableView.reloadData()
+//    }
 
 }
 
@@ -137,6 +164,8 @@ extension EntriesViewController: FeedSourcesURLListDelegate {
 
     func onUrlSetUpdated(set: Set<URL>) {
         viewModel.updateUrlSet(with: set)
+        viewModel.reconfigureState()
+        print(viewModel.state)
     }
 
 }

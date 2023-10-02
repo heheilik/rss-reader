@@ -14,11 +14,15 @@ final class EntriesViewModel {
 
     init() {
         feedDataProvider = FeedDataProviderFactory().newFeedDataProvider()
+        feedDataProvider.dataChangedCallback = { [weak self] in
+            if let self {
+                self.reconfigureState()
+                print(state)
+            }
+        }
     }
 
-    func setDelegate(delegate: NSFetchedResultsControllerDelegate) {
-        feedDataProvider.fetchedResultsController.delegate = delegate
-    }
+    var stateChangedCallback: () -> Void = {}
 
     func updateUrlSet(with set: Set<URL>) {
         feedDataProvider.updateUrlSet(with: set)
@@ -35,6 +39,10 @@ final class EntriesViewModel {
     private(set) var state: TableState = .start
 
     func reconfigureState() {
+        defer {
+            stateChangedCallback()
+        }
+
         guard !feedDataProvider.lastUrlSet.isEmpty else {
             state = .start
             return
