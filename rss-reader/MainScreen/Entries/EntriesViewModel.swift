@@ -22,7 +22,7 @@ final class EntriesViewModel {
         }
     }
 
-    var stateChangedCallback: () -> Void = {}
+    var dataChangedCallback: () -> Void = {}
 
     func updateUrlSet(with set: Set<URL>) {
         feedDataProvider.updateUrlSet(with: set)
@@ -40,7 +40,7 @@ final class EntriesViewModel {
 
     func reconfigureState() {
         defer {
-            stateChangedCallback()
+            dataChangedCallback()
         }
 
         guard !feedDataProvider.lastUrlSet.isEmpty else {

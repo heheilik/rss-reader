@@ -25,8 +25,7 @@ class EntriesViewController: UIViewController {
 
         super.init(nibName: String(describing: Self.self), bundle: nil)
 
-        fetchedResultsController.delegate = self
-        viewModel.stateChangedCallback = { [weak self] in
+        viewModel.dataChangedCallback = { [weak self] in
             if let self {
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
@@ -96,6 +95,7 @@ extension EntriesViewController: UITableViewDataSource {
                 FeedSourcesPlaceholderTableViewCell.self,
                 for: indexPath
             ) { _ in }
+
         case .status:
             return tableView.dequeue(
                 StatusTableViewCell.self,
@@ -110,10 +110,10 @@ extension EntriesViewController: UITableViewDataSource {
                     break
                 }
             }
+
         case .entries:
             return tableView.dequeue(FeedEntryInfoTableViewCell.self, for: indexPath) { cell in
-                var newIndexPath = indexPath
-                newIndexPath.section = 0
+                let newIndexPath = IndexPath(row: indexPath.row, section: 0)
                 cell.updateContentsWith(fetchedResultsController.object(at: newIndexPath))
             }
         }
@@ -147,24 +147,10 @@ extension EntriesViewController: UITableViewDelegate {
 
 }
 
-extension EntriesViewController: NSFetchedResultsControllerDelegate {
-
-//    func controllerDidChangeContent(
-//        _ controller: NSFetchedResultsController<NSFetchRequestResult>
-//    ) {
-//        print("controller changed content")
-//        viewModel.reconfigureState()
-//        print(viewModel.state)
-//        tableView.reloadData()
-//    }
-
-}
-
 extension EntriesViewController: FeedSourcesURLListDelegate {
 
     func onUrlSetUpdated(set: Set<URL>) {
         viewModel.updateUrlSet(with: set)
-        viewModel.reconfigureState()
         print(viewModel.state)
     }
 

@@ -73,10 +73,11 @@ class FeedDataProvider {
             DispatchQueue.main.async { [self] in
                 do {
                     try fetchedResultsController.performFetch()
-                    print(fetchedResultsController.fetchedObjects?.count ?? "nil")
                 } catch {
                     print("fetchedResultsController failed to perform fetch.")
                 }
+                dataChangedCallback()
+
                 let childContext = coreDataStack.newChildContext()
                 groupDownloader.context = childContext
                 groupDownloader.startCompletionHandlers()
@@ -90,6 +91,7 @@ class FeedDataProvider {
             urlsToDownload: urlsToDownload,
             urlCompletion: { url, _ in
                 self.feedIsBeingProcessed[url] = nil
+                try? self.fetchedResultsController.performFetch()
                 self.dataChangedCallback()
             },
             groupCompletion: {
